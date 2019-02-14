@@ -1,0 +1,74 @@
+	<form class="billtableform" action="" onkeypress="return event.keyCode != 13;">
+<div class="row billprint">
+
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+	<div class="row">
+		<div class="col-12 billdata">
+	<h1 style="text-align:center;"> Hotel Atlas</h1>
+	<p style="text-align: center;">Sunual-12, Bhumahi</p>
+	<label style="font-size:12px;"><b>Bill no:</b><b class=" billno ml-1"></b></label>
+
+
+	<label style="position:relative; left:250px; font-size:12px;">
+	<label class='dates d-inline'>Date:</label>
+      <label class='times ml-1  d-inline'>Time:</label>
+	<label style="position:relative; left:120px;"><b>PAN No.:</b><b class=" panno ml-1">304898466</b></label> 
+
+</label>
+<br/>
+</div>
+
+<div class="billdata ml-3">
+<label class="d-inline">Name</label><input id="customername"  style="width:150px; font-size:12px;" class="form-control d-inline ml-2 mr-2" placeholder="Customer name" autofocus name="customername" autocomplete="off"><label class="d-inline">Address</label><input  style="width:150px; font-size:12px; text-align:center;" class="form-control d-inline ml-2 mr-4" placeholder="Address" autofocus name="address" autocomplete="off"><label class="d-inline">Type</label><select name="type" id="type" style="width:100px; text-align-last:center; font-size:12px;" onchange="typechange(event);" class="form-control ml-2 mr-4 d-inline"><option value="1">Room</option><option value="2">Hall</option><option value="3">Table</option></select><input name="rthno" id="rthno" autocomplete="off" style="width:90px; font-size:12px;" class="form-control ml-1 d-inline" placeholder="R/H/T No." >
+</div>
+
+
+</div>
+<br>
+
+	<table  class="table  billtable  table-sm">
+		<tr class=" m-0  row text-center">
+			<th  class="col-md-2">S.N.</th>
+			<th  class="col-md-4">Item Name </th>
+			<th  class="col-md-1">Quantity</th>
+			<th  class="col-md-2">Unit</th>
+			<th  class="col-md-1">Price(Rs.)</th>
+			<th  class="col-md-2">Amount</th>
+			
+		</tr>	
+	</table>
+</div>
+
+
+	<br/>
+
+</div>
+
+
+
+<div class="row final-row">
+	<div class="col-md-7"></div>
+<div class="col-md-2 billlist" style="margin-left:40px; font-size:12px;">
+	<label><b>Total</b></label><br/>
+	<label class="d-none"><b>Service Charge</b></label>
+	<label class="d-none"><b>Taxable Amount</b></label>
+	<label><b>Discount Amount (20%)</b></label><br/>
+	<label class="d-none"><b>Tax(13% VAT)</b></label>
+	<label><b>Grand Total</b></label><br/>
+</div>
+<div class="col-md-1" style="margin-left:-60px; font-size:11px;">
+	<label><input class="ml-2 border-0 w-50 text-center" name="totalamount" id="totalamount" value="0"></label><br/>
+	<label class="d-none"><input  class="ml-2 border-0 w-50 text-center" name="servicechargeamount" value="0" id="servicechargeamount"></label>
+	<label class="d-none"><input class="ml-2 border-0 w-50 text-center" name="taxableamount" id="taxableamount" value="0"></label>
+
+	<label><input contenteditable="true" name="discountamount" class="ml-2 border-0 w-50 text-center" id="discountamount" value="0"></label><br/>
+	<label class="d-none"><input name="taxamount" class="ml-2 border-0 w-50 text-center" id="taxamount" value="0"></label>
+	<label><input name="grandtotalamount" class="ml-2 border-0 w-50 text-center" id="grandtotalamount" value="0"></label><br/>
+<button type="submit" class="btn btn-outline-primary printbutton">Submit</button>
+<button type="reset" id="resetbillform" class="btn btn-outline-primary d-none">Reset</button>
+
+
+</div>
+</form>
+

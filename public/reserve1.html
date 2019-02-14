@@ -1,0 +1,357 @@
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script type="text/javascript" src="languagepack/js/jquery.calendars.js"></script>
+    <script type="text/javascript" src="languagepack/js/jquery.calendars.nepali.js">
+    </script>
+    <script type="text/javascript" src="languagepack/js/jquery.calendars.plus.js"></script>
+    <script type="text/javascript" src="languagepack/js/jquery.calendars.nepali-ne.js"></script>
+    <link rel="stylesheet" type="text/css" href="languagepack/css/jquery.calendars.picker.css">
+    <script type="text/javascript" src="languagepack/js/jquery.plugin.js"></script>
+    <script type="text/javascript" src="languagepack/js/jquery.calendars.picker.js"></script>
+    </script>
+    <link href="multiselect/css/multiselect.css" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="multiselect/js/jquery.multi-select.js"></script>
+    <style type="text/css">
+    form fieldset input {
+        border-radius: 2px !important;
+        height: 30px !important;
+        font-size: 12px !important;
+    }
+
+    form fieldset select {
+        border-radius: 2px !important;
+        height: 30px !important;
+        font-size: 12px !important;
+    }
+
+    i {
+        margin-left: -2px;
+        font-size: 26px !important;
+        margin-top: -5px !important;
+    }
+
+    button {
+        border: 0px !important;
+        background-color: white;
+    }
+
+    h6 {
+        font-size: 12px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        mar
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button onclick="bookroom(event);" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button onclick="bookroom(event);" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3">
+            <form class="guest-information">
+                <fieldset class="border border-success w-75 p-2">
+                    <legend class="w-auto text-danger">Guest Information </legend>
+                    <div class="justify-content-start text-center">
+                        <input type="text" id="cname" class="form-control" name="cname" placeholder="Customer name" /><br />
+                        <input type="text" id="address" class="form-control" name="address" placeholder="Address" /><br />
+                        <input type="text" id="country" class="form-control" name="country" placeholder="Country" /><br />
+                        <input type="number" id="phone" class="form-control" name="phone" placeholder="Mobile No." /><br />
+                        <input type="text" id="company" class="form-control" name="company" placeholder="Company" /><br />
+                        <select class="form-control">
+                            <option value="0">Identification type</option>
+                            <option value="1">Driver License</option>
+                            <option value="2">Citizenship</option>
+                            <option value="3">Passport Number</option>
+                        </select><br />
+                        <input type="number" id="identificationno" class="form-control" name="company" placeholder="Identification Number" /><br />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div style="margin-left:-90px;" class="col-md-3">
+            <form class="vehicle-information">
+                <fieldset class="border border-success w-100 p-2">
+                    <legend class="w-auto text-danger">Vehicle Information </legend>
+                    <div class="justify-content-start">
+                        <input type="text" id="vtype" class="form-control" name="cname" placeholder="Vehicle" /><br />
+                        <input type="text" id="vmodel" class="form-control" name="address" placeholder="Vehicle Model" /><br />
+                        <input type="number" id="vplateno" class="form-control" name="country" placeholder="Plate No." /><br />
+                    </div>
+                </fieldset>
+            </form>
+            <form class="guest-information">
+                <fieldset class="border border-success w-100 p-2">
+                    <legend class="w-auto text-danger">Extra Information </legend>
+                    <div class="justify-content-start text-center">
+                        <input type="text" id="doa" class="form-control" placeholder="Date of Arrival"><br />
+                        <input type="text" id="dod" class="form-control" placeholder="Date of Departure">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form class="room-information">
+                <fieldset class="border border-success w-100 p-2">
+                    <legend class="w-auto text-danger">Room Information </legend>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h6 class="ml-1">101</h6><button id="101" onclick="bookroom(event,101);" class="text-success"><i class="fa fa-user"></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">102</h6><button id="102" onclick="bookroom(event,102);" class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">103</h6><button id="103" onclick='bookroom(event,103);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">104</h6><button id="104" onclick='bookroom(event,104);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">105</h6><button id="105" onclick='bookroom(event,105);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">106</h6><button id="106" onclick='bookroom(event,106);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-2">
+                            <h6 class="ml-1">201</h6><button id="201" onclick="bookroom(event,201);" class="text-success"><i class="fa fa-user fa-2x " ></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">202</h6><button id="202" onclick='bookroom(event,202);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">203</h6><button id="203" onclick='bookroom(event,203);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">204</h6><button id="204" onclick='bookroom(event,204);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">205</h6><button id="205" onclick='bookroom(event,205);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">206</h6><button id="206" onclick='bookroom(event,206);' class="text-success"><i class="fa fa-user "></i></button>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-2">
+                            <h6 class="ml-1">301</h6><button id="301" onclick="bookroom(event,301);" class="text-success"><i class="fa fa-user fa-2x "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">302</h6><button id="302" onclick='bookroom(event,302);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">303</h6><button id="303" onclick='bookroom(event,303);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">304</h6><button id="304" onclick='bookroom(event,304);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="ml-1">305</h6><button id="305" onclick='bookroom(event,305);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                        <div class="col-md-2">
+                            <h6>306</h6><button id="306" onclick='bookroom(event,306);' class="text-success"><i class="fa fa-user  "></i></button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    </fieldset>
+    </form>
+    </div>
+    </div>
+    <!-- <label>Category</label>
+		<select id="category" class="form-control">
+			<option value="0">--------------------</option>
+			<option value="1">Rooms</option>
+			<option value="2">Seminar</option>
+			<option value="3">Wedding</option>
+			<option value="4">Others</option>
+		</select>
+	</div>
+
+<div class="form-group col-md-4">
+		<label>Room/Hall</label>
+		<select class="form-control" id="hidden" disabled></select>
+		<select class="d-none room-select form-control" multiple>
+			<option id="1">R001</option>
+			<option id="0">R002</option>
+			<option id="0">R003</option>
+			<option id="0">R004</option>
+			
+		</select>
+	
+		<select class="form-control hall-select d-none" data-toggle="select" multiple>
+			<option id="1">H001</option>
+			<option id="0">H002</option>
+			<option id="0">H003</option>
+			<option id="0">H004</option>
+		</select>
+	</div>
+	<div class="form-group col-md-4">
+		<label for="cpname">Customer/Party Name</label>
+		<input type="text" id="cpname" class="form-control m" placeholder="Customer/Party name">
+	</div>
+	<div class="form-group col-md-4">
+		<label for="mobilenum">Mobile Number</label>
+		<input type="number" id="mobilenum" class="form-control" placeholder="Mobile Number">
+	</div>
+	<div class="form-group col-md-4">
+		<label for="address">Address</label>
+		<input type="text" id="address" class="form-control" placeholder="Address">
+	</div>
+	<div class="form-group col-md-4">
+		<label for="address">Citizenship Number</label>
+		<input type="number" id="citizennum" class="form-control" placeholder="Citizenship No.">
+	</div>
+
+	<div class="form-group col-md-4">
+		<label for="tariff">Tariff</label>
+		<input type="text" id="tariff" class="form-control" placeholder="Address">
+	</div>
+	<div class="form-group col-md-4">
+		<label for="doa">Date of Arrival</label>
+		<input type="text" id="doa" class="form-control" placeholder="Date of Arrival">
+	</div>
+	<div class="form-group col-md-4">
+		<label for="dod">Date of Departure</label>
+		<input type="text" id="dod"  class="form-control" placeholder="Date of Departure">
+	</div>
+	<div class="form-group col-md-12 justify-content-center">
+	<button onclick="bookroom(event);" class="btn btn-lg btn-danger" type="reset">Reset</button>
+	<button onclick="bookroom(event);" class="btn ml-1 btn-lg btn-success" type="submit">Submit</button>
+
+	</div>
+
+
+	</div>
+
+</form>
+</div>
+</div>
+</div> -->
+    <script>
+    function bookroom(event, id) {
+        event.preventDefault();
+        var room;
+        // console.log(ids);
+        if ($('#' + id).hasClass('text-success')) {
+            $('#' + id).removeClass('text-success')
+
+            $('#' + id).addClass('text-danger')
+        } else {
+            $('#' + id).removeClass('text-danger')
+
+            $('#' + id).addClass('text-success')
+
+        }
+
+        // $('#'+id).find('i').css('color','');
+
+        // console.log(room);
+        // console.log(room);
+        // // room.removeClass("");
+        // room.addClass("text-danger");
+
+        // console.log($(event.target).children());
+        // console.log(event.target.css({'color':'red'}));
+    }
+
+
+    $('.room-select').on('change', function(event) {
+        console.log(event.target.value);
+    });
+
+    $('#doa').calendarsPicker({ calendar: $.calendars.instance('nepali') });
+    $('#dod').calendarsPicker({ calendar: $.calendars.instance('nepali') });
+
+    $('#category').on('change', function(event) {
+        if (!$('#hidden').hasClass('d-none')) {
+            $('#hidden').addClass('d-none');
+        }
+
+        console.log(event.target.value);
+        if (event.target.value === '0') {
+            if (!$('.room-select').hasClass('d-none')) {
+
+                $('.room-select').addClass('d-none');
+                $('.room-select').multipleSelect();
+
+            }
+            if (!$('.hall-select').hasClass('d-none')) {
+                $('.hall-select').addClass('d-none');
+            }
+            if ($('#hidden').hasClass('d-none')) {
+                $('#hidden').removeClass('d-none');
+            }
+
+        } else if (event.target.value === '1') {
+
+            if ($('.room-select').hasClass('d-none')) {
+
+                $('.room-select').removeClass('d-none');
+            }
+            if (!$('.hall-select').hasClass('d-none')) {
+                $('.hall-select').addClass('d-none');
+            }
+        } else {
+            if (!$('.room-select').hasClass('d-none')) {
+                $('.room-select').addClass('d-none');
+            }
+            if ($('.hall-select').hasClass('d-none')) {
+                $('.hall-select').removeClass('d-none');
+            }
+        }
+    });
+    </script>
+    <!-- <script src="multiple-select-master/multiple-select.css"></script> -->
+</body>
+
+</html>

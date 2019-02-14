@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-12 mt-2 billdata">
+                <br />
+                <label id="transactiontitle">Voucher Series </label><input style="width:120px !important; height: 15px !important; border-radius: 0px !important;   font-size:12px;" id="voucherseries" class="form-control w-25 border-0 d-inline ml-2 mr-4" value="Main"> <h6 class=' text-dark d-inline mr-5'>Number:</h6>
+                <h6   class='dates text-dark d-inline float-right mr-5'>Date:</h6>
+            </div>
+        </div>
+        <form id="paymenttranscation" style="">
+            <table style="font-size: 12px;  max-height: 400px !important;" class="table table-responsive paymenttable mt-5 table-bordered table-sm">
+                <tr class=" m-0 paymentheader  row text-center">
+                    <th class="col-md-1">S.N.</th>
+                    <th class="col-md-1">D/C</th>
+                    <th class="col-md-4">Account</th>
+                    <th class="col-md-1">Debit(Rs.)</th>
+                    <th class="col-md-1">Credit(Rs.)</th>
+                    <th class="col-md-4">Short Narration</th>
+                </tr>
+            </table>
+            <button type="submit" onclick="javascript:submitdata(event);" class="btn ml-5 justify-content-center btn-primary"> Submit
+            </button>
+        </form>
+        <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#myModal" accesskey="h">
+            Launch demo modal
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" style="margin:auto; height: 500px; width: 900px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body ">
+                        <div class="row ">
+                            <div class="col-md-5 accountinformation">
+                                <form class="accountinformations">
+                                    <fieldset class="border border-success p-2">
+                                        <legend class="w-auto">General Info.</legend>
+                                        <label style="font-size: 12px;">Name</label><input type="text" name="accountname" id="accountname" class="ml-2 border-0 w-50 form-control d-inline" required>
+                                        <label style="font-size: 12px;">Alias</label><input type="text" name="alias" id="alias" class=" ml-2  border-0 w-50 form-control d-inline">
+                                        <label style="font-size: 12px;">Print Name:</label><input name="printname" type="text" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                        <label style="font-size: 12px;">Group</label><select class="ml-2 w-50 form-control d-inline" name="accountgroup" id="accountgroup" required>
+                                            <option value="0">------------</option>
+                                            <option selected value="1">Bank Accounts</option>
+                                            <option value="2">Bank O/D Account</option>
+                                            <option value="3">Fixed Assets</option>
+                                            <option value="4">Expenses(Indirect/Admn.)</option>
+                                            <option value="5">Duties and Taxes</option>
+                                        </select>
+                                    </fieldset>
+                            </div>
+                            <div class="col-md-6 accountinformation">
+                                <form>
+                                    <fieldset class="border border-success p-2">
+                                        <legend class="w-auto">Address Info.</legend>
+                                        <label style="font-size: 12px;">Address</label><input type="text" name="address" id="address" required class="ml-2 border-0 w-50 form-control d-inline">
+                                        <label style="font-size: 12px;">Country</label><input type="text" name="country" id="country" class=" ml-2  border-0 w-50 form-control d-inline">
+                                        <label style="font-size: 12px;">Tel. No.</label><input name="telno" id="telno" type="number" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                        <label style="font-size: 12px;">Fax</label><input name="fax" id="fax" type="number" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                        <label style="font-size: 12px;">Mobile No.</label><input name="mobileno" id="mobileno" type="number" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                        <label style="font-size: 12px;">Email</label><input name="email" id="email" type="email" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                        <label style="font-size: 12px;">Contact Person</label><input name="contactperson" id="contactperson" required type="text" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                        <label style="font-size: 12px;">IT PAN</label><input id="panno" name="panno" type="number" class=" ml-2 form-control border-0 d-inline w-50 ">
+                                    </fieldset>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" onclick="javascript:submitaccount(event);" class="btn btn-primary">Save changes</button>
+                            </div>
+                            </form>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mt-3">
+        <nav class="nav flex-column">
+            <a style="border:1px solid black;" class="nav-link active" onclick="javascript:salesform();" >Sales</a>
+            <a class="nav-link" style="border:1px solid black;" onclick="javascript:paymentform();"  href="#">Payment</a>
+            <a class="nav-link" style="border:1px solid black;"  href="#">Contra</a>
+            <a class="nav-link disabled" style="border:1px solid black;" href="#">Disabled</a>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+[id^="itemlist-"] li:hover
+{
+background-color:grey;
+}
+table tr th
+{
+	font-size: 10px !important;
+}
+table tr td input
+{
+border-radius: 0px !important; 
+height:32px !important; 
+font-size: 12px !important;	
+}
+table tr td 
+{
+border-radius: 0px !important; 
+width:160px !important; 
+height:32px !important; 
+font-size: 12px !important;
+}
+hr
+{
+color:green;
+}
+table tr td select
+{
+border-radius: 0px !important; 
+height:30px !important; 
+font-size: 12px !important;
+}
+#sn
+{
+	font-size: 14px !important;
+}
+.billdata input
+{
+border-radius:0px !important;
+height:24px !important;
+}
+.billdata select
+{
+border-radius:0px !important;
+height:29px !important;
+font-size:4px;
+margin-top: 1px;
+}
+li
+{
+	border:1px !important;
+	text-align: center !important;
+}
+div::-webkit-scrollbar  {
+    width: 5px;
+    height: 5px;
+}
+div::-webkit-scrollbar-button {
+    background: #ccc
+}
+div::-webkit-scrollbar-track-piece {
+    background: #888
+}
+div::-webkit-scrollbar-thumb {
+    background: #eee
+}​
+
+@media print
+{
+  body 
+  {
+  font-size:25px !important;
+  }
+
+}
+

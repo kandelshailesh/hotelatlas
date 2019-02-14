@@ -1,0 +1,84 @@
+<!-- views/pages/index.ejs -->
+
+
+<html lang="en">
+<head>
+<style type="text/css" media="print">
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
+}
+</style>
+
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+    <% include ../partials/head %>
+
+    <% include ../partials/stylebilling %>
+
+<style>
+
+@media screen and (max-width: 992px) {
+  body {
+    background-color: blue;
+    color: white;
+  }
+  h1
+  {
+    color:indigo;
+  }
+
+}
+@media print and (max-width: 992px) {
+ 
+  input,select
+  {
+  	border:0px !important;
+  
+  }
+
+.printbutton{
+  display:none !important;
+}
+  button
+  {
+    display:none;
+  }
+
+  select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border: none; /* If you want to remove the border as well */
+	background: none;
+	}
+  
+table,tr,th,td
+{
+  border:0px !important;
+}
+
+
+
+
+/* On screens that are 600px wide or less, the background color is olive */
+
+</style>
+
+    <% include ../partials/head %>
+ 
+
+</head>
+<body>
+
+<header>
+    <% include ../partials/header %>
+</header>
+
+<main>
+    <% include ../partials/billing %>
+</main>
+<script src="../js/billing.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+<div class="salespurchaseform  d-none">
+	<form id="salespurchasetransaction" style="">
+<div class="row">
+
+    <div class="col-12 mt-2 salespurchasebill">
+        <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle1">Sales</label><label class="ml-3">Number:</label><h6 class='ml-2 text-dark d-inline mr-5 paymentno'></h6>
+        <h6   class='dates text-dark d-inline float-right mr-5'>Date:</h6>
+        <br>
+        <label style="font-size:15px;">Party's A/C Name </label>
+        <input type="text" name="accountname" id="accountname" class="form-control w-25 d-inline " autofocus>
+        <ul class="list-group d-none">
+        </ul>
+        <br>
+        <i style="font-size:15px; opacity: 0.7;">Current Balance</i>
+        <input type="text" name="ledger-type" id="ledger-type" class="form-control w-25 d-inline">
+  			<br><br>
+        <label style="font-size:15px;">Ledger</label>
+        <input type="text" name="ledger-type" id="ledger-type" class="form-control mt-2 w-25 d-inline">
+    </div>
+</div>
+
+
+    <div style="max-height: 400px;" class="table-responsive mt-3">
+        <table class="salestable table table-bordered">
+            <tr class=" m-0 bg-dark text-white row text-center">
+            	<th class="col-md-1">S.N.</th>
+                <th class="col-md-4">Name of Item</th>
+                <th class="col-md-2">Quantity</th>
+                <th class="col-md-2">Rate</th>
+                <th class="col-md-1">per</th>
+                <th class="col-md-2">Amount</th>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-4 ml-5"></div>
+        <label class="d-inline form-control-sm text-center  col-md-2 " id="totaldebit">0</label>
+        <div class="col-md-2"></div>
+        <label class="d-inline form-control-sm col-md-2  text-center" id="totalcredit">Rs.0</label>
+        <button type="reset" class="btn ml-5 d-none resetpayment justify-content-center  btn-primary"> Reset
+        </button>
+        <div class="col-md-1"></div>
+        <button type="submit" onclick="javascript:submitdata(event);" class="btn ml-5 col-md-1 ml-5 w-25 btn-sm float-right btn-primary"> Submit
+        </button>
+    </div>
+</form>
+</div>

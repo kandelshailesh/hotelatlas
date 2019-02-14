@@ -1,0 +1,339 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script type="text/javascript" src="languagepack/js/jquery.calendars.js"></script>
+<script type="text/javascript" src="languagepack/js/jquery.calendars.nepali.js">
+</script>
+<script type="text/javascript" src="languagepack/js/jquery.calendars.plus.js"></script>
+
+<script type="text/javascript" src="languagepack/js/jquery.calendars.nepali-ne.js"></script>
+<link rel="stylesheet" type="text/css" href="languagepack/css/jquery.calendars.picker.css"> 
+<script type="text/javascript" src="languagepack/js/jquery.plugin.js"></script> 
+<script type="text/javascript" src="languagepack/js/jquery.calendars.picker.js"></script>
+<style type="text/css">
+	input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+[id^="itemlist-"] li:hover
+{
+background-color:grey;
+}
+table tr th
+{
+	font-size: 10px !important;
+}
+table tr td input
+{
+border-radius: 0px !important; 
+height:32px !important; 
+font-size: 12px !important;	
+}
+table tr td 
+{
+border-radius: 0px !important; 
+width:160px !important; 
+height:32px !important; 
+font-size: 12px !important;
+}
+hr
+{
+color:green;
+}
+table tr td select
+{
+border-radius: 0px !important; 
+height:30px !important; 
+font-size: 12px !important;
+}
+#sn
+{
+	font-size: 14px !important;
+}
+.billdata input
+{
+border-radius:0px !important;
+height:24px !important;
+}
+.billdata select
+{
+border-radius:0px !important;
+height:29px !important;
+font-size:4px;
+margin-top: 1px;
+}
+li
+{
+	border:1px !important;
+	text-align: center !important;
+}
+div::-webkit-scrollbar  {
+    width: 5px;
+    height: 5px;
+}
+div::-webkit-scrollbar-button {
+    background: #ccc
+}
+div::-webkit-scrollbar-track-piece {
+    background: #888
+}
+div::-webkit-scrollbar-thumb {
+    background: #eee
+}​
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Hotel Atlas</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-9">
+	<div class="row">
+		<div class="col-12 billdata">
+	<h1 style="text-align:center;"> Hotel Atlas</h1>
+	<p style="text-align: center;">Sunual, Bhumahi</p>
+	<label><b>Bill no:</b><b class=" billno ml-1"></b></label> 
+
+	<label style="float:right;">
+	<h6 class='dates text-dark d-inline'>Date:</h6>
+      <h6 class='times ml-1 text-dark d-inline'>Time:</h6>
+</label>
+<br/>
+	Name<input  style="width:90px; font-size:12px;" class="form-control w-25 d-inline ml-2 mr-4" placeholder="Customer name"></label>Type<select  style="width:90px; font-size:12px; " class="form-control ml-2 mr-3 d-inline"><option value="1">Room</option><option value="2">Hall</option><option value="3">Table</option></select><label class="d-inline">No.<input style="width:90px; font-size:12px;" class="form-control d-inline ml-2" placeholder="R/H/T No."></label>
+
+</div>
+</div>
+	<table class="table mt-5 table-bordered table-sm">
+		
+		<tr class=" m-0  row text-center">
+			<th  class="col-md-2">S.N.</th>
+			<th  class="col-md-4">Item Name </th>
+			<th  class="col-md-1">Quantity</th>
+			<th  class="col-md-2">Unit</th>
+			<th  class="col-md-1">Price(Rs.)</th>
+			<th  class="col-md-2">Amount</th>
+		</tr>
+		<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2 ">1</td>
+			<td   class="col-md-4 p-0"><input id="itemname-1" type="text" class="form-control" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-1" class="d-none"></ul>
+			<td  class="col-md-1 p-0"><input type="number" min="0" id="itemsquantity-1" class="form-control" /></td>
+			<td  class="col-md-2 p-0"><select class="form-control" id="unit-1" ><option  value="0">--------------</option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+			<td   class="col-md-1 p-0"><input id="itemsprice-1"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-2 p-0"><input id="amount-1" type="number" min="0" class="form-control text-center" value=0  /></td>
+		</tr>
+	   <tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2 ">2</td>
+			<td   class="col-md-4 p-0"><input id="itemname-2" type="text" class="form-control" /><div style="list-style-type:none; width:310px; outline:3px solid #EEE; left:3px;  max-height:150px; position:absolute; z-index:20; overflow:auto; padding:0px; margin:0px;" id="itemlist-2" class="d-none"></div>
+			<td  class="col-md-1 p-0"><input type="number" min="0" id="itemsquantity-2" class="form-control" /></td>
+			<td  class="col-md-2 p-0"><select class="form-control" id="unit-2" ><option  value="0">--------------</option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+			<td   class="col-md-1 p-0"><input id="itemsprice-2"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-2 p-0"><input id="amount-2" type="number" min="0" class="form-control text-center" value=0 /></td>
+		</tr>
+		<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2 ">3</td>
+			<td   class="col-md-4 p-0"><input id="itemname-3" type="text" class="form-control" /><div style="list-style-type:none; width:310px; outline:3px solid #EEE; left:3px;  max-height:150px; position:absolute; z-index:20; overflow:auto; padding:0px; margin:0px;" id="itemlist-3" class="d-none"></div>
+			<td  class="col-md-1 p-0"><input type="number" min="0" id="itemsquantity-3" class="form-control" /></td>
+			<td  class="col-md-2 p-0"><select class="form-control" id="unit-3" ><option  value="0">--------------</option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+			<td   class="col-md-1 p-0"><input id="itemsprice-3"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-2 p-0"><input id="amount-3" type="number" min="0" class="form-control text-center" value=0 /></td>
+		</tr>
+		<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2 ">4</td>
+			<td   class="col-md-4 p-0"><input id="itemname-4" type="text" class="form-control" /><div style="list-style-type:none; width:310px; outline:3px solid #EEE; left:3px;  max-height:150px; position:absolute; z-index:20; overflow:auto; padding:0px; margin:0px;" id="itemlist-4" class="d-none"></div>
+			<td  class="col-md-1 p-0"><input type="number" min="0" id="itemsquantity-4" class="form-control" /></td>
+			<td  class="col-md-2 p-0"><select class="form-control" id="unit-4" ><option  value="0">--------------</option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+			<td   class="col-md-1 p-0"><input id="itemsprice-4"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-2 p-0"><input id="amount-4" type="number" min="0" class="form-control text-center" value=0 /></td>
+		</tr>
+		<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2 ">5</td>
+			<td   class="col-md-4 p-0"><input id="itemname-5" type="text" class="form-control" /><div style="list-style-type:none; width:310px; outline:3px solid #EEE; left:3px;  max-height:150px; position:absolute; z-index:20; overflow:auto; padding:0px; margin:0px;" id="itemlist-5" class="d-none"></div>
+			<td  class="col-md-1 p-0"><input type="number" min="0" id="itemsquantity-5" class="form-control" /></td>
+			<td  class="col-md-2 p-0"><select class="form-control" id="unit-5" ><option  value="0">--------------</option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+			<td   class="col-md-1 p-0"><input id="itemsprice-5"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-2 p-0"><input id="amount-5" type="number" min="0" class="form-control text-center" value=0 /></td>
+		</tr>
+		<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-2 ">6</td>
+			<td   class="col-md-4 p-0"><input id="itemname-6" type="text" class="form-control" /><div style="list-style-type:none; width:310px; outline:3px solid #EEE; left:3px;  max-height:150px; position:absolute; z-index:20; overflow:auto; padding:0px; margin:0px;" id="itemlist-6" class="d-none"></div>
+			<td  class="col-md-1 p-0"><input type="number" min="0" id="itemsquantity-6" class="form-control" /></td>
+			<td  class="col-md-2 p-0"><select class="form-control" id="unit-6" ><option  value="0">--------------</option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+			<td   class="col-md-1 p-0"><input id="itemsprice-6" min="0" type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-2 p-0"><input id="amount-6" min="0" type="number" min="0" class="form-control text-center" value=0 /></td>
+		</tr>
+	</table>
+	<br/>
+</div>
+</div>
+<div class="container-fluid">
+<div class="row">
+	<div class="col-md-8"></div>
+<div class="col-md-2" style="margin-left:40px;">
+	<label><b>Total</b></label><br/>
+	<label><b>Service Charge</b></label><br/>
+	<label><b>Taxable Amount</b></label><br/>
+	<label><b>Discount(10%)</b></label><br/>
+	<label><b>Tax(13% VAT)</b></label><br/>
+
+	<label><b>Grand Total</b></label><br/>
+</div>
+<div class="col-md-1" style="margin-left:-40px;">
+	<label><b class="ml-2" id="totalamount">0</b></label><br/>
+	<label><b class="ml-2" id="servicechargeamount">0</b></label><br/>
+	<label><b class="ml-2" id="taxableamount">0</b></label><br/>
+
+	<label><b class="ml-2" id="discountamount">0</b></label><br/>
+	<label><b class="ml-2" id="taxamount">0</b></label><br/>
+	<label><b class="ml-2" id="grandtotalamount">0</b></label><br/>
+</div>
+</div>
+
+
+</div>
+
+		
+	
+
+
+<script>
+	
+	var gc = $.calendars.instance('nepali','ne'); 
+var currentdate=gc.newDate();
+      var currenttime=new Date();
+      var currenttime=currenttime.toLocaleTimeString();
+      var random =parseInt((Math.random()*100) +1);
+
+      $('.dates').append("<h6 class='ml-1 d-inline'>"+currentdate+"</h6>");
+        $('.times').append("<h6 class='timeupdate ml-1 d-inline'>"+currenttime+"</h6>");
+        $('.billno').append("<h6 class='ml-1 d-inline'>"+random+"</h6>");
+
+	$("[id^=items]").on('keyup',function(event){
+		var ids= event.target.id.split('-');
+		var id= ids[1];
+		// console.log(id);
+		var quantity= $('#itemsquantity-'+id).val();
+		var price=$('#itemsprice-'+id).val();
+		var totalamount=parseInt(quantity)*parseInt(price);
+		$('#amount-'+id).val(totalamount);
+		var amountlist= $("[id^=amount]");
+		console.log(amountlist[0].value);
+		var total=0;
+		var j;
+		for(var i = 0 ; i<amountlist.length;i++)
+		{ 
+			console.log(j);
+			var subtotal;
+			subtotal=amountlist[i].value;
+			console.log(subtotal);
+			total=parseInt(total)+parseInt(subtotal);
+			console.log(total);
+
+		}
+		$("#totalamount").text(total);
+	});
+	$("[id^=itemname]").on('keyup',function(event)
+	{
+
+	// var a=String.fromCharCode(event.which);
+	console.log(event.which);
+	
+    var items=[{'item':'Momo','price':100},{'item':'Chicken','price':100},{'item':'Coffee','price':55},{'item':'Tea','price':30},{'item':'Rice','price':250},{'item':'Chowmein','price':100}];
+   var targetids= event.target.id.split('-');
+   var targetid =targetids[1];
+   console.log(targetid);
+
+   if(event.which !== 16)
+   {
+   	$('#itemlist-'+targetid).text('');
+    for(i=0;i<items.length;i++)
+    {  
+    var a=$('#itemname-'+targetid).val();
+    console.log(a);
+    var b = a.toUpperCase();
+    var c=  a.toLowerCase();
+    console.log(b);
+    console.log(c);
+
+    if(a!=='')
+    {
+    if(items[i]['item'].indexOf(a)!== -1 || items[i]['item'].indexOf(b)!== -1 || items[i]['item'].indexOf(c)!== -1 )
+    {
+    console.log(items[i]['item']);
+    $('#itemlist-'+targetid).show();
+    if($('#itemlist-'+targetid).hasClass('d-none'))
+    {
+   $('#itemlist-'+targetid).removeClass('d-none');
+	}
+   $('#itemlist-'+targetid).append(`<li id=${i} onclick="javascript:addprice(event,${targetid});" style='font-size:15px; color:black; margin-top:0px; height:30px; padding-top:5px; outline:1px solid black; width:310px;'><a >${items[i]['item']}</a></li>`);
+    }
+   
+
+	}
+}
+}
+	})
+
+const addprice = (event,id) =>{
+	    var items=[{'item':'Momo','price':100},{'item':'Chicken','price':100},{'item':'Coffee','price':55},{'item':'Tea','price':30},{'item':'Rice','price':250},{'item':'Chowmein','price':100}];
+	    console.log(event.target.textContent);
+
+	    var itemselected=event.target.textContent;
+	    $("#itemlist-"+id).hide();
+	    $("#itemname-"+id).val(`${itemselected}`);
+	    for(var i in items)
+	    {
+	    	if(items[i]['item']===itemselected)
+	    	{
+	    		$("#itemsprice-"+id).val(`${items[i]['price']}`);
+	    	}
+	    }
+
+}
+</script>
+</body>
+</html>
+
+  

@@ -1,0 +1,130 @@
+<!-- views/pages/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+    <style>
+    .credittable tr th {
+        height: 30px !important;
+    }
+
+    .credittable tr td {
+        height: 30px !important;
+    }
+
+    .debittable tr th {
+        height: 30px !important;
+    }
+
+    .debittable tr td {
+        height: 30px !important;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <h1 class="text-center">Day Book</h1>
+    <div class="container mt-5 ">
+        <div class="row" style="font-size:12px;">
+            <div class="col-md-2 ml-3">
+                <ul class="list-group">
+                    <li id="1" class="list-group-item"><a href="#" id="month-01">January</a></li>
+                    <li id="1" class="list-group-item"><a href="#" id="month-02">February</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-03" >March</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-04" >April</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-05" >May</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-06">June</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-07" >July</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-08" >August</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-09">September</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-10" >October</a></li>
+                    <li id="1" class="list-group-item"><a href="#" id="month-11" >November</a></li>
+                    <li id="1" class="list-group-item"><a  href="#" id="month-12" >December</a></li>
+
+                </ul>
+            </div>
+            <div class="col-8">
+<div class="row ">
+
+            <table class="col-md-12  justify-contents-center  debittable text-center " border="1">
+            
+
+                <tr class="table-header">
+                    <!-- <th>T.N</th> -->
+                    <th>DATE</th>
+                    <th>Accounts</th>
+                    <th>DEBIT</th>
+                    <th>CREDIT</th>
+                    <th>NARRATION</th>
+                </tr>
+                <% var tranloop=0; %>
+                <% var sn=1; %>
+
+                <% for(var j=0;j<totaltransaction.length;j++) { %>
+                <% paymentmonth=results[tranloop].paymentdate.split('-')[1]; %>
+                <tr class="month-row">
+                   <!--  <td rowspan="<%= totaltransaction[j].total+1 %>">
+                        <%= totaltransaction[j].transactionno %>
+                    </td> -->
+                    
+                    <td   rowspan="<%= totaltransaction[j].total+1 %>">
+                        <%= results[tranloop].paymentdate %>
+                    </td>
+                </tr>
+                <% for(var i=0;i<totaltransaction[j].total;i++) { %>
+                <tr class="month" data-month='<%= paymentmonth %>' >
+                    <td>
+                        <%= results[tranloop].account %>
+                    </td>
+                    <% if (results[tranloop].dctype==='d') { %>
+                    <td>
+                        <%= results[tranloop].dcamount %>
+                    </td>
+                    <% } else
+                    { %>
+                    <td></td>
+                    <%} %>
+                    <% if (results[tranloop].dctype==='c') { %>
+                    <td>
+                        <%= results[tranloop].dcamount %>
+                    </td>
+                    <% } else { %>
+                    <td></td>
+                    <%} %>
+                    <td>
+                        <%= results[tranloop].narration %>
+                    </td>
+                </tr>
+                <% tranloop=tranloop+1; %>
+                <% } %>
+                <% } %>
+                <tr class="month-total">
+                
+                    <td></td>
+                    <td>Total</td>
+                    <td>
+                        <%= totaldebit %>
+                    </td>
+                    <td>
+                        <%= totalcredit %>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+       <p class="nodata" style="text-align-last: center; display: none;">No data yet </p>
+
+
+    </div>
+</div>
+</div>
+    <script type="text/javascript" src="../js/daybook.js"></script>
+</body>
+
+</html>

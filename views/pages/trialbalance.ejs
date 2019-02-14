@@ -1,0 +1,79 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+    <style>
+    .credittable tr th
+    {
+    height:30px !important;
+    }
+    .credittable tr td
+    {
+    height:30px !important;
+    }
+    .debittable tr th
+    {
+    height:30px !important;
+    }
+    .debittable tr td
+    {
+    height:30px !important;
+    }
+    </style>
+</head>
+<body>
+
+<header>
+    <% include ../partials/header %>
+</header>
+<h1 class="text-center">Trial Balance</h1>
+<div class="container mt-5 ">
+<div class="row" style="font-size:12px;">
+<div class="col-md-3"></div>
+<table class="col-md-6 justify-contents-center debittable text-center"  border="1">
+<tr>
+<th>S.N</th>
+<th>TRIAL BALANCE</th>
+<th>DEBIT</th>
+<th>CREDIT</th>
+</tr>
+   <% var sn=1; %>
+  <% results.forEach(function(result) { %>
+     <tr>
+  <% if (result.dctype==='d') { %>
+  		<td><%= sn %></td>
+        <td><%= result.account %></td>
+        <td><%= result.total %></td>
+        <td></td></tr>
+        <% } else { %>
+  		<td><%= sn %></td>
+
+        <td><%= result.account %></td>
+        <td></td>
+        <td><%= result.total %></td></tr>
+     <% }  %>
+     <% sn=sn+1; %>
+
+    <% }); %>
+
+    <% if ( totalcredit > totaldebit ) { %>
+ <tr><th></th><th>Profit</th><th><%= totalcredit-totaldebit %></th> <th></th></tr> 
+ <% totaldebit = totalcredit; %>
+ <%} else { %>
+ <tr><th></th><th>Loss</th><th></th><th><%= totaldebit-totalcredit %></th></tr> 
+ <% totalcredit = totaldebit; %>
+
+   <% } %>
+
+ <tr><th></th><th>Total</th><th><%= totaldebit %></th><th> <%= totalcredit %></th></tr>   
+</table>
+
+</div>
+</div>
+<script src="../js/payment.js"></script>
+
+
+</body>
+</html>

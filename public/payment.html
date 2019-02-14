@@ -1,0 +1,448 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script type="text/javascript" src="languagepack/js/jquery.calendars.js"></script>
+<script type="text/javascript" src="languagepack/js/jquery.calendars.nepali.js">
+</script>
+<script type="text/javascript" src="languagepack/js/jquery.calendars.plus.js"></script>
+
+<script type="text/javascript" src="languagepack/js/jquery.calendars.nepali-ne.js"></script>
+<link rel="stylesheet" type="text/css" href="languagepack/css/jquery.calendars.picker.css"> 
+<script type="text/javascript" src="languagepack/js/jquery.plugin.js"></script> 
+<script type="text/javascript" src="languagepack/js/jquery.calendars.picker.js"></script>
+</script>
+ 
+
+  <!-- <link rel="stylesheet" href="multiple-select-master/multiple-select.css" /> -->
+  <style>
+  input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+table tr th
+{
+	font-size: 10px !important;
+}
+table tr td input
+{
+border-radius: 0px !important; 
+height:32px !important; 
+font-size: 12px !important;	
+}
+table tr td 
+{
+border-radius: 0px !important; 
+width:160px !important; 
+height:32px !important; 
+font-size: 12px !important;
+}
+ br {
+            display: block; /* makes it have a width */
+            content: ""; /* clears default height */
+            margin-top: 0; /* change this to whatever height you want it */
+}
+hr
+{
+color:green;
+}
+table tr td select
+{
+border-radius: 0px !important; 
+height:30px !important; 
+font-size: 12px !important;
+}
+#voucherseries:focus
+{
+	background-color:black !important;
+	color:white;
+}
+.accountinformation input
+{
+	height: 25px !important;
+	border-radius: 0px !important;
+}
+.accountinformation input#master
+{
+	background-color:black;
+}
+.accountinformation input#master
+{
+	background-color:black;
+}
+
+.accountinformation input:focus
+{
+	background-color:black;
+	color:white;
+}
+div::-webkit-scrollbar  {
+    width: 5px;
+    height: 5px;
+}
+div::-webkit-scrollbar-button {
+    background: #ccc
+}
+div::-webkit-scrollbar-track-piece {
+    background: #888
+}
+div::-webkit-scrollbar-thumb {
+    background: #eee
+}​
+</style>
+</head>
+<body >
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+	<div class="row">
+		<div class="col-12 mt-2 billdata">
+
+<br/>
+	<label id="transactiontitle">Voucher Series <input  style="width:120px !important; height: 15px !important; border-radius: 0px !important;   font-size:12px;" id="voucherseries" class="form-control w-25 border-0 d-inline ml-2 mr-4" value="Main"></label> <h6 class=' text-dark d-inline'>Number:</h6>
+
+	<h6 class='dates text-dark d-inline'>Date:</h6>
+
+
+</div>
+</div>
+<form id="paymenttranscation" style="">
+	<table style="font-size: 12px;  max-height: 400px !important;" class="table table-responsive paymenttable mt-5 table-bordered table-sm">
+		
+		<tr class=" m-0 paymentheader  row text-center">
+			<th  class="col-md-1">S.N.</th>
+			<th  class="col-md-1">D/C</th>
+			<th  class="col-md-4">Account</th>
+			<th  class="col-md-1">Debit(Rs.)</th>
+			<th  class="col-md-1">Credit(Rs.)</th>
+			<th  class="col-md-4">Short Narration</th>
+		</tr>
+		
+	</table>
+	
+		<button type="submit" onclick="javascript:submitdata(event);" class="btn ml-5 justify-content-center btn-primary"> Submit
+		</button>
+	</form>
+	<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#myModal"  accesskey="h">
+  Launch demo modal
+</button>
+</div>
+<div class="col-md-2 mt-3">
+<nav class="nav flex-column">
+  <a style="border:1px solid black;" class="nav-link active" onclick="javascript:salesform();" >Sales</a>
+  <a class="nav-link" style="border:1px solid black;" onclick="javascript:paymentform();"  href="#">Payment</a>
+  <a class="nav-link" style="border:1px solid black;"  href="#">Contra</a>
+  <a class="nav-link disabled" style="border:1px solid black;" href="#">Disabled</a>
+</nav>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg"  role="document">
+    <div class="modal-content" style="margin:auto; height: 500px; width: 900px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <div class="row ">
+        	<div class="col-md-5 accountinformation">
+        		<form class="accountinformations">
+        			<fieldset class="border border-success p-2">
+        				<legend class="w-auto">General Info.</legend>
+    		<label style="font-size: 12px;">Name</label><input type="text" name="accountname" id="accountname" class="ml-2 border-0 w-50 form-control d-inline" required><br></br>
+    		<label style="font-size: 12px;">Alias</label><input type="text" name="alias" id="alias" class=" ml-2  border-0 w-50 form-control d-inline"><br></br>
+    		<label style="font-size: 12px;">Print Name:</label><input name="printname" type="text" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+ 
+    		<label style="font-size: 12px;">Group</label><select class="ml-2 w-50 form-control d-inline" name="accountgroup"  id="accountgroup" required><option value="0">------------</option><option selected value="1">Bank Accounts</option><option value="2">Bank O/D Account</option><option value="3">Fixed Assets</option><option value="4">Expenses(Indirect/Admn.)</option><option value="5">Duties and Taxes</option></select><br></br>
+</fieldset>
+
+
+      </div>
+      <div class="col-md-6 accountinformation">
+        		<form >
+        			<fieldset class="border border-success p-2">
+        				<legend class="w-auto">Address Info.</legend>
+    		<label style="font-size: 12px;">Address</label><input type="text" name="address" id="address" required class="ml-2 border-0 w-50 form-control d-inline"><br></br>
+    		<label style="font-size: 12px;">Country</label><input type="text" name="country" id="country" class=" ml-2  border-0 w-50 form-control d-inline"><br></br>
+    		<label style="font-size: 12px;">Tel. No.</label><input name="telno" id="telno" type="number" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+ 			<label style="font-size: 12px;">Fax</label><input name="fax" id="fax" type="number" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+ 			<label style="font-size: 12px;">Mobile No.</label><input name="mobileno" id="mobileno" type="number" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+    		<label style="font-size: 12px;">Email</label><input name="email" id="email" type="email" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+    		<label style="font-size: 12px;">Contact Person</label><input name="contactperson" id="contactperson" required type="text" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+    		<label style="font-size: 12px;">IT PAN</label><input id="panno" name="panno" type="number" class=" ml-2 form-control border-0 d-inline w-50 "><br></br>
+
+</fieldset>
+
+
+      </div>
+  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" onclick="javascript:submitaccount(event);" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+  </form>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<script>
+for(i=1;i<20;i++)
+{
+$('.paymentheader').append(`<tr  class=" m-0  row text-center">
+			<td id="sn" class="col-md-1 ">${i}</td>
+			<td   class="col-md-1 p-0"><input class="form-control" name="dctype" id="dctype${i}" type="text" maxlength="1" oninput="this.value = this.value.replace(/[^cd]/, '')" />
+
+			<td  class="col-md-4 p-0"><input  name="accounttype" id="accounttype${i}" type="text" class="form-control" /><div style="list-style-type:none;  outline:1px solid green; left:-1px;  max-height:150px; position:absolute; z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-1" class="d-none"></div></td>
+			<td  class="col-md-1 p-0"><input name="debit" id="debit"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-1 p-0"><input name="credit" id="credit${i}"  type="number" min="0" class="form-control" /></td>
+			<td   class="col-md-4 p-0"><input name="narration" id="narration${i}" type="text" class="form-control text-center"   /></td>
+		</tr>`)
+	}
+function createpopup(event){
+  event.preventDefault();
+  	 $("#master").addClass('bg-dark');
+   
+  
+ }
+
+function keypresshandler(event)
+    {
+    	event.preventDefault();
+         var charCode = event.keyCode;
+         console.log(charCode);
+         //Non-numeric character range
+         if (charCode === 47 || charCode === 48)
+         return false;
+    }
+function paymentform()
+{
+$("#transactiontitle").text('Payment');
+}
+function salesform()
+{
+$("#transactiontitle").text('Sales');
+}
+
+ function submitdata(event)
+{
+event.preventDefault();
+var paymentform=$( "#paymenttranscation").serializeArray();
+console.log($( "#paymenttranscation" ).serializeArray());
+var o=[];
+var op=[];
+//  $.each(paymentform, function() {
+//        if (o[this.name]) {
+//            if (!o[this.name].push) {
+//                o[this.name] = [o[this.name]];
+//            }
+//            o[this.name].push(this.value || '');
+//        } else {
+//            o[this.name] = this.value || '';
+//        }
+//    }); 
+// console.log(o);
+var count=0;
+for(i=0;i<50;i=i+5)
+{
+if((paymentform[i]['value']=='c' && paymentform[i+3]['value']!== "")&& paymentform[i+1]['value'] !=='' ) 
+{
+op.push([paymentform[i]['value'],paymentform[i+1]['value'],paymentform[i+3]['value'],paymentform[i+4]['value']]);
+// op[count]={"dctype":paymentform[i]['value'],"accounttype":paymentform[i+1]['value'],"dcamount":paymentform[i+3]['value'],"narration":paymentform[i+4]['value']};
+count++;
+}
+if((paymentform[i]['value']=='d' && paymentform[i+2]['value']!== "") && paymentform[i+1]['value'] !=='' )
+{
+op.push([paymentform[i]['value'],paymentform[i+1]['value'],paymentform[i+2]['value'],paymentform[i+4]['value']]);
+// op[count]={"dctype":paymentform[i]['value'],"accounttype":paymentform[i+1]['value'],"dcamount":paymentform[i+2]['value'],"narration":paymentform[i+4]['value']};
+count++;
+}
+
+}
+console.log(op);
+$.ajax({
+	type:'post',
+	url:'payment',
+	data:{op},
+	success:function(data)
+	{
+		console.log(data);
+	}
+});
+ // var a= JSON.stringify(paymentform);
+ // console.log(a);
+}
+
+var gc = $.calendars.instance('nepali','ne'); 
+var currentdate=gc.newDate();
+var currenttime=new Date();
+var currenttime=currenttime.toLocaleTimeString();
+
+      $('.dates').append("<h6 class='ml-1 d-inline'>"+currentdate+"</h6>");
+        $('.times').append("<h6 class='timeupdate ml-1 d-inline'>"+currenttime+"</h6>");
+
+	$("[id^=items]").on('keyup',function(event){
+		var ids= event.target.id.split('-');
+		var id= ids[1];
+		// console.log(id);
+		var quantity= $('#itemsquantity-'+id).val();
+		var price=$('#itemsprice-'+id).val();
+		var totalamount=parseInt(quantity)*parseInt(price);
+		$('#amount-'+id).val(totalamount);
+		var amountlist= $("[id^=amount]");
+		console.log(amountlist[0].value);
+		var total=0;
+		var j;
+		for(var i = 0 ; i<amountlist.length;i++)
+		{ 
+			console.log(j);
+			var subtotal;
+			subtotal=amountlist[i].value;
+			console.log(subtotal);
+			total=parseInt(total)+parseInt(subtotal);
+			console.log(total);
+
+		}
+		$("#totalamount").text(total);
+	});
+	$("[id^=itemname]").on('keyup',function(event)
+	{
+
+	// var a=String.fromCharCode(event.which);
+	console.log(event.which);
+	
+    var items=[{'item':'Momo','price':100},{'item':'Chicken','price':100},{'item':'Coffee','price':55},{'item':'Tea','price':30},{'item':'Rice','price':250},{'item':'Chowmein','price':100}];
+   var targetids= event.target.id.split('-');
+   var targetid =targetids[1];
+   console.log(targetid);
+
+   if(event.which !== 16)
+   {
+   	$('#itemlist-'+targetid).text('');
+    for(i=0;i<items.length;i++)
+    {  
+    var a=$('#itemname-'+targetid).val();
+    console.log(a);
+    var b = a.toUpperCase();
+    var c=  a.toLowerCase();
+    console.log(b);
+    console.log(c);
+    if(a!=='')
+    {
+    if(items[i]['item'].indexOf(a)!== -1 || items[i]['item'].indexOf(b)!== -1 || items[i]['item'].indexOf(c)!== -1 )
+    {
+    console.log(items[i]['item']);
+    $('#itemlist-'+targetid).show();
+    if($('#itemlist-'+targetid).hasClass('d-none'))
+    {
+   $('#itemlist-'+targetid).removeClass('d-none');
+	}
+   $('#itemlist-'+targetid).append(`<p id=${i} onclick="javascript:addprice(event,${targetid});" style='font-size:12px; color:blue; margin-top:0px; height:25px; padding-top:5px; width:310px;'>${items[i]['item']}</p><hr style="margin-top:-5px; margin-bottom:0px; background-color:green;" size="5" />`);
+    }
+   
+
+	}
+}
+}
+	})
+
+const addprice = (event,id) =>{
+	    var items=[{'item':'Momo','price':100},{'item':'Chicken','price':100},{'item':'Coffee','price':55},{'item':'Tea','price':30},{'item':'Rice','price':250},{'item':'Chowmein','price':100}];
+	    console.log(event.target.textContent);
+
+	    var itemselected=event.target.textContent;
+	    $("#itemlist-"+id).hide();
+	    $("#itemname-"+id).val(`${itemselected}`);
+	    for(var i in items)
+	    {
+	    	if(items[i]['item']===itemselected)
+	    	{
+	    		$("#itemsprice-"+id).val(`${items[i]['price']}`);
+	    	}
+	    }
+
+}
+function submitaccount(event)
+{
+event.preventDefault();
+var accountdata= $(".accountinformations").serializeArray();
+console.log(accountdata);
+var accountdataarray=[];
+for(i=0;i<accountdata.length;i++)
+{
+if(accountdata[i]['value'] === "")
+{
+ accountdata[i]['value']=0;
+ console.log(accountdata[i]);
+}
+accountdataarray.push(accountdata[i].value);
+}
+console.log(accountdata);
+console.log(accountdataarray);
+$.ajax({
+  type:'post',
+  url:'accountsubmit',
+  dataType:'application/json',
+  data:{accountdataarray},
+  success:function(data)
+  {
+    console.log(data);
+  }
+})
+
+}
+</script>
+</body>
+</html>

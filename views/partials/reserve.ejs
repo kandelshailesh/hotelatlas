@@ -1,0 +1,127 @@
+<div class="row">
+	<div class="col-md-2"></div>
+	
+<div class="col-md-3">
+	
+		<form class="guest-information">
+		<fieldset  class="border border-success w-75 p-2">
+			<legend  class="w-auto text-danger">Guest Information </legend>
+		<div class="justify-content-start text-center">
+		<input type="text" id="cname" class="form-control" name="cname" placeholder="Customer name"/><br/>
+		<input type="text" id="address" class="form-control"  name="address" placeholder="Address"/><br/>
+		<input type="text" id="country" class="form-control"  name="country" placeholder="Country"/><br/>
+		<input type="number" id="phone" class="form-control"  name="phone" placeholder="Mobile No."/><br/>
+		<input type="text" id="company" class="form-control"  name="company" placeholder="Company"/><br/>
+		<select class="form-control"><option value="0">Identification type</option><option value="1">Driver License</option><option value="2">Citizenship</option><option value="3">Passport Number</option></select><br/>
+		<input type="number" id="identificationno" class="form-control"  name="company" placeholder="Identification Number" autofocus /><br/>
+
+	</div>
+
+</fieldset>
+</form>
+</div>
+<div style="margin-left:-90px;" class="col-md-3">
+	
+		<form class="vehicle-information">
+		<fieldset  class="border border-success w-100 p-2">
+			<legend  class="w-auto text-danger">Vehicle Information </legend>
+		<div class="justify-content-start">
+		<input type="text" id="vtype" class="form-control" name="vtype" placeholder="Vehicle" autofocus/><br/>
+		<input type="text" id="vmodel" class="form-control"  name="vmodel" placeholder="Vehicle Model"/><br/>
+		<input type="number" id="vplateno" class="form-control"  name="vplate" placeholder="Plate No."/><br/>
+		
+
+	</div>
+
+</fieldset>
+</form>
+
+	
+		<form class="date-information">
+		<fieldset  class="border border-success w-100 p-2">
+			<legend  class="w-auto text-danger">Extra Information </legend>
+		<div class="justify-content-start text-center">
+<input type="text" id="doa" name="doa" class="form-control" placeholder="Date of Arrival" autofocus><br/>
+<input type="text" id="dod" name="dod"  class="form-control" placeholder="Date of Departure">
+
+	</div>
+
+</fieldset>
+</form>
+</div>
+	
+<div class="col-md-3">
+	<form class="room-information">
+		<fieldset  class="border border-success w-100 p-2">
+			<legend  class="w-auto text-danger">Room Information </legend>
+			<div class="row">
+			<div class="col-md-2">
+			<h6 class="ml-1">101</h6><button id="101" onclick="bookroom(event,101);" class="text-success"><i class="fa fa-user"></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">102</h6><button id="102"  onclick="bookroom(event,102);"class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">103</h6><button id="103" onclick='bookroom(event,103);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">104</h6><button id="104" onclick='bookroom(event,104);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">105</h6><button  id="105" onclick='bookroom(event,105);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">106</h6><button  id="106" onclick='bookroom(event,106);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		</div>
+		<div class="row mt-2">
+		<div class="col-md-2">
+			<h6 class="ml-1">201</h6><button id="201" onclick="bookroom(event,201);"class="text-success"><i class="fa fa-user fa-2x " ></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">202</h6><button id="202" onclick='bookroom(event,202);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">203</h6><button id="203" onclick='bookroom(event,203);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">204</h6><button id="204" onclick='bookroom(event,204);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">205</h6><button id="205" onclick='bookroom(event,205);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">206</h6><button id="206" onclick='bookroom(event,206);'class="text-success"><i class="fa fa-user "></i></button>
+		</div>
+		</div>
+		<div class="row mt-2">
+		<div class="col-md-2">
+			<h6 class="ml-1">301</h6><button id="301" onclick="bookroom(event,301);"class="text-success"><i class="fa fa-user fa-2x "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">302</h6><button id="302" onclick='bookroom(event,302);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">303</h6><button id="303" onclick='bookroom(event,303);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">304</h6><button id="304" onclick='bookroom(event,304);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6 class="ml-1">305</h6><button id="305" onclick='bookroom(event,305);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+		<div class="col-md-2">
+			<h6>306</h6><button id="306" onclick='bookroom(event,306);'class="text-success"><i class="fa fa-user  "></i></button>
+		</div>
+	</div>
+</fieldset>
+</form>
+</div>
+		
+
+	</div>
+
+</fieldset>
+</form>
+</div>
+</div>
