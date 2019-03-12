@@ -19,11 +19,11 @@ var con = mysql.createConnection({
 //   database:'hotelatlas',
 //   multipleStatements: true
 // });
-var newcon= {host: "localhost",
-  user: "root",
-  password: "",
-  port: 3308,
-  database:'hotelatlas'}
+// var newcon= {host: "localhost",
+//   user: "root",
+//   password: "",
+//   port: 3308,
+//   database:'hotelatlas'}
 var path = require('path')
 con.connect(function(err) {
   if (err) throw err;
@@ -31,8 +31,8 @@ con.connect(function(err) {
   });
 
 
-mysqleventwatcher= MySQLEvents(newcon);
-console.log(mysqleventwatcher);
+// mysqleventwatcher= MySQLEvents(newcon);
+// console.log(mysqleventwatcher);
 
 
 const app = express();
