@@ -3,14 +3,22 @@ var mysql = require('mysql');
 var bodyParser= require('body-parser');
 var MySQLEvents = require('mysql-events');
 
+
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  port: 3308,
-  database:'hotelatlas',
+  host: "46.4.106.218",
+  user: "hotelatlas",
+  password: "Hotel@atlas123",
+  database: "hotelatlas",
   multipleStatements: true
 });
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   port: 3308,
+//   database:'hotelatlas',
+//   multipleStatements: true
+// });
 var newcon= {host: "localhost",
   user: "root",
   password: "",
