@@ -5,7 +5,7 @@ var MySQLEvents = require('mysql-events');
 
 
 var con = mysql.createConnection({
-  host: "46.4.106.218",
+  host: "localhost",
   user: "hotelatlas",
   password: "Hotel@atlas123",
   database: "hotelatlas",
@@ -41,6 +41,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.json());
+
+app.get('/',function(req,res)
+{
+return res.redirect('/billing');
+})
 
 app.get('/billing', function(req, res) {
     res.render('pages/billing');
