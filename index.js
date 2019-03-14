@@ -3,19 +3,27 @@ var mysql = require('mysql');
 var bodyParser= require('body-parser');
 var MySQLEvents = require('mysql-events');
 
+
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  port: 3308,
-  database:'hotelatlas',
+  host: "46.4.106.218",
+  user: "hotelatlas",
+  password: "Hotel@atlas123",
+  database: "hotelatlas",
   multipleStatements: true
 });
-var newcon= {host: "localhost",
-  user: "root",
-  password: "",
-  port: 3308,
-  database:'hotelatlas'}
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   port: 3308,
+//   database:'hotelatlas',
+//   multipleStatements: true
+// });
+// var newcon= {host: "localhost",
+//   user: "root",
+//   password: "",
+//   port: 3308,
+//   database:'hotelatlas'}
 var path = require('path')
 con.connect(function(err) {
   if (err) throw err;
@@ -23,8 +31,8 @@ con.connect(function(err) {
   });
 
 
-mysqleventwatcher= MySQLEvents(newcon);
-console.log(mysqleventwatcher);
+// mysqleventwatcher= MySQLEvents(newcon);
+// console.log(mysqleventwatcher);
 
 
 const app = express();
@@ -322,4 +330,5 @@ app.post('/billsubmit',(req,res)=>
 //  // res.send('Hello world');
 //  // console.log("HEll");
 // });
-app.listen(3000,()=> console.log('Listening on port 3000'));
+var port = process.env.port || 3000;
+app.listen(port,()=> console.log('Listening on port 3000'));
