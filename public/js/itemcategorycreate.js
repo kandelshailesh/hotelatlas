@@ -1,15 +1,19 @@
 // var targArea =$("#itemname-1");
 // console.log(targArea);
-var itemcreatecount=0;
-$('.iteminformations').on('keyup', 'input', function(e) {
+
+$("#itemcategorycreate").on('keydown',reportKeyEvent);
+        $('#categoryname').focus();
+
+var itemcategorycreatecount=0;
+
+$('.itemcategoryinformations').on('keyup', 'input', function(e) {
     var self = $(this),
         form = self.parents('form:eq(0)'),
         focusable, next, prev;
-        if(itemcreatecount===0)
-        {
-        $('.iteminformations').find('[autofocus]').focus();
-        itemcreatecount=1;
-    }
+        // $('#categoryname').focus();
+
+        // $('.itemcategoryinformations').find('[autofocus]').focus();
+
     // if (e.shiftKey) {
         if (e.keyCode == 8) {
 
@@ -49,7 +53,7 @@ $('.iteminformations').on('keyup', 'input', function(e) {
 });
 
 
-$("[id^=itemname]").on('keydown', reportKeyEvent);
+$("[id^=categoryname]").on('keydown', reportKeyEvent);
 
 
 function reportKeyEvent(zEvent) {
@@ -69,7 +73,7 @@ function reportKeyEvent(zEvent) {
 
     //--- Was a Ctrl-Alt-E combo pressed?
     if (zEvent.altKey && zEvent.key === "c") {
-        $("#itemModal").modal();
+        $("#itemcategoryModal").modal();
         // <!-- this.hitCnt = ( this.hitCnt || 0 ) + 1; -->
         // <!--  $("#statusReport").after (
         //      '<p>Bingo! cnt: ' + this.hitCnt + '</p>'
@@ -80,11 +84,11 @@ function reportKeyEvent(zEvent) {
 }
 
 
-$('form.iteminformations').on('submit',function(e)
+$('form.itemcategoryinformations').on('submit',function(e)
 {
     e.preventDefault();
 
-    var itemcreateform = $(".iteminformations").serializeArray();
+    var itemcreateform = $(".itemcategoryinformations").serializeArray();
     var formObj = {};
     $.each(itemcreateform, function (i, input) {
         formObj[input.name] = input.value;
@@ -92,7 +96,7 @@ $('form.iteminformations').on('submit',function(e)
    console.log(formObj);
      $.ajax({
             type: 'post',
-            url: '/createitem',
+            url: '/createcategory',
             data: { formobj:formObj },
             error: function(data) {
                 // var data=JSON.parse(data);
@@ -109,11 +113,12 @@ $('form.iteminformations').on('submit',function(e)
                 alert("Submitted successfully");
                 // $(".iteminformations").reset();
                 $('button.close').click();
-                $('form.iteminformations').trigger("reset");
+                $('form.itemcategoryinformations').trigger("reset");
                 // $('button.close').click();
 
-                 $('#itemModal').modal('toggle');
-                  $("#itemnamelist").append(`<option>${formObj.itemsname}</option>`);
+                 $('#itemcategoryModal').modal('toggle');\
+                  $("#itemcategorylist").append(`<option>${formObj.categoryname}</option>`);
+
             }
 }
 })

@@ -1,6 +1,6 @@
 
 <div class="salespurchaseform  d-none">
-	<form id="salespurchasetransaction" style="">
+	<form id="salespurchasetransaction" method="post"  onkeypress="return event.keyCode != 13;" onsubmit="return false;" >
 <div class="row">
 
     <div class="col-12 mt-2 salespurchasebill">
@@ -8,15 +8,14 @@
         <h6   class='dates text-dark d-inline float-right mr-5'>Date:</h6>
         <br>
         <label style="font-size:15px;">Party's A/C Name </label>
-        <input type="text" name="accountname" id="accountname" class="form-control w-25 d-inline " autofocus>
+        <input type="text" list="accountnamelist" name="accountname" id="accountname" class="form-control w-25 d-inline " required autofocus>
         <ul class="list-group d-none">
         </ul>
         <br>
         <i style="font-size:15px; opacity: 0.7;">Current Balance</i>
         <input type="text" name="ledger-type" id="ledger-type" class="form-control w-25 d-inline">
   			<br><br>
-        <label style="font-size:15px;">Ledger</label>
-        <input type="text" name="ledger-type" id="ledger-type" class="form-control mt-2 w-25 d-inline">
+       
     </div>
 </div>
 
@@ -35,9 +34,10 @@
     </div>
     <div class="row">
         <div class="col-md-4 ml-5"></div>
-        <label class="d-inline form-control-sm text-center  col-md-2 " id="totaldebit">0</label>
-        <div class="col-md-2"></div>
-        <label class="d-inline form-control-sm col-md-2  text-center" id="totalcredit">Rs.0</label>
+  
+        <div class="col-md-4 float-right ml-3"></div>
+        <label>Total amount Rs.</label>
+        <label class="d-inline form-control-sm  text-center" id="totalamount">0</label>
         <button type="reset" class="btn ml-5 d-none resetpayment justify-content-center  btn-primary"> Reset
         </button>
         <div class="col-md-1"></div>

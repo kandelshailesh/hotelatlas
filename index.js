@@ -4,6 +4,15 @@ var bodyParser= require('body-parser');
 var MySQLEvents = require('mysql-events');
 
 
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "hotelatlas",
+//   port:3308,
+//   multipleStatements: true
+// });
+
 var con = mysql.createConnection({
   host: "localhost",
   user: "hotelatlas",
@@ -47,13 +56,77 @@ app.get('/',function(req,res)
 return res.redirect('/billing');
 })
 
+app.post('/createitem',function(req,res)
+{
+  console.log(req.body);
+  var itemdetails= [req.body.formobj.itemsname,req.body.formobj.itemalias,req.body.formobj.units,req.body.formobj.itemgroupcreate];
+  var insertintoitemtable= "INSERT INTO `itemtable`(`itemname`, `alias`, `units`, `itemgroup`) VALUES ?";
+  con.query(insertintoitemtable,[[itemdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.json({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.json({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
+app.post('/creategroup',function(req,res)
+{
+  console.log(req.body);
+  var groupdetails= [req.body.formobj.groupsname,req.body.formobj.category];
+  var insertintogrouptable= "INSERT INTO `itemgroupnametable`(`itemgroupname`, `groupcategory`) VALUES ?";
+  con.query(insertintogrouptable,[[groupdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.json({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.json({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+app.post('/createcategory',function(req,res)
+{
+  console.log(req.body);
+  var categorydetails= [req.body.formobj.cateogoryname];
+  var insertintocategorytable= "INSERT INTO `groupcategory`(`categoryname`) VALUES ?";
+  con.query(insertintocategorytable,[[categorydetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.json({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.json({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
 app.get('/billing', function(req, res) {
     res.render('pages/billing');
 });
 
 // about page 
-app.get('/payment', function(req, res) {
-  var accountquery = "SELECT * from groups; SELECT * from paymenttable";
+app.get('/voucher', function(req, res) {
+  var accountquery = "SELECT * from groups; SELECT * from paymenttable;SELECT * from accountinformation;SELECT * from itemtable; SELECT * from itemgroupnametable; SELECT * from groupcategory";
     con.query(accountquery,function(err,results,fields)
     {
       // console.log(results[0]);
@@ -76,7 +149,7 @@ app.get('/payment', function(req, res) {
     }
 
     console.log(transactionno);
-     res.render('pages/payment',{results:results[0],transactionno:transactionno});
+     res.render('pages/payment',{error:'',results:results[0],accountinformations:results[2],transactionno:transactionno,'itemtable':results[3],'itemgrouplist':results[4],'itemcategorylist':results[5]});
     }
     );
     // res.render('pages/payment',);

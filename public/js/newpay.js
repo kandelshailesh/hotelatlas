@@ -400,144 +400,144 @@ function submitdata(event) {
     // console.log(a);
 }
 
-$("[id^=accounttype]").on('keyup', function(event) {
-    var value = event.target.value;
-    var targetid = event.target.id.split('-')[1];
-    console.log(targetid);
-    var a = event.target.value;
-    // $("#accountlist-"+targetid).text('');
+// $("[id^=accounttype]").on('keyup', function(event) {
+//     var value = event.target.value;
+//     var targetid = event.target.id.split('-')[1];
+//     console.log(targetid);
+//     var a = event.target.value;
+//     // $("#accountlist-"+targetid).text('');
 
-    console.log(a);
-    // var list=$("li#accounttype")?0:$("li#accounttype").length; 
-    // console.log("list is"+ list);
-    // $("#accountlist-1").html('');
-    if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
-        // $('#accountlist-1').show();
-        $.ajax({
-            type: 'post',
-            url: 'accountreturn',
-            data: { a },
-            success: function(data) {
-                // $("#accountlist-1").text('');
-                // $("#accountlist-"+targetid).text('');
-                $("#accountlist-" + targetid).text('');
+//     console.log(a);
+//     // var list=$("li#accounttype")?0:$("li#accounttype").length; 
+//     // console.log("list is"+ list);
+//     // $("#accountlist-1").html('');
+//     if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+//         // $('#accountlist-1').show();
+//         $.ajax({
+//             type: 'post',
+//             url: 'accountreturn',
+//             data: { a },
+//             success: function(data) {
+//                 // $("#accountlist-1").text('');
+//                 // $("#accountlist-"+targetid).text('');
+//                 $("#accountlist-" + targetid).text('');
 
-                console.log(data.result);
-                console.log(data.result.length);
-                if(data.result.length>0)
-                {
-                for (var i = 0; i < data.result.length; i++) {
+//                 console.log(data.result);
+//                 console.log(data.result.length);
+//                 if(data.result.length>0)
+//                 {
+//                 for (var i = 0; i < data.result.length; i++) {
 
-                    // console.log(data.result[i]['accountname']
-                    $("#accountlist-" + targetid).removeClass('d-none');
+//                     // console.log(data.result[i]['accountname']
+//                     $("#accountlist-" + targetid).removeClass('d-none');
 
-                    // $("#accountlist-"+targetid).append(`<li style="width:200px; height:25px; border:1px solid black;" onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
-                    $("#accountlist-" + targetid).append(`<li class="list-group-item" style="width:100% !important; " onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
+//                     // $("#accountlist-"+targetid).append(`<li style="width:200px; height:25px; border:1px solid black;" onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
+//                     $("#accountlist-" + targetid).append(`<li class="list-group-item" style="width:100% !important; " onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
              
-                }
-              }
-              else
-              {
-                // alert("Spelling error");
-                event.target.value=event.target.value.slice(0,-1);
-                a=event.target.value;
-                 $.ajax({
-            type: 'post',
-            url: 'accountreturn',
-            data: {a},
-            success: function(data) {
-                // $("#accountlist-1").text('');
-                // $("#accountlist-"+targetid).text('');
-        $("#accountlist-" + targetid).text('');
+//                 }
+//               }
+//               else
+//               {
+//                 // alert("Spelling error");
+//                 event.target.value=event.target.value.slice(0,-1);
+//                 a=event.target.value;
+//                  $.ajax({
+//             type: 'post',
+//             url: 'accountreturn',
+//             data: {a},
+//             success: function(data) {
+//                 // $("#accountlist-1").text('');
+//                 // $("#accountlist-"+targetid).text('');
+//         $("#accountlist-" + targetid).text('');
 
 
-                console.log(data.result);
-                console.log(data.result.length);
-                for (var i = 0; i < data.result.length; i++) 
-                {
-                    // console.log(data.result[i]['accountname']
-                    $("#accountlist-" + targetid).removeClass('d-none');
+//                 console.log(data.result);
+//                 console.log(data.result.length);
+//                 for (var i = 0; i < data.result.length; i++) 
+//                 {
+//                     // console.log(data.result[i]['accountname']
+//                     $("#accountlist-" + targetid).removeClass('d-none');
 
-                    // $("#accountlist-"+targetid).append(`<li class="list-group-item" style="width:200px; height:25px; border:1px solid black;" onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
-                    $("#accountlist-" + targetid).append(`<li class="list-group-item" style="width:100% !important; " onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
-                }
+//                     // $("#accountlist-"+targetid).append(`<li class="list-group-item" style="width:200px; height:25px; border:1px solid black;" onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
+//                     $("#accountlist-" + targetid).append(`<li class="list-group-item" style="width:100% !important; " onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
+//                 }
                 
-            }
+//             }
 
 
 
 
-        });
+//         });
 
 
 
-              }
-            }
-
-
-
-
-        });
-    } else if (event.keyCode < 36 || event.keyCode > 41) {
-        // $("#accountlist-" + targetid).text('');
-        $.ajax({
-            type: 'post',
-            url: 'accountreturn',
-            data: { a },
-            success: function(data) {
-                // $("#accountlist-1").text('');
-                // $("#accountlist-"+targetid).text('');
-        $("#accountlist-" + targetid).text('');
-
-
-                console.log(data.result);
-                console.log(data.result.length);
-                for (var i = 0; i < data.result.length; i++) {
-
-                    // console.log(data.result[i]['accountname']
-                    $("#accountlist-" + targetid).removeClass('d-none');
-
-                    // $("#accountlist-"+targetid).append(`<li class="list-group-item" style="width:200px; height:25px; border:1px solid black;" onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
-                    $("#accountlist-" + targetid).append(`<li class="list-group-item" style="width:100% !important; " onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
-                }
-            }
+//               }
+//             }
 
 
 
 
-        });
+//         });
+//     } else if (event.keyCode < 36 || event.keyCode > 41) {
+//         // $("#accountlist-" + targetid).text('');
+//         $.ajax({
+//             type: 'post',
+//             url: 'accountreturn',
+//             data: { a },
+//             success: function(data) {
+//                 // $("#accountlist-1").text('');
+//                 // $("#accountlist-"+targetid).text('');
+//         $("#accountlist-" + targetid).text('');
 
-    }
+
+//                 console.log(data.result);
+//                 console.log(data.result.length);
+//                 for (var i = 0; i < data.result.length; i++) {
+
+//                     // console.log(data.result[i]['accountname']
+//                     $("#accountlist-" + targetid).removeClass('d-none');
+
+//                     // $("#accountlist-"+targetid).append(`<li class="list-group-item" style="width:200px; height:25px; border:1px solid black;" onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
+//                     $("#accountlist-" + targetid).append(`<li class="list-group-item" style="width:100% !important; " onclick="javascript:selectaccount(event);" id="accounttype">${data.result[i]['accountname']}</li>`);
+//                 }
+//             }
 
 
-    console.log(a);
-    var targetid = event.target.id.split('-')[1];
-    length = value.length;
-    if (length > 0) {
-        if ($(`#accounttype-${targetid}`).hasClass('border-danger')) {
-            $(`#accounttype-${targetid}`).removeClass('border-danger')
-        }
-        checktotaldc('event');
-    }
-});
-$("[id^=credit]").on('keyup', function(event) {
-    var value = event.target.value;
-    var targetid = event.target.id.split('-')[1];
-    // length= value.length;
-    if (value > 0) {
-        if ($(`#credit-${targetid}`).hasClass('border-danger')) {
-            $(`#credit-${targetid}`).removeClass('border-danger')
-            checktotaldc('event');
 
-        }
-    } else {
-        if (!$(`#credit-${targetid}`).hasClass('border-danger')) {
-            $(`#credit-${targetid}`).addClass('border-danger');
-            checktotaldc('event');
 
-        }
-    }
-});
+//         });
+
+//     }
+
+
+//     console.log(a);
+//     var targetid = event.target.id.split('-')[1];
+//     length = value.length;
+//     if (length > 0) {
+//         if ($(`#accounttype-${targetid}`).hasClass('border-danger')) {
+//             $(`#accounttype-${targetid}`).removeClass('border-danger')
+//         }
+//         checktotaldc('event');
+//     }
+// });
+// $("[id^=credit]").on('keyup', function(event) {
+//     var value = event.target.value;
+//     var targetid = event.target.id.split('-')[1];
+//     // length= value.length;
+//     if (value > 0) {
+//         if ($(`#credit-${targetid}`).hasClass('border-danger')) {
+//             $(`#credit-${targetid}`).removeClass('border-danger')
+//             checktotaldc('event');
+
+//         }
+//     } else {
+//         if (!$(`#credit-${targetid}`).hasClass('border-danger')) {
+//             $(`#credit-${targetid}`).addClass('border-danger');
+//             checktotaldc('event');
+
+//         }
+//     }
+// });
 
 function selectaccount(event) {
     console.log("Clicked list");
@@ -599,40 +599,40 @@ $("[id^=items]").on('keyup', function(event) {
     }
     $("#totalamount").text(total);
 });
-$("[id^=itemname]").on('keyup', function(event) {
+// $("[id^=itemname]").on('keyup', function(event) {
 
-    // var a=String.fromCharCode(event.which);
-    console.log(event.which);
+//     // var a=String.fromCharCode(event.which);
+//     console.log(event.which);
 
-    var items = [{ 'item': 'Momo', 'price': 100 }, { 'item': 'Chicken', 'price': 100 }, { 'item': 'Coffee', 'price': 55 }, { 'item': 'Tea', 'price': 30 }, { 'item': 'Rice', 'price': 250 }, { 'item': 'Chowmein', 'price': 100 }];
-    var targetids = event.target.id.split('-');
-    var targetid = targetids[1];
-    console.log(targetid);
+//     var items = [{ 'item': 'Momo', 'price': 100 }, { 'item': 'Chicken', 'price': 100 }, { 'item': 'Coffee', 'price': 55 }, { 'item': 'Tea', 'price': 30 }, { 'item': 'Rice', 'price': 250 }, { 'item': 'Chowmein', 'price': 100 }];
+//     var targetids = event.target.id.split('-');
+//     var targetid = targetids[1];
+//     console.log(targetid);
 
-    if (event.which !== 16) {
-        $('#itemlist-' + targetid).text('');
-        for (i = 0; i < items.length; i++) {
-            var a = $('#itemname-' + targetid).val();
-            console.log(a);
-            var b = a.toUpperCase();
-            var c = a.toLowerCase();
-            console.log(b);
-            console.log(c);
-            if (a !== '') {
-                if (items[i]['item'].indexOf(a) !== -1 || items[i]['item'].indexOf(b) !== -1 || items[i]['item'].indexOf(c) !== -1) {
-                    console.log(items[i]['item']);
-                    $('#itemlist-' + targetid).show();
-                    if ($('#itemlist-' + targetid).hasClass('d-none')) {
-                        $('#itemlist-' + targetid).removeClass('d-none');
-                    }
-                    $('#itemlist-' + targetid).append(`<p id=${i} onclick="javascript:addprice(event,${targetid});" style='font-size:12px; color:blue; margin-top:0px; height:25px; padding-top:5px; width:310px;'>${items[i]['item']}</p><hr style="margin-top:-5px; margin-bottom:0px; background-color:green;" size="5" />`);
-                }
+//     if (event.which !== 16) {
+//         $('#itemlist-' + targetid).text('');
+//         for (i = 0; i < items.length; i++) {
+//             var a = $('#itemname-' + targetid).val();
+//             console.log(a);
+//             var b = a.toUpperCase();
+//             var c = a.toLowerCase();
+//             console.log(b);
+//             console.log(c);
+//             if (a !== '') {
+//                 if (items[i]['item'].indexOf(a) !== -1 || items[i]['item'].indexOf(b) !== -1 || items[i]['item'].indexOf(c) !== -1) {
+//                     console.log(items[i]['item']);
+//                     $('#itemlist-' + targetid).show();
+//                     if ($('#itemlist-' + targetid).hasClass('d-none')) {
+//                         $('#itemlist-' + targetid).removeClass('d-none');
+//                     }
+//                     $('#itemlist-' + targetid).append(`<p id=${i} onclick="javascript:addprice(event,${targetid});" style='font-size:12px; color:blue; margin-top:0px; height:25px; padding-top:5px; width:310px;'>${items[i]['item']}</p><hr style="margin-top:-5px; margin-bottom:0px; background-color:green;" size="5" />`);
+//                 }
 
 
-            }
-        }
-    }
-})
+//             }
+//         }
+//     }
+// })
 
 const addprice = (event, id) => {
     var items = [{ 'item': 'Momo', 'price': 100 }, { 'item': 'Chicken', 'price': 100 }, { 'item': 'Coffee', 'price': 55 }, { 'item': 'Tea', 'price': 30 }, { 'item': 'Rice', 'price': 250 }, { 'item': 'Chowmein', 'price': 100 }];
@@ -733,69 +733,69 @@ function accountselect()
     }
   // });
 }
-$("[id^=accounttype]").keyup(function(e) {
-    var li = $('li#accounttype');
-    var targetid = e.target.id.split('-')[1];
-    console.log(li);
-    console.log(e.which);
-    console.log(targetid);
-    var text = event.target.value;
-    console.log(text);   
-    if (e.which === 40) {
-        console.log("Succeed on down arrow");
-        if (liSelected) {
-            liSelected.removeClass('selected');
-            next = liSelected.next();
-            if (next.length > 0) {
-                liSelected = next.addClass('selected');
-                $(`#accounttype-${targetid}`).val($('li.selected').text())
-                console.log($('li.selected').text());
+// $("[id^=accounttype]").keyup(function(e) {
+//     var li = $('li#accounttype');
+//     var targetid = e.target.id.split('-')[1];
+//     console.log(li);
+//     console.log(e.which);
+//     console.log(targetid);
+//     var text = event.target.value;
+//     console.log(text);   
+//     if (e.which === 40) {
+//         console.log("Succeed on down arrow");
+//         if (liSelected) {
+//             liSelected.removeClass('selected');
+//             next = liSelected.next();
+//             if (next.length > 0) {
+//                 liSelected = next.addClass('selected');
+//                 $(`#accounttype-${targetid}`).val($('li.selected').text())
+//                 console.log($('li.selected').text());
 
-            } else {
-                liSelected = li.eq(0).addClass('selected');
-                $(`#accounttype-${targetid}`).val($('li.selected').text())
+//             } else {
+//                 liSelected = li.eq(0).addClass('selected');
+//                 $(`#accounttype-${targetid}`).val($('li.selected').text())
 
-            }
-        } else {
-            liSelected = li.eq(0).addClass('selected');
-            $(`#accounttype-${targetid}`).val($('li.selected').text())
+//             }
+//         } else {
+//             liSelected = li.eq(0).addClass('selected');
+//             $(`#accounttype-${targetid}`).val($('li.selected').text())
 
-        }
-    } else if (e.which === 38) {
-        if (liSelected) {
-            liSelected.removeClass('selected');
-            next = liSelected.prev();
-            if (next.length > 0) {
-                liSelected = next.addClass('selected');
-                $(`#accounttype-${targetid}`).val($('li.selected').text())
+//         }
+//     } else if (e.which === 38) {
+//         if (liSelected) {
+//             liSelected.removeClass('selected');
+//             next = liSelected.prev();
+//             if (next.length > 0) {
+//                 liSelected = next.addClass('selected');
+//                 $(`#accounttype-${targetid}`).val($('li.selected').text())
 
-            } else {
-                liSelected = li.last().addClass('selected');
+//             } else {
+//                 liSelected = li.last().addClass('selected');
 
-                $(`#accounttype-${targetid}`).val($('li.selected').text())
-            }
-        } else {
-            liSelected = li.last().addClass('selected');
-            $(`#accounttype-${targetid}`).val($('li.selected').text())
+//                 $(`#accounttype-${targetid}`).val($('li.selected').text())
+//             }
+//         } else {
+//             liSelected = li.last().addClass('selected');
+//             $(`#accounttype-${targetid}`).val($('li.selected').text())
 
-        }
-    } else if (e.which === 13) {
-        console.log("pressed enter");
-        // $("#credit-"+targetid).focus();
-        // $("#debit-"+targetid).focus();
-        // $(`#accounttype-${targetid}`).val($('li#accounttype.selected:nth-child(1)'.text()));
-        $('#accountlist-' + targetid).html('');
-
-
+//         }
+//     } else if (e.which === 13) {
+//         console.log("pressed enter");
+//         // $("#credit-"+targetid).focus();
+//         // $("#debit-"+targetid).focus();
+//         // $(`#accounttype-${targetid}`).val($('li#accounttype.selected:nth-child(1)'.text()));
+//         $('#accountlist-' + targetid).html('');
 
 
-    }
-    // else if (e.which === 27) {
-    //     $("#syrInputForm").val('');
-    //     $("#suggest-results").html('&nbsp;');
-    //     return false;
-    // }
-});
+
+
+//     }
+//     // else if (e.which === 27) {
+//     //     $("#syrInputForm").val('');
+//     //     $("#suggest-results").html('&nbsp;');
+//     //     return false;
+//     // }
+// });
 // $('input').keydown( function(e) {
 //         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
 //         if(key == 13) {

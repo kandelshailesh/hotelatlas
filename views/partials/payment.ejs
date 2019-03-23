@@ -9,34 +9,53 @@
                     <h6 class='dates text-dark d-inline float-right mr-5'>Date:</h6>
                 </div>
             </div>
-            <form id="paymenttranscation" onkeypress="return event.keyCode != 13;" onsubmit="return false" action="" method="post">
+            <form id="paymenttranscation" onkeypress="return event.keyCode != 13;" onsubmit="return false" action="" method="post" autocomplete="off">
                 <div style="max-height: 400px;" class="table-responsive mt-5">
                     <table class="paymentheader table table-bordered  paymenttable">
                         <tr class=" m-0 bg-dark text-white row text-center">
                             <th class="col-md-1">S.N.</th>
                             <th class="col-md-1">D/C</th>
-                            <th class="col-md-3">Account</th>
-                            <th class="col-md-2">Debit(Rs.)</th>
-                            <th class="col-md-2">Credit(Rs.)</th>
-                            <th class="col-md-3">Short Narration</th>
+                            <th class="col-md-4">Account</th>
+                            <th class="col-md-3">Debit(Rs.)</th>
+                            <th class="col-md-3">Credit(Rs.)</th>
+                         
                         </tr>
                     </table>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 ml-5"></div>
-                    <label class="d-inline form-control-sm text-center  col-md-2 " id="totaldebit">Rs.0</label>
-                    <label class="d-inline form-control-sm col-md-2  text-center" id="totalcredit">Rs.0</label>
-                    <button type="reset" class="btn ml-5 d-none resetpayment justify-content-center  btn-primary"> Reset
-                    </button>
-                    <div class="col-md-1"></div>
-                    <button type="submit"  class="btn ml-5 col-md-1 ml-5 w-25 btn-sm float-right btn-primary"> Submit
+        
+                    <div class="col-md-6 mr-5">
+
+                      <textarea rows="3" cols="50" placeholder="Narration..."></textarea>
+                    </div>
+                    <div class="col-md-2">
+                    <label>Rs.</label><label class=" text-center ml-1 mr-3" id="totaldebit">0</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="ml-5">Rs.</label><label  id="totalcredit">0</label>
+                    <button type="reset" class="btn d-none resetpayment justify-content-center  btn-primary"> Reset
                     </button>
                 </div>
+                    
+                </div>
+       
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2 mt-n2">
+                        <button type="submit" class="btn btn-primary"> Submit
+                    </button>
+                </div>
+
+                </div>
+                
+
             </form>
         </div>
         <% include ../partials/sales %>
-        <% include ../partials/createitem %>
+        <% include ../partials/itemcreate %>
         <% include ../partials/itemgroupcreate %>
+        <% include ../partials/itemcategorycreate %>
+
 
 
 
@@ -160,7 +179,7 @@
             <a class="nav-link" style="border:1px solid black;" onclick="javascript:contraform();"  href="#">Contra</a>
              <a class="nav-link" style="border:1px solid black;" onclick="javascript:receiptform();"  href="#">Receipt</a>
                    <a   onclick="javascript:journalform(event);" style="border:1px solid black;" class="nav-link" href="#" > Journal</a>
-            <a   onclick="javascript:salesform(event);" style="border:1px solid black;" class="nav-link" href="#" >Sales</a>
+            <a    style="border:1px solid black;" class="nav-link" href="/billing" >Sales</a>
      
             <a onclick="javascript:purchaseform(event);" style="border:1px solid black;" class="nav-link" href="#" > Purchase</a>
         </nav>

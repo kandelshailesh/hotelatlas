@@ -1,0 +1,44 @@
+   <datalist id="accountnamelist">
+      <% accountinformations.forEach(function(result) { %>
+ 
+    <option value='<%= result.accountname %>'>
+                                       <%= result.accountname %>
+                                    </option>
+                                    <%  }); %>
+  </datalist>
+
+    <datalist id="dctypelist">
+     
+ 
+    <option>c</option>
+    <option>d</option>
+
+             
+  </datalist>
+    <datalist id="itemnamelist">
+      <% itemtable.forEach(function(result) { %>
+ 
+    <option value='<%= result.itemname %>'>
+                                       <%= result.itemgroup %>
+                                    </option>
+                                    <%  }); %>
+  </datalist>
+
+   <datalist id="itemgrouplist">
+      <% itemgrouplist.forEach(function(result) { %>
+ 
+    <option value='<%= result.itemgroupname%>'>
+                                       <%= result.itemgroupname %>
+                                    </option>
+                                    <%  }); %>
+  </datalist>
+
+
+ <datalist id="itemcategorylist">
+      <% itemcategorylist.forEach(function(result) { %>
+ 
+    <option value='<%= result.itemgroupname%>'>
+                                       <%= result.itemgroupname %>
+                                    </option>
+                                    <%  }); %>
+  </datalist>
