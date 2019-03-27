@@ -13,21 +13,21 @@ var MySQLEvents = require('mysql-events');
 //   multipleStatements: true
 // });
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "hotelatlas",
-  password: "Hotel@atlas123",
-  database: "hotelatlas",
-  multipleStatements: true
-});
 // var con = mysql.createConnection({
 //   host: "localhost",
-//   user: "root",
-//   password: "",
-//   port: 3308,
-//   database:'hotelatlas',
+//   user: "hotelatlas",
+//   password: "Hotel@atlas123",
+//   database: "hotelatlas",
 //   multipleStatements: true
 // });
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  port: 3308,
+  database:'hotelatlas',
+  multipleStatements: true
+});
 // var newcon= {host: "localhost",
 //   user: "root",
 //   password: "",
