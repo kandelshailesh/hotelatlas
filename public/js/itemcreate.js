@@ -82,7 +82,7 @@ function reportKeyEvent(zEvent) {
 
 $('form.iteminformations').on('submit',function(e)
 {
-    // e.preventDefault();
+    e.preventDefault();
 
     var itemcreateform = $(".iteminformations").serializeArray();
     var formObj = {};
