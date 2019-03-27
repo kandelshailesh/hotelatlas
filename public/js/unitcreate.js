@@ -98,6 +98,8 @@ $('form.unitinformations').on('submit',function(e)
             error: function(data) {
                 // var data=JSON.parse(data);
                 console.log(data.result);
+
+                alert("Unit name already in the list");
             },
             success: function(data) {
             

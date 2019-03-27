@@ -97,6 +97,8 @@ $('form.itemgroupinformations').on('submit',function(e)
             error: function(data) {
                 // var data=JSON.parse(data);
                 console.log(data.result);
+                alert("Group name already in the list");
+
             },
             success: function(data) {
                 if(data.message==='Enter valid data')
