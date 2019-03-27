@@ -15,17 +15,64 @@
     <main>
         <% include ../partials/payment %>
         <% include ../partials/accountinformation %>
-
     </main>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://unpkg.com/nepali-date-picker@2.0.0/dist/jquery.nepaliDatePicker.min.js" integrity="sha384-bBN6UZ/L0DswJczUYcUXb9lwIfAnJSGWjU3S0W5+IlyrjK0geKO+7chJ7RlOtrrF" crossorigin="anonymous"></script>
+    <script>
+    <% if(paymentno[0]['transactionno']!==undefined){ %>
+    var paymentno = parseInt(`<%= paymentno[0]['transactionno'] %>`) + 1
+
+    <% } else { %>
+
+    var paymentno = 1;
+    <% } %>
+
+    console.log(paymentno);
+
+    <% if(receiptno[0]!==undefined){ %>
+    var receiptno = parseInt(`<%= receiptno[0]['transactionno'] %>`) + 1;
+
+    <% } else { %>
+
+    var receiptno = 1;
+    <% } %>
+
+    console.log(receiptno);
+
+    <% if(contrano[0]!==undefined){ %>
+    var contrano = parseInt(`<%= contrano[0]['transactionno'] %>`) + 1;
+
+    <% } else { %>
+
+    var contrano = 1;
+    <% } %>
+    <% if(journalno[0]!==undefined){ %>
+    var journalno = parseInt(`<%= journalno[0]['transactionno'] %>`) + 1;
+
+    <% } else { %>
+
+    var journalno = 1;
+    <% } %>
+    <% if(purchaseno[0]!==undefined){ %>
+    var purchaseno = parseInt(`<%= purchaseno[0]['purchaseno']%>`) + 1;
+
+    <% } else { %>
+
+    var purchaseno = 1;
+    <% } %>
+      <% if(salesno[0]!==undefined){ %>
+    var salesno = parseInt(`<%= salesno[0]['salesno']%>`) + 1;
+
+    <% } else { %>
+
+    var salesno = 1;
+    <% } %>
+    </script>
     <script src="../js/sales.js"></script>
     <script src="../js/itemcreate.js"></script>
     <script src="../js/itemgroupcreate.js"></script>
     <script src="../js/itemcategorycreate.js"></script>
-
     <script src="../js/payment.js"></script>
-    
 </body>
 
 </html>

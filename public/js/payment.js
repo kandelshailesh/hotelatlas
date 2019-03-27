@@ -18,10 +18,10 @@ console.log(monthdata);
 $("#report").click(function() {
     $(".reportlist").toggle();
 });
-console.log(Cookies.get('paymentno'));
-var paymentno = Cookies.get('paymentno');
-$(".paymentno").text(paymentno);
-var liSelected;
+// console.log(Cookies.get('paymentno'));
+// var paymentno = Cookies.get('paymentno');
+// $(".paymentno").text(paymentno);
+// var liSelected;
 // $(window).keydown(function(e) {
 //         var li = $('li#accounttype');
 //         var targetid= e.target.id.split('-')[1];
@@ -81,13 +81,14 @@ for (var i = 1; i < 2; i++) {
 
     $('.paymenttable').append(`<tr  class=" m-0 row text-center">
       <td id="sn" class="col-md-1  ">${i}</td>
-      <td   class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-${i}" type="text" maxlength="1" oninput="javascript:oninputdctype(event);" />
+      <td   class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-${i}" type="text" required maxlength="1" oninput="javascript:oninputdctype(event);" />
 
-      <td  class="col-md-4 p-0"><input list="accountnamelist" name="accounttype-${i}" id="accounttype-${i}" type="text" class="form-control text-center" disabled /></td>
-      <td  class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="debit" id="debit-${i}"  type="number" min="0" class="form-control" disabled /></td>
-      <td   class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="credit" id="credit-${i}"  type="number" min="0" class="form-control" disabled/></td>
+      <td  class="col-md-4 p-0"><input list="accountnamelist" name="accounttype" id="accounttype-${i}" type="text" class="form-control text-center" disabled required /></td>
+      <td  class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="debit-${i}"  type="number" min="0" class="form-control" required disabled /></td>
+      <td   class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="credit-${i}"  type="number" min="0" class="form-control" required disabled/></td>
      
     </tr>`)
+
 }
 
 function createnewpayment(e)
@@ -105,13 +106,13 @@ function createnewpayment(e)
     if($(`#accounttype-${i}`).length === 0 && e.keyCode===
         13)
   {
-        $('.paymenttable').append(`<tr  class=" m-0 row text-center">
+          $('.paymenttable').append(`<tr  class=" extraadded m-0 row text-center">
       <td id="sn" class="col-md-1  ">${i}</td>
-      <td   class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-${i}" type="text" maxlength="1" oninput="javascript:oninputdctype(event);" />
+      <td   class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-${i}" type="text" required maxlength="1" oninput="javascript:oninputdctype(event);" />
 
-      <td  class="col-md-4 p-0"><input list="accountnamelist" name="accounttype-${i}" id="accounttype-${i}" type="text" class="form-control text-center" disabled /></td>
-      <td  class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="debit" id="debit-${i}"  type="number" min="0" class="form-control" disabled /></td>
-      <td   class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="credit" id="credit-${i}"  type="number" min="0" class="form-control" disabled/></td>
+      <td  class="col-md-4 p-0"><input list="accountnamelist" name="accounttype" id="accounttype-${i}" type="text" class="form-control text-center" disabled required /></td>
+      <td  class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="debit-${i}"  type="number" min="0" class="form-control" required disabled /></td>
+      <td   class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="credit-${i}"  type="number" min="0" class="form-control" required disabled/></td>
      
     </tr>`)
 }
@@ -275,25 +276,34 @@ function keypresshandler(event) {
         return false;
 }
 
+
 function paymentform() {
     $("#transactiontitle").text('Payment');
+        $('#transactionno').text(paymentno)
+
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
     }
-    $("#accountname").focus();
+
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
+         $('#transactionno').text(purchaseno)
+
     }
 
 }
 
 function receiptform() {
     $("#transactiontitle").text('Receipt');
+         $('#transactionno').text(receiptno)
+
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
     }
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
+         $('#transactionno').text(purchaseno)
+
     }
 
 
@@ -301,11 +311,15 @@ function receiptform() {
 
 function journalform(event) {
     $("#transactiontitle").text('Journal');
+         $('#transactionno').text(journalno)
+
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
     }
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
+         $('#transactionno').text(purchaseno)
+
     }
 
 
@@ -314,39 +328,122 @@ function journalform(event) {
 
 function contraform(event) {
     $("#transactiontitle").text('Contra');
+         $('#transactionno').text(contrano);
+
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+         alert("COntra");
     }
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
+         $('#transactionno').text(purchaseno)
+
     }
 }
 
 
 function salesform(event) {
     $("#transactiontitle1").text('Sales');
+    $('#transactionno1').text(salesno)
+
     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').addClass('d-none');
     }
-    $("#accountname").focus();
-
     if ($(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").removeClass('d-none');
+
+
     }
 
 }
 
 function purchaseform(event) {
+         $('#transactionno1').text(purchaseno)
+
     $("#transactiontitle1").text('Purchase');
     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').addClass('d-none');
     }
-    $("#accountname").focus();
-
     if ($(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").removeClass('d-none');
     }
 }
+
+// function paymentform() {
+//     $("#transactiontitle").text('Payment');
+//     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
+//         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+//     }
+//     $("#accountname").focus();
+//     if (!$(".salespurchaseform").hasClass('d-none')) {
+//         $(".salespurchaseform").addClass('d-none');
+//     }
+
+// }
+
+// function receiptform() {
+//     $("#transactiontitle").text('Receipt');
+//     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
+//         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+
+//     }
+//     $("#accountname").focus();
+//     if (!$(".salespurchaseform").hasClass('d-none')) {
+//         $(".salespurchaseform").addClass('d-none');
+//     }
+
+
+
+// }
+
+// function journalform(event) {
+//     $("#transactiontitle").text('Journal');
+//     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
+//         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+//     }
+//     if (!$(".salespurchaseform").hasClass('d-none')) {
+//         $(".salespurchaseform").addClass('d-none');
+//     }
+
+
+
+// }
+
+// function contraform(event) {
+//     $("#transactiontitle").text('Contra');
+//     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
+//         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+//     }
+//     if (!$(".salespurchaseform").hasClass('d-none')) {
+//         $(".salespurchaseform").addClass('d-none');
+//     }
+// }
+
+
+// function salesform(event) {
+//     $("#transactiontitle1").text('Sales');
+//     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
+//         $('.paymentreceiptjournalcontraform').addClass('d-none');
+//     }
+//     $("#accountname").focus();
+
+//     if ($(".salespurchaseform").hasClass('d-none')) {
+//         $(".salespurchaseform").removeClass('d-none');
+//     }
+
+// }
+
+// function purchaseform(event) {
+//     $("#transactiontitle1").text('Purchase');
+//     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
+//         $('.paymentreceiptjournalcontraform').addClass('d-none');
+//     }
+//     $("#accountname").focus();
+
+//     if ($(".salespurchaseform").hasClass('d-none')) {
+//         $(".salespurchaseform").removeClass('d-none');
+//     }
+// }
 
 
 // function submitdata(event) {
@@ -355,74 +452,117 @@ function purchaseform(event) {
     e.preventDefault();
     var paymentform = $("#paymenttranscation").serializeArray();
     console.log($("#paymenttranscation").serializeArray());
-    var o = [];
+    console.log("payment submit is "+paymentform);
+    var o = {};
     var op = [];
-    //  $.each(paymentform, function() {
-    //        if (o[this.name]) {
-    //            if (!o[this.name].push) {
-    //                o[this.name] = [o[this.name]];
-    //            }
-    //            o[this.name].push(this.value || '');
-    //        } else {
-    //            o[this.name] = this.value || '';
-    //        }
-    //    }); 
-    // console.log(o);
-    var count = 0;
-    var paymentlength = $("[id^=accounttype]:enabled").length;
-    console.log(paymentlength);
-
-    for (i = 0; i < paymentlength * 4; i = i + 4) {
-        console.log("Paymentform" + paymentform[i]);
-        if ((paymentform[i]['value'] == 'c' && paymentform[i + 2]['value'] !== '') && paymentform[i + 1]['value'] !== "") {
-            console.log([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], $("#transactiontitle").text(), parseInt($("#transactionid").text()) + 1]);
-            op.push([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], $("#transactiontitle").text(), parseInt($("#transactionid").text()) + 1]);
-            // op[count]={"dctype":paymentform[i]['value'],"accounttype":paymentform[i+1]['value'],"dcamount":paymentform[i+3]['value'],"narration":paymentform[i+4]['value']};
-            count++;
-        }
-        if ((paymentform[i]['value'] == 'd' && paymentform[i + 2]['value'] !== '') && paymentform[i + 1]['value'] !== "") {
-            console.log([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], parseInt($("#transactionid").text()) + 1]);
-            op.push([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], $("#transactiontitle").text(), parseInt($("#transactionid").text()) + 1]);
-            // op[count]={"dctype":paymentform[i]['value'],"accounttype":paymentform[i+1]['value'],"dcamount":paymentform[i+2]['value'],"narration":paymentform[i+4]['value']};
-            count++;
-        }
-
+    var transactiontitle = $("#transactiontitle").text();
+    var transactionno= $('#transactionno').text();
+    var paymentdate= $('#datemodify').val();
+    var narration= $('#narration').val();
+    $.each(paymentform, function(i,input) {
+    if(!o[input.name])
+    {
+        o[input.name]=[];
+        o['transactiontitle']=[];
+        o['transactionno']=[];
+        o['paymentdate']=[];
     }
+        }
+       );
+
+
+    
+
+
+
+
+
+     $.each(paymentform, function(i,input) {
+ 
+        if(o[input.name])
+        {
+           o[input.name].push(input.value);
+        }
+        else
+        { 
+           o[input.name]=input.value;
+         }
+        }
+       );
+
+
+    var lengthofname= o['accounttype'].length;
+
+for(i=0;i<lengthofname;i++)
+{
+o['transactiontitle'].push(transactiontitle);
+o['transactionno'].push(transactionno);
+o['paymentdate'].push(paymentdate);
+}
+console.table(o); 
+
+    // console.log(o);
+var count = 0;
+var paymentlength = $("[id^=accounttype]:enabled").length;
+console.log(paymentlength);
+var paymentdetails=[transactiontitle,transactionno,$('#totaldebit').text(),$('#totalcredit').text(),paymentdate,narration];
+console.log("Paymentdetails is ["+ paymentdetails+"]");
+    // for (i = 0; i < paymentlength * 4; i = i + 4) {
+    //     console.log("Paymentform" + paymentform[i]);
+    //     if ((paymentform[i]['value'] == 'c' && paymentform[i + 2]['value'] !== '') && paymentform[i + 1]['value'] !== "") {
+    //         console.log([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], $("#transactiontitle").text(), parseInt($("#transactionid").text()) + 1]);
+    //         op.push([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], $("#transactiontitle").text(), parseInt($("#transactionid").text()) + 1]);
+    //         // op[count]={"dctype":paymentform[i]['value'],"accounttype":paymentform[i+1]['value'],"dcamount":paymentform[i+3]['value'],"narration":paymentform[i+4]['value']};
+    //         count++;
+    //     }
+    //     if ((paymentform[i]['value'] == 'd' && paymentform[i + 2]['value'] !== '') && paymentform[i + 1]['value'] !== "") {
+    //         console.log([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], parseInt($("#transactionid").text()) + 1]);
+    //         op.push([paymentform[i]['value'], paymentform[i + 1]['value'], paymentform[i + 2]['value'], paymentform[i + 3]['value'], $("#transactiontitle").text(), parseInt($("#transactionid").text()) + 1]);
+    //         // op[count]={"dctype":paymentform[i]['value'],"accounttype":paymentform[i+1]['value'],"dcamount":paymentform[i+2]['value'],"narration":paymentform[i+4]['value']};
+    //         count++;
+    //     }
+
+    // }
     // op.push($("#transactiontitle").text());
     console.log(op);
-    if (($("#totalcredit").text() === $("#totaldebit").text()) && ($("[id^=accounttype]:enabled").length > 1)) {
+    if (($("#totalcredit").text() === $("#totaldebit").text())) {
         $.ajax({
             type: 'post',
-            url: 'paymentsubmit',
-            data: { op },
+            url: '/paymentsubmit',
+            data: { o:o,paymentdetails:paymentdetails},
+            async:false,
             error: function(data) {
                 // var data=JSON.parse(data);
-                console.log(data.result);
+                alert("Transaction didn't get completed. Please try again.")
+                // console.log(data.result);
             },
             success: function(data) {
                 console.log(data);
-                var transactiontitle = $("#transactiontitle").text();
-                if (transactiontitle === 'Sales') {
-                    if (Cookies.get('salesno') == undefined) {
-                        Cookies.set('salesno', 0, { expires: 1 });
-                    } else {
-                        var paymentnovalue = parseInt(Cookies.get('salesno')) + 1;
-                        Cookies.set('salesno', paymentnovalue, { expires: 1 });
-                    }
-                } else if (transactiontitle === 'Payment') {
-                    if (Cookies.get('paymentno') == undefined) {
-                        Cookies.set('paymentno', 0, { expires: 1 });
-                    } else {
-                        var paymentnovalue = parseInt(Cookies.get('paymentno')) + 1;
-                        Cookies.set('paymentno', paymentnovalue, { expires: 1 });
-                    }
+
+                console.log("payment no is "+contrano);
+               if (transactiontitle === 'Payment') {
+                    paymentno=Number(paymentno)+1;    
+                                $('#transactionno').text(paymentno)
+
                 } else if (transactiontitle === 'Contra') {
-                    if (Cookies.get('contrano') == undefined) {
-                        Cookies.set('contrano', 0, { expires: 1 });
-                    } else {
-                        var paymentnovalue = parseInt(Cookies.get('contrano')) + 1;
-                        Cookies.set('contrano', paymentnovalue, { expires: 1 });
-                    }
+                  contrano=Number(contrano)+1;
+                              $('#transactionno').text(contrano)
+
+                }
+                else if (transactiontitle === 'Purchase') {
+                  purchaseno=Number(purchaseno)+1;
+                $('#transactionno').text(purchaseno)
+
+
+                }else if (transactiontitle === 'Receipt') {
+                  receiptno=Number(receiptno)+1;
+                              $('#transactionno').text(receiptno)
+
+
+                }else if (transactiontitle === 'Journal') {
+                  journalno=Number(journalno)+1;
+                              $('#transactionno').text(journalno)
+
 
                 }
 
@@ -430,15 +570,17 @@ function purchaseform(event) {
                 console.log(data);
                 console.log(data.transactionno);
                 $("#transactionid").text(data.transactionno);
+
                 $('.resetpayment').click();
-                // $('.paymenttable').not([id^=dctype]).attr('disabled','disabled');
+                $('.extraadded').remove();
+                    // $('.paymenttable').not([id^=dctype]).attr('disabled','disabled');
                 $('.paymenttable td input').attr('disabled', 'disabled');
                 $("[id^=dctype]").removeAttr('disabled', 'disabled');
 
-                var paymentno = Cookies.get('paymentno');
-                $(".paymentno").text(paymentno);
-                $("#totalcredit").text('Rs. 0')
-                $("#totaldebit").text('Rs. 0')
+                // var paymentno = Cookies.get('paymentno');
+                // $(".paymentno").text(paymentno);
+                $("#totalcredit").text('0')
+                $("#totaldebit").text('0')
             }
 
         });
@@ -628,6 +770,9 @@ $('.dates').append(`<input  id='datemodify' class='ml-1 border-0 d-inline' value
 $('.times').append("<h6 class='timeupdate ml-1 d-inline'>" + currenttime + "</h6>");
 $('#datemodify').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
 
+$('#previousyear').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
+
+
                 // $("[id^=items]").on('keyup', function(event) {
                 //     var ids = event.target.id.split('-');
                 //     var id = ids[1];
@@ -702,43 +847,59 @@ const addprice = (event, id) => {
 }
 
 function submitaccount(event) {
-    // event.preventDefault();
+    event.preventDefault();
     var accountdata = $(".accountinformations").serializeArray();
     console.log(accountdata);
-    var accountdataarray = [];
+    formobj=[];
+    alert("Entered");
+
+    
+    // var inputs = $('#'+formId).serializeArray();
+    $.each(accountdata, function (i, input) {
+        formobj.push(input.value);
+    });
+ 
+
+    // var accountdataarray = [];
     var previousyeardate = $("#previousyear").val().split('-');
-    var converteddate = '';
-    for (var i = 0; i < 3; i++) {
-        if (i < 2) {
-            // console.log(calendarFunctions.getNumberByNepaliNumber("१२५"));
-            converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]) + '-';
-        } else {
-            converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]);
-        }
-        console.log(converteddate);
+    // var converteddate = '';
+    // for (var i = 0; i < 3; i++) {
+    //     if (i < 2) {
+    //         // console.log(calendarFunctions.getNumberByNepaliNumber("१२५"));
+    //         converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]) + '-';
+    //     } else {
+    //         converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]);
+    //     }
+    //     console.log(converteddate);
 
-    }
-    for (i = 0; i < accountdata.length; i++) {
-        if (accountdata[i]['value'] === "") {
-            accountdata[i]['value'] = 0;
-            console.log(accountdata[i]);
-        }
-        if (accountdata[i]['name'] == 'previousyear') {
-            accountdata[i]['value'] = converteddate;
-            console.log(accountdata[i]);
-        }
-        accountdataarray.push(accountdata[i].value);
-    }
+    // }
+    // for (i = 0; i < accountdata.length; i++) {
+    //     if (accountdata[i]['value'] === "") {
+    //         accountdata[i]['value'] = 0;
+    //         console.log(accountdata[i]);
+    //     }
+    //     if (accountdata[i]['name'] == 'previousyear') {
+    //         accountdata[i]['value'] = converteddate;
+    //         console.log(accountdata[i]);
+    //     }
+    //     accountdataarray.push(accountdata[i].value);
+    // }
 
-    console.log(accountdata);
-    console.log(accountdataarray);
+    // console.log(accountdata);
+    console.log(formobj);
     $.ajax({
         type: 'post',
-        url: 'accountsubmit',
-        data: { accountdataarray },
+        url: '/accountsubmit',
+        data: { formobj:formobj },
+        async:false,
         success: function(data) {
             console.log(data.result);
+            $('datalist#accountnamelist').append(`<option>${formobj[0]}</option>`);
             $("#closecreateaccount").click();
+        },
+        error:function(data)
+        {
+            alert("Accountname already in the list");
         }
     });
 
@@ -989,14 +1150,14 @@ $('#myModal').on('shown.bs.modal', function() {
     console.log("Entered");
     $(this).find('[autofocus]').focus();
 });
-$('#itemModal').on('shown.bs.modal', function() {
-    console.log("Entered");
-    $(this).find('[autofocus]').focus();
-});
-$('#itemgroupModal').on('shown.bs.modal', function() {
-    console.log("Entered");
-    $(this).find('[autofocus]').focus();
-});
+// $('#itemModal').on('shown.bs.modal', function() {
+//     console.log("Entered");
+//     $(this).find('[autofocus]').focus();
+// });
+// $('#itemgroupModal').on('shown.bs.modal', function() {
+//     console.log("Entered");
+//     $(this).find('[autofocus]').focus();
+// });
 
 // Form control on enter
 $('.contraform').on('keydown', 'input', function(e) {
@@ -1085,6 +1246,8 @@ $("#previousyear").nepaliDatePicker({
     minDate: "२०७०-१-२०",
     maxDate: formatedNepaliDate
 });
+
+
 
 
 

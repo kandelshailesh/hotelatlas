@@ -5,7 +5,13 @@
             <div class="row">
                 <div class="col-12 mt-2 billdata">
                     <br/>
-                    <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle">Payment</label><label class="ml-3">Number:</label><h6 class=' text-dark  ml-2 d-inline mr-5 paymentno'></h6>
+                    <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle">Payment</label><label class="ml-3">Number:</label>
+                          <% if(paymentno[0]['transactionno']!==undefined){ %>
+                          <h6 class=' text-dark  ml-2 d-inline mr-5 transactionno' id="transactionno"><%= paymentno[0]['transactionno'] + 1%></h6>
+                            <% } else { %>
+                            
+ <h6 class=' text-dark  ml-2 d-inline mr-5 paymentno'>0</h6>
+                        <% } %> 
                     <h6 class='dates text-dark d-inline float-right mr-5'>Date:</h6>
                 </div>
             </div>
@@ -26,7 +32,7 @@
         
                     <div class="col-md-6 mr-5">
 
-                      <textarea rows="3" cols="50" placeholder="Narration..."></textarea>
+                      <textarea rows="3" cols="50" id="narration" placeholder="Narration..."></textarea>
                     </div>
                     <div class="col-md-2">
                     <label>Rs.</label><label class=" text-center ml-1 mr-3" id="totaldebit">0</label>
@@ -109,7 +115,7 @@
                             </div>
                             <div class="modal-footer">
                                 <label style="font-size: 15px;">Amount from the previous year</label>
-                                <input id="previousyear" name="previousyear" style="width:100px !important; " type="text" class=" ml-2 form-control border-0 w-25 d-inline " />
+                                <input id="previousyear" name="previousyear" style="width:100px !important; " class="ml-2 form-control border-0 w-25 d-inline " />
                                 <input id="previousamount" name="previousamount" type="number" class=" ml-2 form-control border-0 d-inline w-50 " /><br>
                                 <button type="submit" onclick="javascript:submitaccount(event);" class="btn btn-primary">Save</button>
                                 <button type="reset" class="btn resetaccount d-none btn-secondary" id="closecreateaccount" data-dismiss="modal">Close</button>
@@ -179,11 +185,11 @@
             <a class="nav-link" style="border:1px solid black;" onclick="javascript:contraform();"  href="#">Contra</a>
              <a class="nav-link" style="border:1px solid black;" onclick="javascript:receiptform();"  href="#">Receipt</a>
                    <a   onclick="javascript:journalform(event);" style="border:1px solid black;" class="nav-link" href="#" > Journal</a>
-            <a    style="border:1px solid black;" class="nav-link" href="/billing" >Sales</a>
+            <a    style="border:1px solid black;" class="nav-link" onclick="javascript:salesform(event);" href="#" >Sales</a>
      
             <a onclick="javascript:purchaseform(event);" style="border:1px solid black;" class="nav-link" href="#" > Purchase</a>
         </nav>
     </div>
-    <p id="transactionid">
-        <%= transactionno  %>
-    </p>
+     <!-- <p id="transactionid">
+        <%= paymentno[0]  %>
+    </p> -->

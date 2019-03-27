@@ -94,28 +94,48 @@ $('form.iteminformations').on('submit',function(e)
             type: 'post',
             url: '/createitem',
             data: { formobj:formObj },
-            error: function(data) {
-                // var data=JSON.parse(data);
-                console.log(data.result);
-            },
+            async:false,
+            
             success: function(data) {
-                if(data.message==='Enter valid data')
-                {
+            
                 alert("Item added successfully");
-                $('.error-msg').text('Enter valid data');
-            }
-            else
-            {
-                alert("Submitted successfully");
+           
+            
+                // alert("Submitted successfully");
                 // $(".iteminformations").reset();
-                $('button.close').click();
+                $('button.closeitem').click();
                 $('form.iteminformations').trigger("reset");
                 // $('button.close').click();
 
                  $('#itemModal').modal('toggle');
                   $("#itemnamelist").append(`<option>${formObj.itemsname}</option>`);
+            },
+            error: function(data) {
+                // var data=JSON.parse(data);
+                alert("Item is already in the list");
+                console.log(data.result);
             }
-}
+
 })
 })
 
+
+
+$('body').on('shown.bs.modal', '#itemModal', function () {
+    alert("Entered")
+    $('input:visible:enabled:first', this).focus();
+})
+
+
+    $('#itemgroupModal').on('shown.bs.modal', function() {
+        console.log("Entered");
+         $(this).find('input').eq(0).focus();
+
+        // $(this).find('[autofocus]').focus();
+    });
+ $('#itemcategoryModal').on('shown.bs.modal', function() {
+        console.log("Entered");
+         $(this).find('input').eq(0).focus();
+
+        // $(this).find('[autofocus]').focus();
+    });

@@ -1,0 +1,113 @@
+<!-- views/pages/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+    <% include ../partials/stylepayment %>
+    <link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.0/dist/nepaliDatePicker.min.css" integrity="sha384-Fligaq3qH5qXDi+gnnhQctSqfMKJvH4U8DTA+XGemB/vv9AUHCwmlVR/B3Z4nE+q" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <main>
+        <% include ../partials/stock %>
+        <% include ../partials/stockinformation %>
+
+    </main>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://unpkg.com/nepali-date-picker@2.0.0/dist/jquery.nepaliDatePicker.min.js" integrity="sha384-bBN6UZ/L0DswJczUYcUXb9lwIfAnJSGWjU3S0W5+IlyrjK0geKO+7chJ7RlOtrrF" crossorigin="anonymous"></script>
+    <script>
+        $(document).on('change','select',function(e)
+        {
+        
+            var index=parseInt($('select#viewstockitem option:selected').index());
+            // alert(index);  
+           
+               if(index!==0)
+               {
+                $('div.searchstockitem').show();
+               }
+               else
+               {
+                $('div.searchstockitem').hide();
+
+               }
+                     for(i=1;i<4;i++)
+                 {
+                    if(index===i)
+                    {
+                    $('div.searchstockitem').find('input').eq(i-1).css('display','inline').focus();
+                    // show();
+                }
+                else
+                {
+                    $('div.searchstockitem').find('input').eq(i-1).css('display','none').focus();
+
+                }
+                }
+            
+        })
+
+        $('button.searchstock').on('click',function(e)
+        {
+        var index=parseInt($('select#viewstockitem option:selected').index());
+        var searchby=$('select#viewstockitem option:selected').val();
+        var senditem='';
+        if(index!==0)
+        {
+          for(i=1;i<4;i++)
+                 {
+                    if(index===i)
+                    {
+                    senditem= $('div.searchstockitem').find('input').eq(i-1).val();
+                                     // show()
+                    }   
+            }
+        }
+ var dynamictable=`<table class="table text-center table-bordered"><tr><th>S.N</th><th>Itemname</th><th>Remaining</th><th>Item group</th> <th> Item Category </th></tr><tr>`;
+
+            $.ajax({
+                url:'/searchstock',
+                type:'post',
+                async:false,
+                data:{index:index,searchby:searchby,senditem:senditem},
+                success:function(data)
+                {
+
+                $('.viewresult').html('');
+                result=data.result;
+                alert("success");
+               
+                console.log(data);
+                console.table(result);
+                if(result.length>0)
+                {
+                
+                for(i=0;i<result.length;i++)
+                {
+                    dynamictable+=`<tr><td>${i+1}</td><td>${result[i].itemname}</td><td>${result[i].remaining}</td><td>${result[i].itemgroupname}</td><td>${result[i].groupcategory}</tr>`;
+                }
+                dynamictable+='</table>';
+                $('.viewresult').append(dynamictable);
+                }
+                else
+                {
+                    alert("No any item in the list");
+                }
+               
+                }
+                ,
+                error:function(data)
+                {
+                alert("Item not found")
+                }
+
+            })
+        })
+    </script>
+</body>
+
+</html>

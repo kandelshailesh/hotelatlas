@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-2">
+        <nav class="nav flex-column border border-primary " style="box-shadow: 2px 2px blue;">
+  <a  class="nav-link active border border-bottom-3" onclick="javascript:$('.viewstocklist').toggle();" >View Stock Item </a>
+  <!-- <ul style="display:none;" class="list-group viewstocklist reportlist mt-1 ml-2 justify-contents-center w-75 mb-2 p-0">
+  <li style="height:35px; !important" class="list-group-item p-1"><a href="trialbalance">By Groups</a></li>
+  <li style="height:35px; !important"  class="list-group-item p-1"><a href="trialbalance">By Category</a></li>
+  <li style="height:35px; !important"  class="list-group-item p-1"><a href="trialbalance">By Item</a></li>
+</ul> -->
+  <a class="nav-link border border-bottom-3 border-left-1"  href="/modifystockitem">Modify Stock Item </a>
+  <a class="nav-link border border-left-1"  href="#">Add Item</a>
+  <a class="nav-link border border-left-1"  href="#">Add Group</a>  
+  <a class="nav-link border border-left-1"  href="#">Add Category</a>
+  <a class="nav-link border border-left-1"  href="#">Add Units</a>  
+</nav>
+    </div>
+    <div style="margin-left:130px;" class="col-md-8 mt-4 ">
+        <div class="viewstock">
+            <div class="row ">
+                <div class="col-md-4 form-group">
+                    <select id="viewstockitem" class="form-control d-inline w-100" style="text-align:center; text-align-last:center;" >
+                        <option value="all" style="text-align:center; text-align-last:center;" >All</option>
+                        <hr/>
+                        <option value="category">By Categoryname</option>
+                        <hr/>
+                        <option value="group">By Groupname</option>
+                        <hr/>
+                        <option value="itemname">By Itemname</option>
+                    </select>
+                </div>
+                <div style="display:none;" class="col-md-4 searchstockitem">
+
+                    <input style="display:none;" required autofocus list="categorylist" type="text" placeholder="Categoryname" class="form-control" id="categoryname">
+                    <input style="display:none;" required autofocus list="itemgrouplist" type="text" placeholder="Groupname" class="form-control" id="groupname">
+                    <input  style="display:none;" required autofocus list="itemnamelist" type="text" placeholder="Itemname" class="form-control" id="itemname">
+                </div>
+                <div class="col-md-3">
+                    <button class="btn ml-2 btn-mg searchstock btn-primary" type="submit">Search</button>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 viewresult">
+                </div>
+            </div>
+
+
+                 
+    </div>
+</div>
+</div>    
+
+
+    </div>
+     

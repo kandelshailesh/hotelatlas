@@ -104,6 +104,7 @@ var currentdate=gc.newDate();
     // $("[id^=itemsquantity]").on('keyup',function(event){
 
 
+
 function changeitemquantity(event)
 {
 		var ids= event.target.id.split('-');

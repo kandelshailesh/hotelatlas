@@ -93,6 +93,7 @@ $('form.itemgroupinformations').on('submit',function(e)
             type: 'post',
             url: '/creategroup',
             data: { formobj:formObj },
+            async:false,
             error: function(data) {
                 // var data=JSON.parse(data);
                 console.log(data.result);
@@ -100,14 +101,14 @@ $('form.itemgroupinformations').on('submit',function(e)
             success: function(data) {
                 if(data.message==='Enter valid data')
                 {
-                alert("Item added successfully");
+                alert("Group added successfully");
                 $('.error-msg').text('Enter valid data');
             }
             else
             {
                 alert("Submitted successfully");
                 // $(".iteminformations").reset();
-                $('button.close').click();
+                $('button.closegroup').click();
                 $('form.itemgroupinformations').trigger("reset");
                 // $('button.close').click();
 

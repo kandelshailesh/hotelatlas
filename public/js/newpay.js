@@ -2,6 +2,14 @@ Cookies.set('name', 'Shailesh', { expires: 1 });
 console.log(Cookies.get('name'));
 // Cookies.remove('paymentno');
 
+ // Cookies.set('salesno', 0, { expires: 1,path: 'localhost:3000'});
+ //    Cookies.set('transactionno', 2, { expires: 1,path: 'localhost:3000'});
+ //    Cookies.set('purchaseno', 0, { expires: 1 ,path: 'localhost:3000'});
+ //    Cookies.set('paymentno', 2, { expires: 1,path: 'localhost:3000' });
+ //    Cookies.set('receiptno', 0, { expires: 1,path: 'localhost:3000' });
+ //    Cookies.set('contrano', 0, { expires: 1,path: 'localhost:3000' });
+
+
 
 $("#report").click(function() {
     $(".reportlist").toggle();
@@ -240,7 +248,9 @@ function paymentform() {
     $("#transactiontitle").text('Payment');
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+        $('#transactionno').text(paymentno)
     }
+
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
     }
@@ -251,6 +261,7 @@ function receiptform() {
     $("#transactiontitle").text('Receipt');
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+         $('#transactionno').text(receiptno)
     }
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
@@ -263,6 +274,7 @@ function journalform(event) {
     $("#transactiontitle").text('Journal');
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+         $('#transactionno').text(journalno)
     }
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
@@ -276,6 +288,8 @@ function contraform(event) {
     $("#transactiontitle").text('Contra');
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
+         $('#transactionno').text(contrano);
+         alert("COntra");
     }
     if (!$(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").addClass('d-none');
@@ -298,6 +312,7 @@ function purchaseform(event) {
     $("#transactiontitle1").text('Purchase');
     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').addClass('d-none');
+         $('#transactionno').text(purchaseno)
     }
     if ($(".salespurchaseform").hasClass('d-none')) {
         $(".salespurchaseform").removeClass('d-none');

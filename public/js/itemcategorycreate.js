@@ -103,24 +103,18 @@ $('form.itemcategoryinformations').on('submit',function(e)
                 console.log(data.result);
             },
             success: function(data) {
-                if(data.message==='Enter valid data')
-                {
-                alert("Item added successfully");
-                $('.error-msg').text('Enter valid data');
-            }
-            else
-            {
-                alert("Submitted successfully");
+            
+                alert("Category created successfully");
                 // $(".iteminformations").reset();
-                $('button.close').click();
+                $('button.closecategory').click();
                 $('form.itemcategoryinformations').trigger("reset");
                 // $('button.close').click();
 
-                 $('#itemcategoryModal').modal('toggle');\
-                  $("#itemcategorylist").append(`<option>${formObj.categoryname}</option>`);
+                 $('#itemcategoryModal').modal('toggle');
+                  $("datalist#categorylist").append(`<option>${formObj.categoryname}</option>`);
 
             }
-}
+
 })
 })
 
