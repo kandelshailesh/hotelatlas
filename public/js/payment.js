@@ -279,7 +279,8 @@ function keypresshandler(event) {
 
 function paymentform() {
     $("#transactiontitle").text('Payment');
-        $('#transactionno').text(paymentno)
+        $('#transactionno').text(paymentno);
+        $('#dctype-1').focus();
 
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
@@ -295,7 +296,9 @@ function paymentform() {
 
 function receiptform() {
     $("#transactiontitle").text('Receipt');
-         $('#transactionno').text(receiptno)
+         $('#transactionno').text(receiptno);
+        $('#dctype-1').focus();
+
 
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
@@ -312,6 +315,7 @@ function receiptform() {
 function journalform(event) {
     $("#transactiontitle").text('Journal');
          $('#transactionno').text(journalno)
+        $('#dctype-1').focus();
 
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
@@ -329,6 +333,8 @@ function journalform(event) {
 function contraform(event) {
     $("#transactiontitle").text('Contra');
          $('#transactionno').text(contrano);
+        $('#dctype-1').focus();
+
 
     if ($('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').removeClass('d-none');
@@ -345,6 +351,8 @@ function contraform(event) {
 function salesform(event) {
     $("#transactiontitle1").text('Sales');
     $('#transactionno1').text(salesno)
+        $('#accountname').focus();
+    
 
     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
         $('.paymentreceiptjournalcontraform').addClass('d-none');
@@ -359,6 +367,7 @@ function salesform(event) {
 
 function purchaseform(event) {
          $('#transactionno1').text(purchaseno)
+        $('#accountname').focus();
 
     $("#transactiontitle1").text('Purchase');
     if (!$('.paymentreceiptjournalcontraform').hasClass('d-none')) {
