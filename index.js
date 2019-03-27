@@ -237,6 +237,28 @@ app.post('/createcategory',function(req,res)
   })
 })
 
+app.post('/createunit',function(req,res)
+{
+  console.log(req.body);
+  var unitdetails= [req.body.formobj.unitname];
+  console.log(unitdetails);
+  var insertintounittable= "INSERT INTO `unittable`(`name`) VALUES ?";
+  con.query(insertintounittable,[[[unitdetails]]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
 
 app.get('/billing', function(req, res) {
     res.render('pages/billing');

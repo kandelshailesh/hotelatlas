@@ -60,7 +60,7 @@
 
     var purchaseno = 1;
     <% } %>
-      <% if(salesno[0]!==undefined){ %>
+    <% if(salesno[0]!==undefined){ %>
     var salesno = parseInt(`<%= salesno[0]['salesno']%>`) + 1;
 
     <% } else { %>
@@ -73,6 +73,7 @@
     <script src="../js/itemgroupcreate.js"></script>
     <script src="../js/itemcategorycreate.js"></script>
     <script src="../js/payment.js"></script>
+    <script src="../js/unitcreate.js"></script>
 </body>
 
 </html>

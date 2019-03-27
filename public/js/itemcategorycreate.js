@@ -4,7 +4,7 @@
 $("#itemcategorycreate").on('keydown',reportKeyEvent);
         $('#categoryname').focus();
 
-var itemcategorycreatecount=0;
+// var itemcategorycreatecount=0;
 
 $('.itemcategoryinformations').on('keyup', 'input', function(e) {
     var self = $(this),

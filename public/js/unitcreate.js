@@ -1,15 +1,16 @@
-// var targArea =$("#itemname-1");
-// console.log(targArea);
-var itemcreatecount=0;
-$('.iteminformations').on('keyup', 'input', function(e) {
+// ("#unitcreate").on('keydown',reportKeyEvent);
+        $('#unitname').focus();
+
+var unitcreatecount=0;
+
+$('.unitinformations').on('keyup', 'input', function(e) {
     var self = $(this),
         form = self.parents('form:eq(0)'),
         focusable, next, prev;
-        if(itemcreatecount===0)
-        {
-        $('.iteminformations').find('[autofocus]').focus();
-        itemcreatecount=1;
-    }
+        // $('#categoryname').focus();
+
+        // $('.unitinformations').find('[autofocus]').focus();
+
     // if (e.shiftKey) {
         if (e.keyCode == 8) {
 
@@ -49,12 +50,12 @@ $('.iteminformations').on('keyup', 'input', function(e) {
 });
 
 
-$("[id^=itemname]").on('keydown', reportKeyEvent);
+$("[id^=unitcreate]").on('keydown', reportKeyEvent);
 
 
 function reportKeyEvent(zEvent) {
     // zEvent.preventDefault();
-
+// alert("Sd");
 
     var reportStr =
         "The " +
@@ -69,7 +70,7 @@ function reportKeyEvent(zEvent) {
 
     //--- Was a Ctrl-Alt-E combo pressed?
     if (zEvent.altKey && zEvent.key === "c") {
-        $("#itemModal").modal();
+        $("#unitModal").modal();
         // <!-- this.hitCnt = ( this.hitCnt || 0 ) + 1; -->
         // <!--  $("#statusReport").after (
         //      '<p>Bingo! cnt: ' + this.hitCnt + '</p>'
@@ -80,11 +81,11 @@ function reportKeyEvent(zEvent) {
 }
 
 
-$('form.iteminformations').on('submit',function(e)
+$('form.unitinformations').on('submit',function(e)
 {
     e.preventDefault();
 
-    var itemcreateform = $(".iteminformations").serializeArray();
+    var itemcreateform = $(".unitinformations").serializeArray();
     var formObj = {};
     $.each(itemcreateform, function (i, input) {
         formObj[input.name] = input.value;
@@ -92,54 +93,24 @@ $('form.iteminformations').on('submit',function(e)
    console.log(formObj);
      $.ajax({
             type: 'post',
-            url: '/createitem',
+            url: '/createunit',
             data: { formobj:formObj },
-            async:false,
-            success: function(data) {
-            
-                alert("Item added successfully");
-           
-            
-                // alert("Submitted successfully");
-                // $(".iteminformations").reset();
-                $('button.closeitem').click();
-                $('form.iteminformations').trigger("reset");
-                // $('button.close').click();
-
-                 $('#itemModal').modal('toggle');
-                  $("#itemnamelist").append(`<option>${formObj.itemsname}</option>`);
-            },
             error: function(data) {
                 // var data=JSON.parse(data);
-                alert("Item is already in the list");
                 console.log(data.result);
+            },
+            success: function(data) {
+            
+                alert("Unit created successfully");
+                // $(".iteminformations").reset();
+                $('button.closeunit').click();
+                $('form.unitinformations').trigger("reset");
+                // $('button.close').click();
+
+                 $('#unitModal').modal('toggle');
+                  $("datalist#unitlist").append(`<option>${formObj.unitname}</option>`);
+
             }
 
 })
 })
-
-
-
-$('body').on('shown.bs.modal', '#itemModal', function () {
-    alert("Entered")
-    $('input:visible:enabled:first', this).focus();
-})
-
-$('body').on('shown.bs.modal', '#unitModal', function () {
-    alert("Entered")
-    $('input:visible:enabled:first', this).focus();
-})
-
-
-    $('#itemgroupModal').on('shown.bs.modal', function() {
-        console.log("Entered");
-         $(this).find('input').eq(0).focus();
-
-        // $(this).find('[autofocus]').focus();
-    });
- $('#itemcategoryModal').on('shown.bs.modal', function() {
-        console.log("Entered");
-         $(this).find('input').eq(0).focus();
-
-        // $(this).find('[autofocus]').focus();
-    });
