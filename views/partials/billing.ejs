@@ -1,8 +1,21 @@
 	<form class="billtableform" action="" onkeypress="return event.keyCode != 13;">
 <div class="row billprint">
 
-	<div class="col-md-2"></div>
-	<div class="col-md-8">
+	<div class="col-md-3">
+	
+
+        <nav class="nav flex-column border border-primary " style="box-shadow: 2px 2px blue;"> 
+  <a class="nav-link border border-bottom-3 border-left-1"  href="#">
+    <label>Modify Stock Item</label>
+    <label class="float-right">Status</label></a>
+  
+</nav>
+    </div>
+
+ 
+
+	
+	<div class="col-md-7">
 	<div class="row">
 		<div class="col-12 billdata">
 	<h1 style="text-align:center;"> Hotel Atlas</h1>
@@ -27,6 +40,22 @@
 </div>
 <br>
 
+ <div class="viewstock">
+            <div class="row ">
+                <div class="col-md-4 form-group">
+                    <input id="insertitemname" class="d-inline w-100" style="text-align:center; text-align-last:center;" placeholder="Itemname" >
+                     
+                </div>
+                <div class="col-md-3 searchstockitem">
+
+                    <input  required autofocus list="categorylist" type="number" placeholder="Quantity" class="text-center" id="insertquantity">
+                 
+                </div>
+                <div class="col-md-3">
+                    <button class="btn ml-2 btn-sm searchstock btn-primary" type="submit">Add</button>
+                </div>
+                </div>
+            </div>
 	<table  class="table  billtable  table-sm">
 		<tr class=" m-0  row text-center">
 			<th  class="col-md-2">S.N.</th>
@@ -42,6 +71,18 @@
 
 
 	<br/>
+	<div class="col-md-2">
+	
+
+        <nav class="nav flex-column border border-primary " style="box-shadow: 2px 2px blue;"> 
+  <a class="nav-link border border-bottom-3 border-left-1" data-toggle="modal" data-target="#roomModal"   href="#">Add room</a>
+     <nav class="nav flex-column border border-primary " data-toggle="modal" data-target="#tableModal"  style="box-shadow: 2px 2px blue;"> 
+  <a class="nav-link border border-bottom-3 border-left-1"  href="#">Add table</a>
+     <nav class="nav flex-column border border-primary " data-toggle="modal" data-target="#hallModal"  style="box-shadow: 2px 2px blue;"> 
+  <a class="nav-link border border-bottom-3 border-left-1"  href="#">Add hall</a>
+  
+</nav>
+    </div>
 
 </div>
 
@@ -69,6 +110,7 @@
 <button type="reset" id="resetbillform" class="btn btn-outline-primary d-none">Reset</button>
 
 
+</div>
 </div>
 </form>
 

@@ -3,7 +3,8 @@ var mysql = require('mysql');
 var bodyParser= require('body-parser');
 var MySQLEvents = require('mysql-events');
 
-
+var vouchertype;
+var transactionno;
 // var con = mysql.createConnection({
 //   host: "localhost",
 //   user: "root",
@@ -244,6 +245,73 @@ app.post('/createunit',function(req,res)
   console.log(unitdetails);
   var insertintounittable= "INSERT INTO `unittable`(`name`) VALUES ?";
   con.query(insertintounittable,[[[unitdetails]]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
+app.post('/createtable',function(req,res)
+{
+  console.log(req.body);
+  var tabledetails= [req.body.formobj.tablename];
+  console.log(unitdetails);
+  var insertintotabletable= "INSERT INTO `tablenamestatus`(`name`) VALUES ?";
+  con.query(insertintotabletable,[[[tabledetails]]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+app.post('/createroom',function(req,res)
+{
+  console.log(req.body);
+  var roomdetails= [req.body.formobj.roomname];
+  console.log(unitdetails);
+  var insertintoroomroom= "INSERT INTO `roomnamestatus`(`name`) VALUES ?";
+  con.query(insertintoroomroom,[[[roomdetails]]],function(err,result,fields)
+  {
+    if(err) 
+    {
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+app.post('/createhall',function(req,res)
+{
+  console.log(req.body);
+  var halldetails= [req.body.formobj.hallname];
+  // console.log(unitdetails);
+  var insertintohallhall= "INSERT INTO `hallnamestatus`(`name`) VALUES ?";
+  con.query(insertintohallhall,[[[halldetails]]],function(err,result,fields)
   {
     if(err) 
     {
@@ -816,5 +884,207 @@ app.post('/billsubmit',(req,res)=>
 //  // res.send('Hello world');
 //  // console.log("HEll");
 // });
+
+
+app.post('/ledger',function(req,res)
+{
+
+var getledgerdata1=`SELECT DATE_FORMAT(paymentdate,'%Y-%m-%d') as date,vouchertype,dctype,dcamount,account as accountname, transactionno from paymenttable where transactionno in (SELECT DISTINCT paymenttable.transactionno from paymentdetails inner join paymenttable on paymentdetails.transactionno=paymenttable.transactionno where paymenttable.account=?) and account!=?`;
+
+var getledgerdata2=`SELECT DATE_FORMAT(purchasedate,'%Y-%m-%d') as date,vouchertype,dctype,totalamount as dcamount,accountname, purchaseno as transactionno from purchasedetails where accountname=?`;
+
+var getledgerdata3=`SELECT DATE_FORMAT(salesdate,'%Y-%m-%d') as date,vouchertype,dctype,totalamount as dcamount,accountname, salesno as transactionno from salesdetails where accountname=?`;
+
+
+
+var functiongetledgerdata1= () =>
+{
+  return new Promise((resolve,reject)=>
+  {
+    con.query(getledgerdata1,[req.body.accountname,req.body.accountname],function(err,results)
+    {
+      if(err)
+      {
+        reject(new Error(err));
+      }
+      else
+      {
+        resolve(results);
+      }
+    })
+  })
+}
+
+var functiongetledgerdata2= () =>
+{
+  return new Promise((resolve,reject)=>
+  {
+    con.query(getledgerdata2,[req.body.accountname],function(err,results)
+    {
+      if(err)
+      {
+        reject(new Error(err));
+      }
+      else
+      {
+        resolve(results);
+      }
+    })
+  })
+}
+
+var functiongetledgerdata3= () =>
+{
+  return new Promise((resolve,reject)=>
+  {
+    con.query(getledgerdata3,[req.body.accountname],function(err,results)
+    {
+      if(err)
+      {
+        reject(new Error(err));
+      }
+      else
+      {
+        resolve(results);
+      }
+    })
+  })
+}
+
+Promise.all([functiongetledgerdata1(),functiongetledgerdata2(),functiongetledgerdata3()]).then(function(result)
+{
+  console.log(result);
+if(req.body.accountname !== 'Payment Account')
+{
+  console.log("True");
+  for(i=0;i<result[1].length;i++)
+  {
+    result[1][i].accountname="Payment Accounts"
+  }
+}
+if(req.body.accountname !== 'Sales Account')
+{
+  console.log("True");
+
+  for(i=0;i<result[2].length;i++)
+  {
+    result[2][i].accountname="Sales Accounts"
+  }
+}
+return result;
+
+}).then(function(result)
+{
+var testresult=result;
+
+console.log(testresult);
+    res.status(200).send({'ledgerdata':testresult});
+
+
+}).catch(function(err)
+{
+  console.log(err);
+  res.status(500).send("ERROr occured");
+})
+
+
+app.post('/voucheredit',function(req,res)
+{
+  console.log("vouchertype is "+ vouchertype);
+  console.log("Transaactiontype is "+ transactionno);
+
+ 
+if(vouchertype==='Payment' || vouchertype==='Contra' || vouchertype==='Receipt' || vouchertype==="Journal")
+{
+  console.log("GEre");
+  var geteditvoucherdata= "SELECT * from paymentdetails inner join paymenttable on paymentdetails.transactionno=paymenttable.transactionno where paymenttable.transactionno=?";
+  con.query(geteditvoucherdata,[transactionno],function(err,result,fields)
+  {
+    if(err)
+    {
+      console.log(err);
+    }
+  console.log(result);
+      res.render('pages/newpayment',{'prjcdata':result});
+  })
+}
+})
+
+app.post('/editvoucher',function(req,res)
+{
+  vouchertype=req.body.vouchertype;
+  transactionno=req.body.transactionno;
+   // res.status(500).send('ok');
+   console.log("vouchertype is "+ vouchertype);
+  console.log("Transaactiontype is "+ transactionno);
+
+ 
+if(vouchertype==='Payment' || vouchertype==='Contra' || vouchertype==='Receipt' || vouchertype==="Journal")
+{
+
+
+  
+  console.log("GEre");
+  var geteditvoucherdata= `SELECT * from paymentdetails inner join paymenttable on paymentdetails.transactionno=paymenttable.transactionno where paymenttable.transactionno=?`;
+  con.query(geteditvoucherdata,[transactionno],function(err,result,fields)
+  {
+    if(err)
+    {
+      console.log(err);
+      res.status(500).send({'err':'Error'});
+    }
+    else
+    {
+  console.log(result);
+      res.status(200).send({'prjcdata':result});
+    }
+  })
+}
+      // res.status(200).send({'url':'/voucheredit'});
+    
+
+})
+
+
+// con.query(getledgerdata,[[req.body.accountname],[req.body.accountname],[req.body.accountname],[req.body.accountname]],function(err,results,fields){
+//   if(err)
+//   {
+//     // res.status(500).send({'err':'No transaction till date'});
+//     console.log(err);
+//   }
+//   else
+//   {
+//     // console.log(results[0]);
+//     // resolve(results[0]);
+//     console.log("REsult is ");
+//     console.log(results)
+//     var testresult=Object.assign(results[0],results[1])
+//     // testresult=Object.assign(results[0],results[2]);
+//     console.log("REsult 0 is ");
+//     console.log(results[0])
+
+//     console.log("Test result is" + testresult);
+//     res.status(200).send({'ledgerdata':results[0]});
+
+//   }
+// })
+
+
+
+
+})
+app.get('/ledger',function(req,res)
+{
+var selectdata= "SELECT * from accountinformation";
+con.query(selectdata,[req.body.ledgerinitialdate,req.body.ledgerfinaldate],function(err,result,fields)
+    {
+        console.log(err);
+     
+        res.render('pages/groupledger',{accountnamelist:result});
+
+    }
+
+  )
+})
 var port = process.env.port || 3000;
 app.listen(port,()=> console.log('Listening on port 3000'));

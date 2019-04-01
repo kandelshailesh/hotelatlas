@@ -1,0 +1,7 @@
+  <nav class="nav ml-1 w-100 flex-column">
+           
+            <% accountnamelist.forEach(function(result1,count) { %>
+          
+                    <a style="outline:1px solid black; font-size:14px;" onclick="javascript:displaydata('<%= result1.accountname %>')" id='<%= result1.id %>' class="nav-link" ><%= result1.accountname %></a>
+                    <%  }) %>                    
+                </nav>         

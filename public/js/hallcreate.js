@@ -1,15 +1,16 @@
-// var targArea =$("#itemname-1");
-// console.log(targArea);
-var itemcreatecount=0;
-$('.iteminformations').on('keyup', 'input', function(e) {
+// ("#hallcreate").on('keydown',reportKeyEvent);
+        $('#hallname').focus();
+
+var hallcreatecount=0;
+
+$('.hallinformations').on('keyup', 'input', function(e) {
     var self = $(this),
         form = self.parents('form:eq(0)'),
         focusable, next, prev;
-        if(itemcreatecount===0)
-        {
-        $('.iteminformations').find('[autofocus]').focus();
-        itemcreatecount=1;
-    }
+        // $('#categoryname').focus();
+
+        // $('.hallinformations').find('[autofocus]').focus();
+
     // if (e.shiftKey) {
         if (e.keyCode == 8) {
 
@@ -49,12 +50,12 @@ $('.iteminformations').on('keyup', 'input', function(e) {
 });
 
 
-$("[id^=itemname]").on('keydown', reportKeyEvent);
+$("[id^=hallcreate]").on('keydown', reportKeyEvent);
 
 
 function reportKeyEvent(zEvent) {
     // zEvent.preventDefault();
-
+// alert("Sd");
 
     var reportStr =
         "The " +
@@ -69,7 +70,7 @@ function reportKeyEvent(zEvent) {
 
     //--- Was a Ctrl-Alt-E combo pressed?
     if (zEvent.altKey && zEvent.key === "c") {
-        $("#itemModal").modal();
+        $("#hallModal").modal();
         // <!-- this.hitCnt = ( this.hitCnt || 0 ) + 1; -->
         // <!--  $("#statusReport").after (
         //      '<p>Bingo! cnt: ' + this.hitCnt + '</p>'
@@ -80,11 +81,11 @@ function reportKeyEvent(zEvent) {
 }
 
 
-$('form.iteminformations').on('submit',function(e)
+$('form.hallinformations').on('submit',function(e)
 {
     e.preventDefault();
 
-    var itemcreateform = $(".iteminformations").serializeArray();
+    var itemcreateform = $(".hallinformations").serializeArray();
     var formObj = {};
     $.each(itemcreateform, function (i, input) {
         formObj[input.name] = input.value;
@@ -92,54 +93,26 @@ $('form.iteminformations').on('submit',function(e)
    console.log(formObj);
      $.ajax({
             type: 'post',
-            url: '/createitem',
+            url: '/createhall',
             data: { formobj:formObj },
-            async:false,
-            success: function(data) {
-            
-                alert("Item added successfully");
-           
-            
-                // alert("Submitted successfully");
-                // $(".iteminformations").reset();
-                $('button.closeitem').click();
-                $('form.iteminformations').trigger("reset");
-                // $('button.close').click();
-
-                 $('#itemModal').modal('toggle');
-                  $("#itemnamelist").append(`<option>${formObj.itemsname}</option>`);
-            },
             error: function(data) {
                 // var data=JSON.parse(data);
-                alert("Item is already in the list");
                 console.log(data.result);
+
+                alert("hall name already in the list");
+            },
+            success: function(data) {
+            
+                alert("hall created successfully");
+                // $(".iteminformations").reset();
+                $('button.closehall').click();
+                $('form.hallinformations').trigger("reset");
+                // $('button.close').click();
+
+                 $('#hallModal').modal('toggle');
+                  $("datalist#halllist").append(`<option>${formObj.hallname}</option>`);
+
             }
 
 })
 })
-
-
-
-$('body').on('shown.bs.modal', '#itemModal', function () {
-    // alert("Entered")
-    $('input:visible:enabled:first', this).focus();
-})
-
-$('body').on('shown.bs.modal', '#unitModal', function () {
-    // alert("Entered")
-    $('input:visible:enabled:first', this).focus();
-})
-
-
-    $('#itemgroupModal').on('shown.bs.modal', function() {
-        console.log("Entered");
-         $(this).find('input').eq(0).focus();
-
-        // $(this).find('[autofocus]').focus();
-    });
- $('#itemcategoryModal').on('shown.bs.modal', function() {
-        console.log("Entered");
-         $(this).find('input').eq(0).focus();
-
-        // $(this).find('[autofocus]').focus();
-    });

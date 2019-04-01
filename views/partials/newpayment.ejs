@@ -1,0 +1,65 @@
+<div class="row ml-3">
+ 
+    <div class="col-md-12">
+        <div class="paymentreceiptjournalcontraform">
+            <div class="row">
+                <div class="col-12 mt-2 billdata">
+                    <br />
+                    <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle">Payment</label><label class="ml-3">Number:</label>
+                    <h6 class=' text-dark  ml-2 d-inline mr-5 transactionno' id="transactionno">
+                        <%= prjcdata[0]['transactionno'] %>
+                    </h6>
+                   
+                    <h6 class='dates text-dark d-inline float-right mr-5'>Date:</h6>
+                </div>
+            </div>
+            <form id="paymenttranscation" onkeypress="return event.keyCode != 13;" onsubmit="return false" action="" method="post" autocomplete="off">
+                <div style="max-height: 400px;" class="table-responsive mt-5">
+                    <table class="paymentheader table table-bordered  paymenttable">
+                        <tr class=" m-0 bg-dark text-white row text-center">
+                            <th class="col-md-1">S.N.</th>
+                            <th class="col-md-1">D/C</th>
+                            <th class="col-md-4">Account</th>
+                            <th class="col-md-3">Debit(Rs.)</th>
+                            <th class="col-md-3">Credit(Rs.)</th>
+                        </tr>
+                        <% for (var i = 0; i < prjcdata.length; i++) { %>
+                       <tr class=" m-0 row text-center">
+                            <td id="sn" class="col-md-1  "><%= i+1 %></td>
+                            <td class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-<%= i+1 %>" value="<%= prjcdata[i].dctype %>" type="text" required maxlength="1" oninput="javascript:oninputdctype(event);" /></td>
+                            <td class="col-md-4 p-0"><input list="accountnamelist" name="accounttype" id="accounttype-<%= i+1 %>" value="<%= prjcdata[i].account %>" type="text" class="form-control text-center" required /></td>
+                            <% if(prjcdata[i].dctype==='d') { %>
+                            <td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" value="<%= prjcdata[i].dcamount  %>" name="dcamount" id="debit-<%= i+1 %>" type="number" min="0" class="form-control" required  /></td>
+                             <td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="credit-<%= i+1 %>" type="number" min="0" class="form-control" required  /></td>
+                            <% } else { %>
+                              <td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);"  name="dcamount" id="debit-<%= i+1 %>" type="number" min="0" class="form-control" required   /></td>
+                            <td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="credit-<%= i+1 %>" type="number" min="0" class="form-control" value="<%= prjcdata[i].dcamount  %>" required  /></td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mr-5">
+                        <textarea rows="3"  cols="50" id="narration" ><%= prjcdata[0].narration %></textarea>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Rs.</label><label class=" text-center ml-1 mr-3" id="totaldebit"><%= prjcdata[0].debitamount %></label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="ml-5">Rs.</label><label id="totalcredit"><%= prjcdata[0].creditamount %></label>
+                        <button type="reset" class="btn d-none resetpayment justify-content-center  btn-primary"> Reset
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2 mt-n2">
+                        <button type="submit" class="btn btn-primary"> Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+</div>

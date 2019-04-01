@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+	<% include ../partials/stylebilling %>
+    <% include ../partials/stylepayment %>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <style>
+
+/*table {
+	position: relative;
+            width:100% !important;
+        }
+ thead,tbody {
+            display: block;
+        }*/
+#from,#to:focus
+{
+	border:1px solid white !important;
+}
+a:active
+{
+	background-color:red !important;
+}
+</style>
+</head>
+<body >
+	<!-- <script type='text/javascript'>id='starsp3'; id_width=640; id_height=490; id_p=2;</script><script type='text/javascript' src='http://cdn.crichd.to/channel.js'></script> -->
+
+<header>
+    <% include ../partials/header %>
+</header>
+<div class="row" style="max-height:100% !important;" >
+<div class="col-md-2 p-0 border h-100" >
+<input  type="text" id="ledgersearch" class="text-center mt-2 form-control"  list="accountnamelist" placeholder="Accountname list">
+    <datalist id="accountnamelist" >
+           
+            <% accountnamelist.forEach(function(result1,count) { %>
+          
+                    <option><%= result1.accountname  %>
+                    <%  }) %> </option>                   
+                </datalist>
+
+</div>
+<div class="col-md-8 appendledgerdata mt-2 border  " style="max-height:1000px;">
+
+</div>
+<div class="col-md-2 p-0 text-center border h-100 ">
+	  <nav class="nav flex-column ">
+           
+            
+          
+                    <a  style="outline:1px solid ; font-size:14px;" class="btn disabled " >Period</a>
+                    <a   style="outline:1px solid black; font-size:14px;" class="btn disabled" >Monthly</a>
+                    <a  style="outline:1px solid black; font-size:14px;" class="btn disabled" >Columnar</a>
+
+                         
+                </nav> 
+	</div>
+</div>
+
+
+
+
+
+<script src="../js/groupledger.js"></script>
+<script src="../js/sales.js"></script>
+    <script src="../js/itemcreate.js"></script>
+    <script src="../js/itemgroupcreate.js"></script>
+    <script src="../js/itemcategorycreate.js"></script>
+    <script src="../js/newpayment.js"></script>
+    <script src="../js/unitcreate.js"></script>
+<script type="text/javascript">
+	$('#ledgersearch').on('keypress',function(e)
+	{
+
+		if(e.keyCode===13)
+		{
+		var startdate;
+		var enddate;
+		$('.ledgerdata1').html('');
+	
+		$.ajax({
+			url:'/ledger',
+			type:'post',
+			async:false,
+			data:{accountname:e.target.value},
+			success:function(data)
+			{
+				var ledgerdata=data.ledgerdata;
+				console.log("Length is"+ledgerdata.length);
+				console.log(ledgerdata);
+				startdate=ledgerdata[0].date;
+				enddate=ledgerdata[ledgerdata.length-1].date;
+				var totalcredit=0;
+				var totaldebit=0;
+				var vouchertype= {0:'payment',1:'purchase',2:'sales'};
+
+
+				if(ledgerdata.length>0)
+				{
+
+	
+	var displayledgerdata=`<div class="col-12 ledgerdata1"><label>Ledger: </label>
+	<input type="text" value='${e.target.value}' class="border border-0">
+  <label id="to" class="text-left ml-2  border-0 float-right">${enddate} </label><label class="float-right">to</label>
+ <label id="to" class="text-right mr-1  border-0 float-right">${startdate} </label>
+	<label class="float-right mr-1">Date:</label>
+
+<table class="table table-hover ledgertable text-center mt-2">
+	<thead><tr>
+		<th>Date</th>
+		<th>Particulars</th>
+		<th>Vch. Type</th>
+		<th>Vch No.</th>
+		<th>Debit</th>
+		<th>Credit</th>
+	</tr></thead><tbody style="height:200px; overflow-y:scroll;">`;
+		for(j=0;j<3;j++)
+		{
+			console.log(ledgerdata[j].length);
+			for(i=0;i<ledgerdata[j].length;i++)
+				{
+
+					
+			displayledgerdata+=`<tr data-vouchertype='${ledgerdata[j][i].vouchertype}' data-transactionno='${ledgerdata[j][i].transactionno}'><td>${ledgerdata[j][i].date}</td><td>${ledgerdata[j][i].accountname}</td><td>${ledgerdata[j][i].vouchertype}</td><td>${ledgerdata[j][i].transactionno}</td>`;
+			if(ledgerdata[j][i].dctype==='c')
+			{
+				displayledgerdata+=`<td>${ledgerdata[j][i].dcamount}</td><td></td></tr>`
+				totaldebit=totaldebit+ledgerdata[j][i].dcamount;
+			}
+			else
+			{
+				displayledgerdata+=`<td></td><td>${ledgerdata[j][i].dcamount}</td></tr>`;
+				totalcredit=totalcredit+ledgerdata[j][i].dcamount;
+
+			}
+
+		}
+	}
+
+	if((totalcredit-totaldebit)>0)
+	{
+		displayledgerdata+=`</tbody><tfoot><tr><th></th><th></th><th></th><th> Current Total </th><th>${totaldebit}</th><th>${totalcredit}</th></tr><tr><th></th><th></th><th></th><th>Closing balanace </th><th></th><th>${totalcredit-totaldebit}</th></tr></tfoot></table></div>`;
+	}
+	else
+	{
+		displayledgerdata+=`</tbody><tfoot><tr><th></th><th></th><th></th><th> Current Total </th><th>${totaldebit}</th><th>${totalcredit}</th></tr><tr><th></th><th></th><th></th><th>Closing balance </th><th>${totaldebit-totalcredit}</th><th></th></tr></tfoot></table></div>`;
+}
+		$('.appendledgerdata').append(displayledgerdata);
+				}
+			},
+			error:function(data)
+			{
+				alert("Accountname not in the list");
+			}
+		})
+
+		}
+	})
+
+
+
+	$(document).on('keyup',function(e)
+{
+	// alert(e.keyCode);
+console.log(e.keyCode);
+	
+
+    console.log(e.keyCode);
+    if(e.keyCode===27)
+    {
+        var test= confirm("Do you want to close ?");
+        alert(test);
+        if(test)
+        {
+            alert(test);
+            $('div.ledgerdata2').text('');
+            $('div.ledgerdata1').show();
+        }
+    }
+})
+$(document).on('click','div.ledgerdata1 table.ledgertable tbody tr',function(e)
+{
+	alert("CLicked");
+	var vouchertype= $(this).data('vouchertype');
+	var transactionno= $(this).data('transactionno');
+	// alert(vouchertype);
+	// alert(transactionno);
+$.ajax({
+	url:'/editvoucher',
+	type:'post',
+	data:{vouchertype:vouchertype,transactionno:transactionno},
+	success:function(data)
+	{
+		
+		prjcdata=data.prjcdata;
+		alert("Process completed")
+		$('.ledgerdata1').hide();
+		
+	
+  var editpaymentform=`<div class="row ledgerdata2 ml-3"><div class="col-md-12">
+	 <div class="paymentreceiptjournalcontraform">
+		 <div class="row">
+			 <div class="col-12 mt-2 billdata">
+				 <br />
+				 <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle">Payment</label><label class="ml-3">Number:</label>
+				 <h6 class=' text-dark  ml-2 d-inline mr-5 transactionno' id="transactionno">
+					 ${prjcdata[0]['transactionno']}
+				 </h6>
+				 <input id="datemodify" class="float-right border-0 d-inline is-calendarsPicker" value="${prjcdata[0].paymentdate}">
+				 <h6 class='dates text-dark d-inline float-right mr-2'>Date:</h6>
+			 </div>
+		 </div>
+		 <form id="paymenttranscation" onkeypress="return event.keyCode != 13;" onsubmit="return false" action="" method="post" autocomplete="off">
+			 <div style="max-height: 400px;" class="table-responsive mt-5">
+				 <table class="paymentheader table table-bordered  paymenttable">
+					 <tr class=" m-0 bg-dark text-white row text-center">
+						 <th class="col-md-1">S.N.</th>
+						 <th class="col-md-1">D/C</th>
+						 <th class="col-md-4">Account</th>
+						 <th class="col-md-3">Debit(Rs.)</th>
+						 <th class="col-md-3">Credit(Rs.)</th>
+					 </tr>`;
+for (var i = 0; i < prjcdata.length; i++) 
+{
+editpaymentform+=`<tr class=" m-0 row text-center">
+						 <td id="sn" class="col-md-1  ">${i+1}</td>
+						 <td class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-${i+1}" value="${prjcdata[i].dctype}" type="text" required maxlength="1" oninput="javascript:oninputdctype(event);" /></td>
+						 <td class="col-md-4 p-0"><input list="accountnamelist" name="accounttype" id="accounttype-${i+1}" value="${prjcdata[i].account}" type="text" class="form-control text-center" required /></td>`;
+if(prjcdata[i].dctype==='d') { 
+editpaymentform+=`<td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" value="${prjcdata[i].dcamount}" name="dcamount" id="debit-${i+1}" type="number" min="0" class="form-control" required  /></td>
+<td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="credit-${i+1}" type="number" min="0" class="form-control" required  disabled /></td>`
+} 
+else 
+{
+editpaymentform+=`<td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);"  name="dcamount" id="debit-${i+1}" type="number" min="0" class="form-control" required disabled  /></td>
+<td class="col-md-3 p-0"><input onkeypress="javascript:createnewpayment(event)" oninput="javascript:checktotaldc(event);" name="dcamount" id="credit-${i+1}" type="number" min="0" class="form-control" value="${prjcdata[i].dcamount}" required /></td>`;
+}
+editpaymentform+=`</tr>`;
+}
+editpaymentform+=`</table>
+			 
+			 <div class="row">
+				 <div class="col-md-6 mr-5">
+					 <textarea rows="3"  cols="50" id="narration" >${ prjcdata[0].narration }</textarea>
+				 </div>
+				 <div class="col-md-2">
+					 <label>Rs.</label><label class=" text-center ml-1 mr-3" id="totaldebit">${ prjcdata[0].debitamount}</label>
+				 </div>
+				 <div class="col-md-2">
+					 <label class="ml-5">Rs.</label><label id="totalcredit">${prjcdata[0].creditamount}</label>
+					 <button type="reset" class="btn d-none resetpayment justify-content-center  btn-primary"> Reset
+					 </button>
+				 </div>
+			 </div>
+			 <div class="row">
+				 <div class="col-md-10"></div>
+				 <div class="col-md-2 mt-n2">
+					 <button type="submit" class="btn btn-primary"> Submit
+					 </button>
+				 </div>
+			 </div>
+		 </form>
+	 </div>
+</div>
+</div>`;
+console.log(editpaymentform);
+		// var iframeappend= '<div class="ledgerdata2"><iframe style="width:100%;height:600px;" src="http://localhost:3000/voucheredit"></iframe></div>';
+		$('.appendledgerdata').append(editpaymentform);
+		// window.location.replace(data.url);
+	},
+	error:function(data)
+	{
+		alert("Process couldn't be completed. Please Try again");
+	}
+})
+
+})
+
+
+</script>
+</body>
+</html>
