@@ -779,7 +779,7 @@ $('.dates').append(`<input  id='datemodify' class='ml-1 border-0 d-inline' value
 $('.times').append("<h6 class='timeupdate ml-1 d-inline'>" + currenttime + "</h6>");
 $('#datemodify').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
 
-$('#previousyear').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
+// $('#previousyear').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
 
 
                 // $("[id^=items]").on('keyup', function(event) {
@@ -855,8 +855,11 @@ const addprice = (event, id) => {
 
 }
 
-function submitaccount(event) {
-    event.preventDefault();
+
+$('form.accountinformations').on('submit',function(e)
+{
+// function submitaccount(event) {
+e.preventDefault();
     var accountdata = $(".accountinformations").serializeArray();
     console.log(accountdata);
     formobj=[];
@@ -869,32 +872,7 @@ function submitaccount(event) {
     });
  
 
-    // var accountdataarray = [];
-    var previousyeardate = $("#previousyear").val().split('-');
-    // var converteddate = '';
-    // for (var i = 0; i < 3; i++) {
-    //     if (i < 2) {
-    //         // console.log(calendarFunctions.getNumberByNepaliNumber("१२५"));
-    //         converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]) + '-';
-    //     } else {
-    //         converteddate = converteddate + calendarFunctions.getNumberByNepaliNumber(previousyeardate[i]);
-    //     }
-    //     console.log(converteddate);
-
-    // }
-    // for (i = 0; i < accountdata.length; i++) {
-    //     if (accountdata[i]['value'] === "") {
-    //         accountdata[i]['value'] = 0;
-    //         console.log(accountdata[i]);
-    //     }
-    //     if (accountdata[i]['name'] == 'previousyear') {
-    //         accountdata[i]['value'] = converteddate;
-    //         console.log(accountdata[i]);
-    //     }
-    //     accountdataarray.push(accountdata[i].value);
-    // }
-
-    // console.log(accountdata);
+    
     console.log(formobj);
     $.ajax({
         type: 'post',
@@ -913,7 +891,7 @@ function submitaccount(event) {
     });
 
 
-}
+})
 
 function handle(el) {
     $('ul').scrollTop(60);
@@ -1249,12 +1227,25 @@ var formatedNepaliDate = calendarFunctions.bsDateFormat("%y-%m-%d", currentNepal
 
 
 
-$("#previousyear").nepaliDatePicker({
-    dateFormat: "%y-%m-%d",
-    closeOnDateSelect: true,
-    minDate: "२०७०-१-२०",
-    maxDate: formatedNepaliDate
-});
+
+
+$('#previousyear').calendarsPicker({ calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
+
+
+
+// $("#previousyear").nepaliDatePicker({
+//     dateFormat: "%y-%m-%d",
+//     closeOnDateSelect: true,
+//     minDate: "२०७०-१-२०",
+//     maxDate: formatedNepaliDate
+// });
+
+
+var gc = $.calendars.instance('nepali', 'ne');
+var currentdate = gc.newDate();
+var currenttime = new Date();
+var currenttime = currenttime.toLocaleTimeString();
+
 
 
 

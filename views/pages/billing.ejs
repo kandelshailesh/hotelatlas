@@ -2,79 +2,96 @@
 
 
 <html lang="en">
+
 <head>
-<style type="text/css" media="print">
-@page {
-    size: auto;   /* auto is the initial value */
-    margin: 0;  /* this affects the margin in the printer settings */
-}
-</style>
+  <style type="text/css" media="print">
+    @page {
+      size: auto;
+      /* auto is the initial value */
+      margin: 0;
+      /* this affects the margin in the printer settings */
+    }
+  </style>
 
-<meta content="width=device-width, initial-scale=1" name="viewport" />
-    <% include ../partials/head %>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <% include ../partials/head %>
 
-    <% include ../partials/stylebilling %>
-
-<style>
-
-@media screen and (max-width: 992px) {
-  body {
-    background-color: blue;
-    color: white;
-  }
-  h1
-  {
-    color:indigo;
-  }
-
-}
-@media print and (max-width: 992px) {
- 
-  input,select
-  {
-  	border:0px !important;
-  
-  }
-
-.printbutton{
-  display:none !important;
-}
-  button
-  {
-    display:none;
-  }
-
-  select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	border: none; /* If you want to remove the border as well */
-	background: none;
-	}
-  
-table,tr,th,td
-{
-  border:0px !important;
-}
+  <% include ../partials/stylebilling %>
+  <% include ../partials/stylepayment %>
 
 
+  <style>
+    @media screen and (max-width: 992px) {
+      body {
+        background-color: blue;
+        color: white;
+      }
+
+      h1 {
+        color: indigo;
+      }
+
+    }
+
+    @media print and (max-width: 992px) {
+
+      input,
+      select {
+        border: 0px !important;
+
+      }
+
+      .printbutton {
+        display: none !important;
+      }
+
+      button {
+        display: none;
+      }
+
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: none;
+        /* If you want to remove the border as well */
+        background: none;
+      }
+
+      table,
+      tr,
+      th,
+      td {
+        border: 0px !important;
+      }
 
 
-/* On screens that are 600px wide or less, the background color is olive */
 
-</style>
 
-    <% include ../partials/head %>
- 
+      /* On screens that are 600px wide or less, the background color is olive */
+  </style>
+
+  <% include ../partials/head %>
+
 
 </head>
+
 <body>
 
-<header>
+  <header>
     <% include ../partials/header %>
-</header>
+  </header>
 
-<main>
+  <main>
+     <datalist id="itemnamelist">
+      <% itemtable.forEach(function(result) { %>
+
+    <option value='<%= result.itemname %>'>
+                                       <%= result.itemgroup %>
+                                    </option>
+                                    <%  }); %>
+  </datalist>
+
     <% include ../partials/billing %>
     <% include ../partials/tableModal %>
 
@@ -82,9 +99,357 @@ table,tr,th,td
 
     <% include ../partials/hallModal %>
 
-</main>
-<script src="../js/billing.js"></script>
+  </main>
+
+  <script src="../js/billing.js"></script>
+  <script src="../js/roomcreate.js"></script>
+  <script src="../js/hallcreate.js"></script>
+  <script src="../js/tablecreate.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+  <script>
+    $.ajax({
+      url:'/getroom',
+      type:'get',
+      success:function(data)
+      {
+        var roomdetails= data.result;
+        
+        for(i=0;i<roomdetails.length;i++)
+        {
+    $('nav.attachroom').append(`<a class="nav-link border border-bottom-3 border-left-1" onclick="javascript:showmainbilling(event,'room','${roomdetails[i].name}');"  href="#">
+    <label>${roomdetails[i].name}</label>
+    <label class="float-right ${roomdetails[i].name}-status">${roomdetails[i].status}</label></a>`);
+        }
+        
+        
+      }
+      
+    });
+
+      $.ajax({
+      url:'/gettable',
+      type:'get',
+      success:function(data)
+      {
+        var tabledetails= data.result;
+        
+        for(i=0;i<tabledetails.length;i++)
+        {
+    $('nav.attachtable').append(`<a onclick="javascript:showmainbilling(event,'table','${tabledetails[i].name}');" class="nav-link border border-bottom-3 border-left-1"  href="#">
+    <label>${tabledetails[i].name}</label>
+    <label class="float-right ${tabledetails[i].name}-status">${tabledetails[i].status}</label></a>`);
+        }
+        
+        
+      }
+      
+    });
+
+        $.ajax({
+      url:'/gethall',
+      type:'get',
+      success:function(data)
+      {
+        var halldetails= data.result;
+        
+        for(i=0;i<halldetails.length;i++)
+        {
+    $('nav.attachhall').append(`<a onclick="javascript:showmainbilling(event,'hall','${halldetails[i].name}');" class="nav-link border border-bottom-3 border-left-1"  href="#">
+    <label>${halldetails[i].name}</label>
+    <label class="float-right ${halldetails[i].name}-status">${halldetails[i].status}</label></a>`);
+        }
+        
+        
+      }
+      
+    });
+    
+
+    $('div#hallModal').on('shown.bs.modal', function(e) {
+
+     $(this).find('input').eq(0).focus();
+
+
+});
+
+
+        $('body').on('shown.bs.modal', '#tableModal', function () {
+
+            $('input:visible:enabled:first', this).focus();
+        })
+        
+
+    $('#roomModal').on('shown.bs.modal', function() {
+        console.log("Entered");
+         $('#roomModal').find('input').eq(0).focus();
+        
+    });
+
+
+
+function showmainbilling(e,type,rthname)
+{
+   $('div.billmainpart').html('');
+   $('div.finalmaintable').html('');
+
+
+  $('div.billmainpart').append(`<div class="row">
+  <div class="col-12 billdata">
+  <h1 style="text-align:center;"> Hotel Atlas</h1>
+	<p style="text-align: center;">Sunual-12, Bhumahi</p>
+	<label style="font-size:12px;"><b>Bill no:</b></label><input class="billno border border-0 disabled ml-1">
+	<label style="position:relative; left:100px; font-size:12px;">
+	<label class='dates d-inline'>Date:</label>
+  <input  style="font-size: 15px; border:1px solid blue !important; text-align:center; width:120px; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class="form-control salesdate d-inline ml-2 mr-2"  autofocus name="salesdate" autocomplete="off">
+	<label style="position:relative; left:30px;"><b>PAN No.:</b><b class=" panno ml-1">304898466</b></label> 
+
+</label>
+<br/>
+</div>
+
+<div class="billdata ml-3">
+<label class="d-inline">Name:</label><input id="customername"  style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; width:200px;" class="form-control d-inline ml-2 mr-2" placeholder="Customer name" autofocus name="customername" autocomplete="off"><label class="d-inline">Address:</label><input   style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; width:200px;" class="form-control d-inline ml-2 mr-2" placeholder="Address" autofocus name="address" id="address" autocomplete="off"><label class="d-inline">RTHName:</label><input name="rthname" id="rthname" autocomplete="off"  style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; width:100px" class="form-control ml-1 d-inline" value=${rthname} ><input id="rthtype" type="text" class="d-none" value=${type} >
+</div>
+
+
+</div>
+<br>
+
+ <div class="viewstock">
+            <div class="row mt-3">
+						
+                <div class="col-md-4 form-group">
+
+                    <input list="itemnamelist" id="insertitemname" class="d-inline w-100" style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important;" placeholder="Itemname" autofocus autocomplete="off">
+                     
+                </div>
+                <div class="col-md-3 searchstockitem">
+
+                    <input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; "    type="number" placeholder="Quantity" class="text-center mr-2" id="insertquantity">
+                 
+                </div>
+                <div class="col-md-3">
+                    <a class="btn ml-4  btn-sm additem btn-primary">Add</a>
+                </div>
+								<div class="col-md-2"></div>
+                </div>
+            </div>
+	<table  class="table  billtable ">
+		<tr class=" m-0  row text-center">
+	
+			<th  class="col-md-3">Item Name </th>
+			<th  class="col-md-3">Quantity</th>
+			<th  class="col-md-3">Price(Rs.)</th>
+			<th  class="col-md-3">Amount</th>
+		</tr>	
+	</table>`);
+  var totalamount=0;
+
+
+
+  $('div.finalmaintable').append(`<div class="col-md-3"><label class="text-bold">Total</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class=" d-inline form-control w-100 text-center" name="totalamount" id="totalamount" value="0">
+	</div>
+	<div class="col-md-3">
+	<label>Service Charge</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; "  class="d-inline form-control w-100 text-center" name="servicechargeamount" value="0" id="servicechargeamount">
+	</div>
+	
+	
+<div class="col-md-3">
+<label>Discount</label>
+<input  placeholder="Amount" style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important;  width:120px;  box-shadow: 2px 2px blue !important; border-radius:5px !important; " name="discountamount" class=" d-inline  form-control text-center" type="number" value=0 id="discountamount" /> Rs.
+
+<input style="font-size: 15px; border:1px solid blue !important;  height:32px !important; width:50px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " name="discountpercentage" class=" d-inline form-control mt-1" id="discountpercent" value=0 placeholder="%" type="number"  /> %
+</div>
+<div class="col-md-3">
+	<label><b>Grand Total</b></label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " name="grandtotalamount" class="form-control  w-100 text-center" id="grandtotalamount" value="0">
+
+	</div>
+	</div>
+
+  <div class="col-md-3"><label class="text-bold">Payment Received</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class=" d-inline form-control w-100 text-center" name="paymentreceived" min="1" id="paymentreceived" required>
+	</div>
+	<div class="col-md-3">
+	<label>Balance Due</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; "  class="d-inline form-control w-100 text-center" name="balancedue" value="0" id="balancedue">
+	</div><br></br>
+	<div class="text-center mt-4">
+	<button type="submit"  id="submit" class="btn btn-primary text-center" role="button">Submit</button>
+	</div>
+	</div>
+
+
+</div>`);
+
+$('input.salesdate').calendarsPicker({calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'})
+ var random =parseInt(Math.floor((Math.random()*1000000000) +1));
+$('.billno').val(random);
+
+
+var gc = $.calendars.instance('nepali', 'ne');
+var currentdate = gc.newDate();
+
+$('.salesdate').val(currentdate);
+$.ajax({
+  url:'/searchitembyrth',
+  method:'post',
+  data:{rthname:rthname},
+  async:false,
+  success:function(data)
+  {
+  results=data.results;
+  console.log(results);
+  $('table.billtable tr td').remove();
+   /*  var totalamount=Number(data.iteminfo[0].price) * Number(quantity);  */
+  for(i=0;i<results.length;i++)
+  {
+    $('table.billtable').append(`<tr class=" m-0  row text-center">
+    <td class="col-md-3">${results[i].itemname}</td>
+    <td  class="col-md-3">${results[i].quantity}</td>
+    <td  class="col-md-3">${results[i].price}</td>
+    <td  class="col-md-3">${results[i].amount}</td>
+  </tr>`);	
+  totalamount=totalamount+results[i].amount;
+  }
+  $('#totalamount').val(totalamount);
+  $('#grandtotalamount').val(totalamount);
+
+  $('.billno').val(results[0].billno);
+  
+  },
+  error:function(data)
+  {
+    alert("Item not in the list");
+  }
+})
+}
+
+
+
+
+
+$(document).on('click','a.additem',function(e)
+{
+  
+  var itemname= $('#insertitemname').val();
+  var quantity = $('#insertquantity').val();
+  var rthname = $('#rthname').val();
+  var salesdate= $('.salesdate').val();
+  var billno = $('.billno').val();
+  var rthtype= $('#rthtype').val();
+  alert(billno);
+  $('table.billtable tr td').remove();
+$.ajax({
+  url:'/searchitem',
+  method:'post',
+  data:{itemname:itemname,quantity:quantity,rthname:rthname,salesdate:salesdate,billno:billno,rthtype:rthtype},
+  async:false,
+  success:function(data)
+  {
+  results=data.results;
+  console.log(results);
+  var totalamount=0;
+   /*  var totalamount=Number(data.iteminfo[0].price) * Number(quantity);  */
+   for(i=0;i<results.length;i++)
+   {
+    
+    	$('table.billtable').append(`<tr class=" m-0  row text-center">
+			<td class="col-md-3">${results[i].itemname}</td>
+			<td  class="col-md-3">${results[i].quantity}</td>
+			<td  class="col-md-3">${results[i].price}</td>
+			<td  class="col-md-3">${results[i].amount}</td>
+		</tr>`);	
+    totalamount=totalamount+results[i].amount;
+   }
+   $('#insertitemname').val('');
+   $('#insertquantity').val('');
+   $('.billno').text(results[i-1].billno);
+
+
+
+
+  $('#totalamount').val(totalamount);
+  $('#grandtotalamount').val(totalamount);
+
+ 
+  $(`.${rthname}-status`).text('Open');
+  },
+  error:function(data)
+  {
+    alert("Item not in the list");
+  }
+})
+})
+
+
+
+$(document).on('input','#servicechargeamount,#discountamount',function(e)
+{
+  
+  var servicechargeamount= $('#servicechargeamount').val();
+
+  var totalamount= $('#totalamount').val();
+  var discountamount= $('#discountamount').val();
+  var discountpercent=$('#discountpercent').val();
+
+  $('#grandtotalamount').val(Number(totalamount)-Number(discountamount)+Number(servicechargeamount));
+
+})
+/* $(document).on('input','#discountamount',function(e)
+{
+  var servicechargeamount= $('#servicechargeamount').val();
+  var totalamount= $('#totalamount').val();
+  var discountamount= $('#discountamount').val();
+  var discountpercent=$('#discountpercent').val();
+  $('#grandtotalamount').val(Number(totalamount)-Number(discountamount)+Number(servicechargeamount));
+ 
+  
+}) */
+$(document).on('input','#discountpercent',function(e)
+{
+  var servicechargeamount= $('#servicechargeamount').val();
+  var totalamount= $('#totalamount').val();
+  var discountamount= $('#discountamount').val();
+  var discountpercentage=$('#discountpercent').val();
+  $('#grandtotalamount').val(Number(totalamount)+Number(servicechargeamount)-Number(Number(Number(discountpercentage)/100)*(Number(totalamount)+Number(servicechargeamount))));
+
+})
+
+$(document).on('input','#paymentreceived',function(e)
+{
+  var totalamount= $('#grandtotalamount').val();
+  var paymentreceived= $('#paymentreceived').val();
+  $('#balancedue').val(Number(paymentreceived)-Number(totalamount));
+})
+
+
+$('.billtableform').on('submit',function(e)
+{
+
+alert("Ehh");
+var sendvalue= [$('.billno').val(),$('#rthtype').val(),$('#rthname').val(),$('#customername').val(),$('#address').val(),$('#totalamount').val(),$('#servicechargeamount').val(),$('#discountamount').val(),$('#discountpercent').val(),$('#grandtotalamount').val(),$('#paymentreceived').val(),$('#balancedue').val(),$('.salesdate').val()];
+console.log(sendvalue);
+
+   
+
+$.ajax({
+  url:'addintobilldetails',
+  type:'post',
+  data:{billingdetailsdata:sendvalue},
+  success:function(data)
+  {
+    alert("Submitted Successfully");
+  },
+  error:function(data)
+  {
+    alert("Oops..")
+  }
+})
+ })
+
+
+  </script>
 
 
 </body>
+
 </html>

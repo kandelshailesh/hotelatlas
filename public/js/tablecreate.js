@@ -3,6 +3,35 @@
 
 var tablecreatecount=0;
 
+
+// $('div#hallModal').on('shown.bs.modal', function(e) {
+//     // e.preventDefault();
+// alert("Entered");
+//      $(this).find('input').eq(0).focus();
+
+//     // $(this).find('[autofocus]').focus();
+// });
+
+
+//         $('body').on('shown.bs.modal', '#tableModal', function () {
+//             alert("Entered");
+//             $('input:visible:enabled:first', this).focus();
+//         })
+        
+
+//     $('#roomModal').on('shown.bs.modal', function() {
+//         console.log("Entered");
+//          $('#roomModal').find('input').eq(0).focus();
+//         // $(this).find('[autofocus]').get(1).focus();
+//     });
+
+//     $('#hallModal').on('shown.bs.modal', function() {
+//         console.log("Entered");
+//          $('#hallModal').find('input').eq(0).focus();
+//         // $(this).find('[autofocus]').get(1).focus();
+//     });
+
+
 $('.tableinformations').on('keyup', 'input', function(e) {
     var self = $(this),
         form = self.parents('form:eq(0)'),
@@ -50,7 +79,7 @@ $('.tableinformations').on('keyup', 'input', function(e) {
 });
 
 
-$("[id^=tablecreate]").on('keydown', reportKeyEvent);
+// $("[id^=tablecreate]").on('keydown', reportKeyEvent);
 
 
 function reportKeyEvent(zEvent) {

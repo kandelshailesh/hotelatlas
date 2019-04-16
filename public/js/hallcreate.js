@@ -50,35 +50,35 @@ $('.hallinformations').on('keyup', 'input', function(e) {
 });
 
 
-$("[id^=hallcreate]").on('keydown', reportKeyEvent);
+// $("[id^=hallcreate]").on('keydown', reportKeyEvent);
 
 
-function reportKeyEvent(zEvent) {
-    // zEvent.preventDefault();
-// alert("Sd");
+// function reportKeyEvent(zEvent) {
+//     // zEvent.preventDefault();
+// // alert("Sd");
 
-    var reportStr =
-        "The " +
-        (zEvent.ctrlKey ? "Control " : "") +
-        (zEvent.shiftKey ? "Shift " : "") +
-        (zEvent.altKey ? "Alt " : "") +
-        (zEvent.metaKey ? "Meta " : "") +
-        zEvent.key + " " +
-        "key was pressed.";
-    console.log(reportStr);
-    // <!-- $("#statusReport").text (reportStr); -->
+//     var reportStr =
+//         "The " +
+//         (zEvent.ctrlKey ? "Control " : "") +
+//         (zEvent.shiftKey ? "Shift " : "") +
+//         (zEvent.altKey ? "Alt " : "") +
+//         (zEvent.metaKey ? "Meta " : "") +
+//         zEvent.key + " " +
+//         "key was pressed.";
+//     console.log(reportStr);
+//     // <!-- $("#statusReport").text (reportStr); -->
 
-    //--- Was a Ctrl-Alt-E combo pressed?
-    if (zEvent.altKey && zEvent.key === "c") {
-        $("#hallModal").modal();
-        // <!-- this.hitCnt = ( this.hitCnt || 0 ) + 1; -->
-        // <!--  $("#statusReport").after (
-        //      '<p>Bingo! cnt: ' + this.hitCnt + '</p>'
-        //  ); -->
-    }
+//     //--- Was a Ctrl-Alt-E combo pressed?
+//     if (zEvent.altKey && zEvent.key === "c") {
+//         $("#hallModal").modal();
+//         // <!-- this.hitCnt = ( this.hitCnt || 0 ) + 1; -->
+//         // <!--  $("#statusReport").after (
+//         //      '<p>Bingo! cnt: ' + this.hitCnt + '</p>'
+//         //  ); -->
+//     }
     
-    // zEvent.stopPropagation();
-}
+//     // zEvent.stopPropagation();
+// }
 
 
 $('form.hallinformations').on('submit',function(e)

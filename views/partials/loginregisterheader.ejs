@@ -1,0 +1,67 @@
+<!-- views/partials/header.ejs -->
+
+
+<style>
+nav.mainheader{
+  box-shadow:5px 5px black;
+}
+ nav ul
+      {
+        display: flex;
+      
+  
+             }
+
+      nav ul li
+      {
+        list-style: none;
+      }
+
+      
+      
+      nav > div > ul > li > a
+      {
+       
+       
+        font-size:20px !important;
+       
+      }
+            
+          ul li a:hover
+          {
+          font-size: 25px !important;
+          margin-top:-5px;
+         
+          }
+          
+         
+        
+          
+</style>
+  <nav class="navbar mb-4 mainheader navbar-expand text-white navbar-light ">
+<a class="navbar-brand ml-5" href="http://www.animatedimages.org/cat-nepal-flag-839.htm"><img src="http://www.animatedimages.org/data/media/839/animated-nepal-flag-image-0007.gif" style="width:50px; height:30px;" border="0" alt="animated-nepal-flag-image-0007" /></a>
+  <a class="navbar-brand mt-2" href="http://www.jacnepal.com"><img style="width:100px; height:30px;" src="./js/jaclogo.png" /></a>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav float-right text-white">
+      <li class="nav-item float-right active ml-5">
+        <a style="background-color:#FFC312;" class="nav-link  btn text-white" href="/login">Login</span></a>
+      </li>
+      <li class="nav-item ctive ml-5">
+        <a class="nav-link btn btn-info text-white" href="/register">Register</a>
+      </li>
+
+</ul>
+</div>
+</nav>
+<script>
+
+$('button.logout').on('click',function(e)
+{
+  Cookies.set('username','');
+  Cookies.set('password','');
+  window.location.replace("http://localhost:3000/login");
+
+  
+})
+
+</script>

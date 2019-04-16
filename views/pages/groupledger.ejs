@@ -43,7 +43,7 @@ a:active
                 </datalist>
 
 </div>
-<div class="col-md-8 appendledgerdata mt-2 border  " style="max-height:1000px;">
+<div class="col-md-8 appendledgerdata purchaseformappend mt-2 border  " style="max-height:1000px;">
 
 </div>
 <div class="col-md-2 p-0 text-center border h-100 ">
@@ -125,7 +125,7 @@ a:active
 
 					
 			displayledgerdata+=`<tr data-vouchertype='${ledgerdata[j][i].vouchertype}' data-transactionno='${ledgerdata[j][i].transactionno}'><td>${ledgerdata[j][i].date}</td><td>${ledgerdata[j][i].accountname}</td><td>${ledgerdata[j][i].vouchertype}</td><td>${ledgerdata[j][i].transactionno}</td>`;
-			if(ledgerdata[j][i].dctype==='c')
+			if(ledgerdata[j][i].dctype==='d')
 			{
 				displayledgerdata+=`<td>${ledgerdata[j][i].dcamount}</td><td></td></tr>`
 				totaldebit=totaldebit+ledgerdata[j][i].dcamount;
@@ -192,14 +192,16 @@ $.ajax({
 	url:'/editvoucher',
 	type:'post',
 	data:{vouchertype:vouchertype,transactionno:transactionno},
+	async:false,
 	success:function(data)
 	{
 		
 		prjcdata=data.prjcdata;
 		alert("Process completed")
 		$('.ledgerdata1').hide();
-		
-	
+	if(vouchertype==='Payment' || vouchertype==='Contra' || vouchertype==='Receipt' || vouchertype==="Journal")
+{
+	console.log(prjcdata);
   var editpaymentform=`<div class="row ledgerdata2 ml-3"><div class="col-md-12">
 	 <div class="paymentreceiptjournalcontraform">
 		 <div class="row">
@@ -207,7 +209,7 @@ $.ajax({
 				 <br />
 				 <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle">Payment</label><label class="ml-3">Number:</label>
 				 <h6 class=' text-dark  ml-2 d-inline mr-5 transactionno' id="transactionno">
-					 ${prjcdata[0]['transactionno']}
+					 ${prjcdata[0].transactionno}
 				 </h6>
 				 <input id="datemodify" class="float-right border-0 d-inline is-calendarsPicker" value="${prjcdata[0].paymentdate}">
 				 <h6 class='dates text-dark d-inline float-right mr-2'>Date:</h6>
@@ -226,7 +228,7 @@ $.ajax({
 for (var i = 0; i < prjcdata.length; i++) 
 {
 editpaymentform+=`<tr class=" m-0 row text-center">
-						 <td id="sn" class="col-md-1  ">${i+1}</td>
+						 <td id="sn" class="col-md-1">${i+1}</td>
 						 <td class="col-md-1 p-0"><input list="dctypelist" class="form-control" name="dctype" id="dctype-${i+1}" value="${prjcdata[i].dctype}" type="text" required maxlength="1" oninput="javascript:oninputdctype(event);" /></td>
 						 <td class="col-md-4 p-0"><input list="accountnamelist" name="accounttype" id="accounttype-${i+1}" value="${prjcdata[i].account}" type="text" class="form-control text-center" required /></td>`;
 if(prjcdata[i].dctype==='d') { 
@@ -269,14 +271,166 @@ editpaymentform+=`</table>
 console.log(editpaymentform);
 		// var iframeappend= '<div class="ledgerdata2"><iframe style="width:100%;height:600px;" src="http://localhost:3000/voucheredit"></iframe></div>';
 		$('.appendledgerdata').append(editpaymentform);
+}
+else if (vouchertype === 'Sales')
+{
+
+console.log(prjcdata)
+
+
+var editpaymentform=`<div class="salespurchaseform ledgerdata2 ">
+	<form id="salespurchasetransaction" method="post"  onkeypress="return event.keyCode != 13;" onsubmit="return false;" >
+<div class="row">
+
+    <div class="col-12 mt-2 salespurchasebill">
+        <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle1">Sales</label><label class="ml-3">Number:</label><h6 class='ml-2 text-dark d-inline mr-5 ' id="transactionno1" >${prjcdata[0].salesno}</h6>
+		<input id="datemodify" class="float-right border-0 d-inline is-calendarsPicker" value="${prjcdata[0].salesdate}">
+		<h6   class='dates text-dark d-inline float-right mr-5'>Date:</h6>
+        <br>
+        <label style="font-size:15px;">Party's A/C Name </label>
+        <input autocomplete="off" type="text" list="accountnamelist"  id="accountname" class="form-control w-25 d-inline" required value='${prjcdata[0].accountname}' autofocus>
+        <br>
+    </div>
+</div>
+    <div style="max-height: 400px;" class="table-responsive mt-3">
+        <table class="salestable table table-bordered ">
+            <tr class=" m-0 bg-dark text-white row text-center">
+            	<th class="col-md-1">S.N.</th>
+                <th class="col-md-4">Name of Item</th>
+                <th class="col-md-2">Quantity</th>
+                <th class="col-md-2">Rate</th>
+                <th class="col-md-1">per</th>
+                <th class="col-md-2">Amount</th>
+            </tr>
+        `;
+
+	var totalamount=0;
+for (var i = 0; i < prjcdata.length; i++) 
+{
+editpaymentform+=`<tr  class=" m-0 row text-center">
+      <td id="sn" class="col-md-1 p-1  ">${i+1}</td>
+      <td  class="col-md-4 p-0"><input required list="itemnamelist" class="form-control" name="itemname" id="itemname-${i+1}" value=${prjcdata[i].itemname} type="text" required oninvalid="this.setCustomValidity('Item not in the list!!')"/></td>
+      <td  class="col-md-2 p-0"><input value=${prjcdata[i].quantity} required  name="quantity" id="quantity-${i+1}" class="form-control" min="0" type="number"  /></td>
+      <td  class="col-md-2 p-0"><input required value=${prjcdata[i].rate} name="rate" id="rate-${i+1}"  type="number" min="0" class="form-control"  /></td>
+      <td   class="col-md-1 p-0"><input autocomplete="off" value=${prjcdata[i].units} list="unitlist" name="units" id="units-${i+1}"  type="text"  class="form-control" required /></td>
+      <td   class="col-md-2 p-0"><input onkeypress="createnewsalesbox(event)" name="amount" id="amount-${i+1}" value=${prjcdata[i].amount} type="text" class="form-control text-center" readonly  required /></td>
+    </tr>`;
+	totalamount=totalamount+prjcdata[i].amount;
+} 
+
+
+editpaymentform+=`</table>
+    </div>    <div class="row">
+        <div class="col-md-4 ml-5"></div>
+  
+        <div class="col-md-4 float-right ml-3"></div>
+        <label>Total amount Rs.</label>
+        <label class="d-inline form-control-sm  text-center" id="totalamount">${totalamount}</label>
+        <button type="reset" class="btn ml-5 d-none resetpurchase justify-content-center  btn-primary"> Reset
+        </button>
+        <div class="col-md-1"></div>
+        <button type="submit" onclick="javascript:purchasesubmit(event);" class="btn ml-5 col-md-1 ml-5 w-25 btn-sm float-right btn-primary"> Submit
+        </button>
+    </div>
+</form>
+</div>`;
+
+$('div.purchaseformappend').append(editpaymentform);
+
+}
+
+
+else
+{
+	
+console.log(prjcdata)
+return new Promise((resolve,reject)=>
+{
+
+
+if(prjcdata.length===0)
+{
+	reject("No any item");
+}
+var editpaymentform=`<div class="salespurchaseform ledgerdata2  ">
+	<form id="salespurchasetransaction" method="post"  onkeypress="return event.keyCode != 13;" onsubmit="return false;" >
+<div class="row">
+
+    <div class="col-12 mt-2 salespurchasebill">
+        <label style="font-size:20px; width:150px; text-align: center;  background-color:red;" id="transactiontitle1">Purchase</label><label class="ml-3">Number:</label><h6 class='ml-2 text-dark d-inline mr-5 ' id="transactionno1" >${prjcdata[0].purchaseno}</h6>
+        
+		<input id="datemodify" class=" float-right border-0 d-inline is-calendarsPicker" value="${prjcdata[0].purchasedate}">
+		<h6  class='dates text-dark d-inline float-right mr-3'>Date:</h6>
+        <br>
+        <label style="font-size:15px;">Party's A/C Name </label>
+        <input autocomplete="off" type="text" list="accountnamelist"  id="accountname" class="form-control w-25 d-inline" required value='${prjcdata[0].accountname}' autofocus>
+        <br>
+    </div>
+</div>
+    <div style="max-height: 400px;" class="table-responsive mt-3">
+        <table class="salestable table table-bordered">
+            <tr class=" m-0 bg-dark text-white row text-center">
+            	<th class="col-md-1">S.N.</th>
+                <th class="col-md-4">Name of Item</th>
+                <th class="col-md-2">Quantity</th>
+                <th class="col-md-2">Rate</th>
+                <th class="col-md-1">per</th>
+                <th class="col-md-2">Amount</th>
+            </tr>`;
+
+
+var totalamount=0;
+
+	for (var i = 0; i < prjcdata.length; i++) 
+{
+editpaymentform+=`<tr  class=" m-0 row text-center">
+      <td id="sn" class="col-md-1  ">${i+1}</td>
+      <td  class="col-md-4 p-0"><input required list="itemnamelist" class="form-control" name="itemname" id="itemname-${i+1}" value=${prjcdata[i].itemname} type="text" required oninvalid="this.setCustomValidity('Item not in the list!!')"/></td>
+      <td  class="col-md-2 p-0"><input value=${prjcdata[i].quantity} required  name="quantity" id="quantity-${i+1}" class="form-control" min="0" type="number"  /></td>
+      <td  class="col-md-2 p-0"><input required value=${prjcdata[i].rate} name="rate" id="rate-${i}"  type="number" min="0" class="form-control"  /></td>
+      <td   class="col-md-1 p-0"><input autocomplete="off" value=${prjcdata[i].units} list="unitlist" name="units" id="units-${i+1}"  type="text"  class="form-control" required /></td>
+      <td   class="col-md-2 p-0"><input onkeypress="createnewsalesbox(event)" name="amount" id="amount-${i+1}" value=${prjcdata[i].amount} type="text" class="form-control text-center" readonly  required /></td>
+    </tr>`;
+totalamount=totalamount+prjcdata[i].amount;
+} 
+
+editpaymentform+=`</table>
+    </div>    <div class="row">
+        <div class="col-md-4 ml-5"></div>
+  
+        <div class="col-md-4 float-right ml-3"></div>
+        <label>Total amount Rs.</label>
+        <label class="d-inline form-control-sm  text-center" id="totalamount">${totalamount}</label>
+        <button type="reset" class="btn ml-5 d-none resetpurchase justify-content-center  btn-primary"> Reset
+        </button>
+        <div class="col-md-1"></div>
+        <button type="submit" onclick="javascript:purchasesubmit(event);" class="btn ml-5 col-md-1 ml-5 w-25 btn-sm float-right btn-primary"> Submit
+        </button>
+    </div>
+</form>
+</div>`;
+resolve(editpaymentform);
+}).then(function(editpaymentform)
+{
+console.log(editpaymentform);
+$('div.purchaseformappend').append(editpaymentform);
+})
+.catch(function(err)
+{
+	console.log(err);
+	alert("Err");
+})
+}
+
 		// window.location.replace(data.url);
 	},
 	error:function(data)
 	{
 		alert("Process couldn't be completed. Please Try again");
 	}
-})
 
+
+})
 })
 
 

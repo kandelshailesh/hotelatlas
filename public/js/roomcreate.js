@@ -83,6 +83,7 @@ function reportKeyEvent(zEvent) {
 
 $('form.roominformations').on('submit',function(e)
 {
+    alert("S")
     e.preventDefault();
 
     var itemcreateform = $(".roominformations").serializeArray();

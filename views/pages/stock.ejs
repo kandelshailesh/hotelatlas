@@ -79,7 +79,8 @@
                     }   
             }
         }
- var dynamictable=`<table class="table text-center table-bordered"><tr><th>S.N</th><th>Itemname</th><th>Remaining</th><th>Item group</th> <th> Item Category </th></tr><tr>`;
+ var dynamictable=`<div style="max-height: 400px;" class="table-responsive mt-3">
+ <table style="font-size:20px;" class="table text-center table-bordered"><tr><th>S.N</th><th>Itemname</th><th>Total Purchase</th><th>Totalsales</th><th>Remaining</th><th>Item group</th> <th> Item Category </th></tr><tr>`;
 
             $.ajax({
                 url:'/searchstock',
@@ -91,7 +92,7 @@
 
                 $('.viewresult').html('');
                 result=data.result;
-                alert("success");
+                // alert("success");
                
                 console.log(data);
                 console.table(result);
@@ -100,9 +101,9 @@
                 
                 for(i=0;i<result.length;i++)
                 {
-                    dynamictable+=`<tr><td>${i+1}</td><td>${result[i].itemname}</td><td>${result[i].remaining}</td><td>${result[i].itemgroupname}</td><td>${result[i].groupcategory}</tr>`;
+                    dynamictable+=`<tr><td>${i+1}</td><td>${result[i].itemname}</td><td>${result[i].purchase}</td><td>${result[i].sales}</td><td>${result[i].remaining}</td><td>${result[i].itemgroupname}</td><td>${result[i].groupcategory}</tr>`;
                 }
-                dynamictable+='</table>';
+                dynamictable+='</table></div>';
                 $('.viewresult').append(dynamictable);
                 }
                 else

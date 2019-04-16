@@ -1,15 +1,15 @@
-for (var i = 1; i < 2; i++) {
+// for (var i = 1; i < 2; i++) {
 
-    $('.billtable').append(`<tr  class=" m-0  row text-center">
-			<td id="sn" class="col-md-2 ">${i}</td>
-			<td   class="col-md-4 p-0"><input id="itemname-${i}" name="itemname-${i}" style="text-align-last:center;" onchange="changeprice(event);" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
-			<td  class="col-md-1 p-0"><input type="number" min="0" onkeyup="changeitemquantity(event)" name="itemsquantity-${i}"  id="itemsquantity-${i}" value=0  class="form-control" /></td>
-			<td  class="col-md-2 p-0"><select onchange="unitchange(event)" class="form-control" style="text-align-last:center; text-align: center; " name="unit-${i}" id="unit-${i}" ><option  value="0"></option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
-			<td   class="col-md-1 p-0"><input onchange="changeitemprice(event)" onkeyup="changeitemprice(event)" id="itemsprice-${i}" name="itemsprice-${i}"   value="0" type="number" min="0" class="form-control" /></td>
-			<td   class="col-md-2 p-0"><input name="amount-${i}"  style="text-align-last:center;" onkeydown="createnew(event);" id="amount-${i}" value=0  type="number" min="0" class="form-control text-center" value=0  /></td>
+//     $('.billtable').append(`<tr  class=" m-0  row text-center">
+// 			<td id="sn" class="col-md-2 ">${i}</td>
+// 			<td   class="col-md-4 p-0"><input id="itemname-${i}" name="itemname-${i}" style="text-align-last:center;" onchange="changeprice(event);" type="text" class="form-control" autocomplete="off" /><ul style="list-style-type:none;  left:-1px;  max-height:150px; position:absolute; outline:1px solid black;z-index:99; overflow:auto; padding:0px; margin:0px;" id="itemlist-${i}"  name="itemlist-${i}"  class="d-none list-group"></ul>
+// 			<td  class="col-md-1 p-0"><input type="number" min="0" onkeyup="changeitemquantity(event)" name="itemsquantity-${i}"  id="itemsquantity-${i}" value=0  class="form-control" /></td>
+// 			<td  class="col-md-2 p-0"><select onchange="unitchange(event)" class="form-control" style="text-align-last:center; text-align: center; " name="unit-${i}" id="unit-${i}" ><option  value="0"></option><option  value="1">Cup</option><option value="2">Plate</option><option value="3">Kachaura</option><option>Pieces</option></select></td>
+// 			<td   class="col-md-1 p-0"><input onchange="changeitemprice(event)" onkeyup="changeitemprice(event)" id="itemsprice-${i}" name="itemsprice-${i}"   value="0" type="number" min="0" class="form-control" /></td>
+// 			<td   class="col-md-2 p-0"><input name="amount-${i}"  style="text-align-last:center;" onkeydown="createnew(event);" id="amount-${i}" value=0  type="number" min="0" class="form-control text-center" value=0  /></td>
 			
-		</tr>`);
-}
+// 		</tr>`);
+// }
 
 function changeprice(event)
 {
