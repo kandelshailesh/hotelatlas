@@ -52,9 +52,9 @@ var transactionno;
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "hotelatlas",
+  user: "hotelatlass",
   password: "Hotel@atlas123",
-  database: "hotelatlas",
+  database: "hotelatlass",
   multipleStatements: true
 });
 // var con = mysql.createConnection({

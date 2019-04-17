@@ -59,10 +59,7 @@
             </form>
         </div>
         <% include ../partials/sales %>
-        <% include ../partials/itemcreate %>
-        <% include ../partials/itemgroupcreate %>
-        <% include ../partials/itemcategorycreate %>
-        <% include ../partials/unitModal %>
+      
 
 
 
@@ -167,7 +164,7 @@
   Contra form
 </button> -->
     </div>
-    <div class="col-md-2  mt-2">
+    <div class="col-md-2">
         <nav class="nav flex-column text-center" style="font-size:20px;">
             <a class="nav-link d-none" style="border:1px solid black;" id="report" href="#">Report</a>
             <ul style="display:none;" class="list-group reportlist mt-1 ml-2 justify-contents-center w-75 mb-2 p-0">
@@ -189,6 +186,12 @@
             <a onclick="javascript:purchaseform(event);" style="border:3px solid #EEE;" class="nav-link" href="#" > Purchase</a>
         </nav>
     </div>
+    </div>
+
+        <% include ../partials/itemcreate %>
+        <% include ../partials/itemgroupcreate %>
+        <% include ../partials/itemcategorycreate %>
+        <% include ../partials/unitModal %>
      <!-- <p id="transactionid">
         <%= paymentno[0]  %>
     </p> -->
