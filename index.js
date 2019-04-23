@@ -1692,12 +1692,15 @@ app.post('/addintobilldetails',function(req,res)
 {
   var billingdetailsdata= req.body.billingdetailsdata;
   console.log(billingdetailsdata);
+  
   var rthtable={'room':'roomnamestatus','hall':'hallnamestatus','table':'tablenamestatus'};
+  var rthtablename=rthtable[req.body.billingdetailsdata[1]];
+  console.log("RTHtable name is ");
+  console.log(rthtablename);
+  var insertintobillingdetails = `INSERT INTO billtable select * from tempbilltable where name=?; DELETE from tempbilltable where name=?; INSERT INTO billingdetails(billno, rthtype, rthname, customername, address, totalamount, servicecharge, discountpercent, discountamount, grandtotal, paymentreceived, balancedue, salesdate) values (?);UPDATE ${rthtablename} set status='Available' where name=?`;
 
-  var insertintobillingdetails = "INSERT INTO billtable select * from tempbilltable where name=?; DELETE from tempbilltable where name=?; INSERT INTO `billingdetails`(`billno`, `rthtype`, `rthname`, `customername`, `address`, `totalamount`, `servicecharge`, `discountpercent`, `discountamount`, `grandtotal`, `paymentreceived`, `balancedue`, `salesdate`) values (?);UPDATE `${rthtable[req.body.billingdetailsdata[1]]}` set status='Available' where name=?";
 
-
-  con.query(insertintobillingdetails,[[req.body.billingdetailsdata[2]],[req.body.billingdetailsdata[2]],[billingdetailsdata],[req.body.billingdetailsdata[2]]],function(err,results)
+  con.query(insertintobillingdetails,[[req.body.billingdetailsdata[2]],[req.body.billingdetailsdata[2]],billingdetailsdata,[req.body.billingdetailsdata[2]]],function(err,results)
   {
     if(err)
     {

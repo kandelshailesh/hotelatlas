@@ -163,6 +163,8 @@ $('form.userregistrationform').on('submit',function(e)
                 Cookies.set('password',password);
             }
         window.location.replace("http://account.hotelatlas.com.np/voucher");
+        window.location.replace("http://localhost:3000/voucher");
+
          $('button#reset').click();
         },
         error:function(data)
