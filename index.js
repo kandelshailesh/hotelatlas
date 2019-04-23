@@ -91,7 +91,7 @@ app.use(cookieParser());
 
 // app.use(express.json());
 
-app.get('/',authenticate,function(req,res)
+app.get('',authenticate,function(req,res)
 {
 return res.redirect('/billing');
 })
