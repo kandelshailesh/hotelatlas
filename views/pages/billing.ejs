@@ -202,13 +202,11 @@ function showmainbilling(e,type,rthname)
 
   $('div.billmainpart').append(`<div class="row">
   <div class="col-12 billdata">
-  <h1 style="text-align:center;"> Hotel Atlas</h1>
-	<p style="text-align: center;">Sunwal-12, Bhumahi</p>
+ 
 	<label style="font-size:12px;"><b>Bill no:</b></label><input class="billno border border-0 disabled ml-1">
 	<label style="position:relative; left:100px; font-size:12px;">
 	<label class='dates d-inline'>Date:</label>
   <input  style="font-size: 15px; border:1px solid blue !important; text-align:center; width:120px; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class="form-control salesdate d-inline ml-2 mr-2"  autofocus name="salesdate" autocomplete="off">
-	<label style="position:relative; left:30px;"><b>PAN No.:</b><b class=" panno ml-1">304898466</b></label> 
 
 </label>
 <br/>
@@ -241,6 +239,7 @@ function showmainbilling(e,type,rthname)
 								<div class="col-md-2"></div>
                 </div>
             </div>
+            <div class="table-responsive" style="max-height:200px; overflow-y:scroll;">
 	<table  class="table  billtable ">
 		<tr class=" m-0  row text-center">
 	
@@ -254,7 +253,7 @@ function showmainbilling(e,type,rthname)
 
 
 
-  $('div.finalmaintable').append(`<div class="col-md-3"><label class="text-bold">Total</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class=" d-inline form-control w-100 text-center" name="totalamount" id="totalamount" value="0">
+  $('div.billmainpart').append(`<div class="row"><div class="col-md-3"><label class="text-bold">Total</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class=" d-inline form-control w-100 text-center" name="totalamount" id="totalamount" value="0">
 	</div>
 	<div class="col-md-3">
 	<label>Service Charge</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; "  class="d-inline form-control w-100 text-center" name="servicechargeamount" value="0" id="servicechargeamount">
@@ -275,17 +274,18 @@ function showmainbilling(e,type,rthname)
 
   <div class="col-md-3"><label class="text-bold">Payment Received</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; " class=" d-inline form-control w-100 text-center" name="paymentreceived" min="1" id="paymentreceived" required>
 	</div>
-	<div class="col-md-3">
-	<label>Balance Due</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; "  class="d-inline form-control w-100 text-center" name="balancedue" value="0" id="balancedue">
-	</div><br></br>
-	<div class="text-center mt-4">
+
+	<div class="col-md-3" style="margin-top:-65px; margin-left:180px;">
+	<label class="text-bold">Balance Due</label><input style="font-size: 15px; border:1px solid blue !important; text-align:center; height:32px !important; border-radius:5px !important;  box-shadow: 2px 2px blue !important; "  class="d-inline form-control w-100 text-center" name="balancedue" value="0" id="balancedue">
+	</div>
+	<div class="text-center " style="margin-top:-40px; margin-left:100px; ">
 	<button type="submit"  id="submit" class="btn btn-primary text-center" role="button">Submit</button>
   
 	</div>
 	</div>
 
 
-</div>`);
+</div></div></div>`);
 
 $('input.salesdate').calendarsPicker({calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'})
  var random =parseInt(Math.floor((Math.random()*1000000000) +1));
@@ -432,86 +432,7 @@ $(document).on('input','#paymentreceived',function(e)
 
 function printbill()
 {
-  var printbilldata='';
-
-  printbilldata+=`<div class="ml-2 mt-2" style="width:235px !important; font-weight:bold; font-size:15px !important;"><h5 class="text-center">Hotel Atlas</h5><h6 class="text-center">Sunwal-10,Bhumahi</h6> </div>`;
   
-  var customername=$('#customername').val();
-  if(!customername)
-  {
-    customername='-------------------------';
-  }
- 
-  var address=$('#address').val();
-    if(!address)
-  {
-    address='-----------------------';
-  }
-
-var billno=$('.billno').val();
-var salesdate=$('.salesdate').val();
-var panno=$('.panno').text();
-
-var totalamount=Number($('#totalamount').val());
-var discountamount=$('#discountamount').val();
-var discountpercent=$('#discountpercent').val();
-var servicecharge=$('#servicechargeamount').val();
-var grandtotalamount=$('#grandtotalamount').val();
-var paymentreceived= $('#paymentreceived').val();
-var balancedue=$('#balancedue').val();
-var pandata=`<div class="ml-2" style="width:230px !important;  font-weight:bold; font-size:12px !important;"> <label >Date:${salesdate}</label><label class="ml-4">PAN No.:${panno}</label></div>`
-  var billdate=`<div class="ml-2" style="width:230px !important; font-weight:bold; font-size:12px !important;"> <label>Invoice no:${billno}</label></div>`;
-  var customerdetails=`<div class="ml-2" style="width:230px !important; font-weight:bold; font-size:12px !important;"> <label>Name:${customername}</label></br><label >Address:${address}</label></div>`;
-  var itemlisttable=`<table cellpadding="5" style="width:245px !important; font-size:15px !important;color:black; " class="ml-3
-  " ><tr><th>Itemname</th><th>Qty.</th><th>Rate</th><th>Amt.</th></tr>`;
-
-console.log(itemlistresult);
-  for(i=0;i<itemlistresult.length;i++)
-   {
-    
-   itemlisttable+=`<tr style="margin-top:5px;"
-    class="text-center ">
-			<td>${itemlistresult[i].itemname}</td>
-			<td>${itemlistresult[i].quantity}</td>
-			<td>${itemlistresult[i].price}</td>
-			<td>${itemlistresult[i].amount}</td>
-		</tr>`;	
-    
-   }
-  itemlisttable+=`</table>`;
-
-var finallist=`<div class="mt-1"  style="width:250px !important; font-size:15px !important; text-align:right;"><label>Subtotal:Rs.${totalamount}</label></br><label>Service Charge:Rs.${servicecharge}</label></br><label>Discount amount:Rs.${discountamount}</label></br><label>Invoice total:Rs.${grandtotalamount}</label></br><label>Payment Received:Rs.${paymentreceived}</label></br><label>Balance due:Rs.${balancedue}</label></div>`;
-    popupWin = window.open("");
-        popupWin.document.open();
-        popupWin.document.write(`
-          <html>
-            <head>
-            <meta charset='utf-8'>
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-            </head>
-           <style>
-
-    body {
-  
-        font-family:Arial, Helvetica, sans-serif !important;
-        color:black !important;
-    }
-
-
-           </style>
-        <body >
-      ${printbilldata}${pandata}${billdate}${customerdetails}${itemlisttable}${finallist}
-        </body>
-
-          </html>`
-        );
-
-        setTimeout(function() {
-    popupWin.print();
-    popupWin.close();
-}, 100);
-    
-
 }
 $('.billtableform').on('submit',function(e)
 {

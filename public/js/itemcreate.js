@@ -120,9 +120,9 @@ $('form.iteminformations').on('submit',function(e)
 
 
 
-$('body').on('shown.bs.modal', '#itemModal', function () {
+$('body').on('shown.bs.modal', '#itemModals', function () {
     // alert("Entered")
-    $('input:visible:enabled:first', this).focus();
+    $('input:visible:enabled:second', this).focus();
 })
 
 $('body').on('shown.bs.modal', '#unitModal', function () {

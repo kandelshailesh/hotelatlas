@@ -1,32 +1,459 @@
-<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" style="margin:auto; width:400px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Stock Item Creation</h5>
+ <% /*  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
+        <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
+            <div class="modal-header bg-dark">
+            
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">Item Management</h5>
+                
                 <button type="button" class="closeitem close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="iteminformations" method="post" action="" onkeypress="return event.keyCode != 13;" autocomplete="off">
+       
+            <form class="itemsinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
                 <div class="modal-body ">
+                <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 ml-2">
+                    <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+
+  <input  type="text" class="form-control hotelname" name="itemsname" placeholder="Search...">
+  <div class="input-group-append">
+    <span class="input-group-text fa  fa-search" style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  </div>
+  </div>
+  </div>
                     <div class="row ">
-                        <div class="col-md-10 iteminformation">
+                        <div class="col-md-4 iteminformation">
+                         <div class="card">
+                       <div class="card-body"  style="box-shadow:3px 3px 5px 6px #ccc !important;" >
                             <h4 class="text-center error-msg">
                             </h4>
                           <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
-                            <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required ><br></br>
-                            <label style="font-size: 12px;">Alias</label><input type="text" name="itemalias" id="itemalias" required class="ml-2 border border-1 w-75 form-control d-inline"><br></br>
-                            <label style="font-size: 12px;">Units</label><input list="unitlist" name="units" 
-                            id="unitcreate" type="text" required class=" ml-2 border form-control border-1 d-inline w-75"><br></br>
-                            <label style="font-size: 12px;">Group</label>
-                            <input type="text"  required list="itemgrouplist" name="itemgroupcreate" id="itemgroupcreate" class="form-control border border-1 d-inline w-75">
+                       <div class="form-group w-100">
+<div class="input-group mb-2">
+
+  <input type="text" class="form-control hotelname" required name="name" placeholder="Item name">
+  </div>
+  <div class="input-group mb-2">
+
+ 
+        <input required type="text" class="form-control hoteladdress" name="units"     placeholder="Units">
+       
+  </div>
+  <div class="input-group mb-2">
+
+
+  
+     
+         <input type="number" class="form-control mobileno" name="amount" placeholder="Amount">
+     
+  </div>
+  <div class="input-group mb-2">
+
+  <input type="text"  required list="itemgrouplist" class="form-control hotelname" name="itemgroup" placeholder="Groupname">
+  </div>
+ 
+  </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" name="submititem" id="submititem" class="btn btn-primary">Save</button>
+                  
+             
+                <div class=" col-md-8 table-responsive" style="height:300px;">
+             
+                <table style="box-shadow:2px 2px 3px 4px #ccc !important;" class="table table-hover itemtable table-striped table-bordered table-md">
+                <tr class="text-white bg-dark">
+                <th>ItemID</th>
+                <th>Itemname</th>
+                <th>Units</th>
+                <th>Price</th>
+                <th>Item group</th>
+                </tr>
+
+                </table>
+                
+                
                 </div>
+
+                </div>
+                <hr/>
+                </div>
+                <div class=" float-left" style="margin-left:28%;">
+               <div class="card">
+               <div class="card-footer bg-white">
+                     <button name="addbutton" type="submit" class="btn additems btn-primary">Add</button>
+                      <a  class="btn updateitems btn-primary">Update</a>
+                       <a  class="btn deleteitems btn-primary">Delete </a>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                     </div>
+                     </div> 
+                </div>
+                
             </form>
         </div>
     </div>
 </div>
+</main>
+<script>
+
+
+var itemid;
+ $("form.iteminfo").validate();
+$(document).ready(function()
+{
+
+$(document).on('click','.additems',function(e)
+{
+  e.preventDefault();
+   $("form.iteminfo").valid();
+   
+  
+if($("form.iteminfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.iteminfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/additems',
+        type:'post',
+        data:{itemdata:formObj},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("item added successfully");
+            $('form.iteminfo').trigger('reset');
+            $.ajax({
+  url:'/getitemlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemlist=data.itemlist;
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in itemlist[i])
+              {    
+            appendtabledata+=`<td>${itemlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.itemtable tr:gt(0)').html('');
+  $('.itemtable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+$(document).on('click','.updateitem',function(e)
+{
+  e.preventDefault();
+   $("form.iteminfo").valid();
+  
+if($("form.iteminfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.iteminfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/updateitem',
+        type:'post',
+        data:{itemdata:formObj,itemid:itemid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("item updated successfully");
+            $('form.iteminfo').trigger('reset');
+            $('button.additem').removeClass('disabled');
+$('button.additem').css('pointer-events','auto');
+
+            $.ajax({
+  url:'/getitemlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemlist=data.itemlist;
+    console.log(itemlist);
+    console.log(itemlist.length);
+    console.log(itemlist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in itemlist[i])
+              {    
+            appendtabledata+=`<td>${itemlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.itemtable tr:gt(0)').html('');
+  $('.itemtable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+$(document).on('click','.deleteitem',function(e)
+{
+  e.preventDefault();
+   $("form.iteminfo").valid();
+  
+if($("form.iteminfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+
+
+    $.ajax({
+        url:'/deleteitem',
+        type:'post',
+        data:{itemid:itemid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("item deleted successfully");
+            $('form.iteminfo').trigger('reset');
+            $.ajax({
+  url:'/getitemlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemlist=data.itemlist;
+    console.log(itemlist);
+    console.log(itemlist.length);
+   
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in itemlist[i])
+              {    
+            appendtabledata+=`<td>${itemlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.itemtable tr:gt(0)').html('');
+  $('.itemtable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+
+$(document).on('click','table.itemtable tr',function(e)
+{
+    var index=$('table.itemtable tr').index(this);
+    itemid=e.target.id;
+})
+
+
+var itemlistcache;
+
+
+$('body').on('shown.bs.modal', '#itemModal', function () {
+    // alert("Entered")
+    $('input:visible:enabled:first', this).focus();
+
+$.ajax({
+  url:'/getitemlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemlist=data.itemlist;
+    itemlistcache=itemlist;
+    
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemlist.length;i++)
+            { 
+              appendtabledata+='<tr style="color:black !important; ">';
+              for(var key in itemlist[i])
+              {    
+            appendtabledata+=`<td>${itemlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+  $('.itemtable').append(result); 
+    })
+
+            
+  }
+})
+})
+
+
+$(document).on("click",".itemtable tr:gt(0)",function(e)
+{
+e.preventDefault();
+$('.itemtable tr:gt(0)').removeClass('bg-info');
+$(this).addClass('bg-info');
+$('button.additem').addClass('disabled');
+$('button.additem').css('pointer-events','none');
+
+ itemid=$(this).find('td').eq(0).text();
+console.log(itemlistcache);
+var updateitemlist=[];
+for(i=0;i<itemlistcache.length;i++)
+{
+  
+    if(itemlistcache[i]['id']===Number(itemid))
+    {
+      for(var key in itemlistcache[i])
+      {
+      updateitemlist.push(itemlistcache[i][key])
+      }
+    }
+}
+
+var formdata= $('form.iteminfo').serializeArray();
+$.each(formdata,function(j,input)
+{
+
+  $(`input[name=${input.name}]`).val(updateitemlist[j]);
+})
+
+    })
+  
+
+
+
+})
+</script>
+
+*/ %>

@@ -3,6 +3,13 @@ var mysql = require('mysql');
 var bodyParser= require('body-parser');
 var MySQLEvents = require('mysql-events');
 var proxy = require('express-http-proxy');
+const fileUpload = require('express-fileupload');
+var rn = require('random-number');
+var options = {
+  min: 1
+, max:  5000
+, integer: true
+}
 
 var isauthenticated=false;
 var authenticate= function(req,res,next)
@@ -24,39 +31,44 @@ var authenticate= function(req,res,next)
     }
     console.log(username);
     console.log(password);
-    var usertable="SELECT * from userlist where username=? and password=?";
+    var usertable="SELECT * from userlist where username=? and password=?; SELECT * from hoteldetails";
     con.query(usertable,[username,password],function(err,result,fields)
     {
       console.log(result.length);
-      if(result.length===0)
+      if(result[0].length===0)
       {
       res.render('pages/login');
       }
       else
       {
       isauthenticated=true;
+      console.log(result[0]);
+      res.locals.userinfo=result[0];
+      res.locals.hoteldetails=result[1][0];
+
+
       next();
       }  
     }) 
 } 
 var vouchertype;
 var transactionno;
-// var con = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "hotelatlas",
-//   port:3308,
-//   multipleStatements: true
-// });
-
 var con = mysql.createConnection({
   host: "localhost",
-  user: "hotelatlass",
-  password: "Hotel@atlas123",
-  database: "hotelatlass",
+  user: "root",
+  password: "",
+  database: "hotelatlas",
+  port:3308,
   multipleStatements: true
 });
+
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "hotelatlass",
+//   password: "Hotel@atlas123",
+//   database: "hotelatlass",
+//   multipleStatements: true
+// });
 // var con = mysql.createConnection({
 //   host: "localhost",
 //   user: "root",
@@ -77,6 +89,9 @@ con.connect(function(err) {
   });
 
 
+
+
+
 // mysqleventwatcher= MySQLEvents(newcon);
 // console.log(mysqleventwatcher);
 
@@ -89,6 +104,119 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
+app.use(fileUpload());
+
+app.post('/hoteldetails', function(req, res) {
+
+
+  console.log(req.body);
+  console.log(req.files);
+  var hotelname=req.body.hotelname;
+  var hoteladdress=req.body.hoteladdress;
+  var phoneno=req.body.phoneno;
+  var mobileno=req.body.mobileno;
+  var panno=req.body.panno;
+  let sampleFile
+  var imagename
+  if(req.files)
+  {
+  
+  if (Object.keys(req.files).length == 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  sampleFile = req.files.logoupload;
+  imagename= rn(options)+req.files.logoupload.name;
+  console.log(imagename);
+
+}
+  var counttotal = "SELECT * from hoteldetails";
+  con.query(counttotal,function(err,results)
+  {
+    if(results.length===0)
+    {
+      var insertdetails= "INSERT INTO hoteldetails(hotelname,address,phoneno,mobileno,panno,logo) values (?,?,?,?,?,?)";
+  // Use the mv() method to place the file somewhere on your server
+con.query(insertdetails,[hotelname,hoteladdress,phoneno,mobileno,panno,imagename],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+  }
+  else
+  {
+    sampleFile.mv(`/public/${imagename}`, function(err) {
+      if (err)
+        return res.status(500).send(err);
+  
+      // res.send('File uploaded!');
+
+    });
+  }
+  res.redirect('/hoteldetails');
+
+})
+
+
+    }
+    else
+    {
+    var updatedetails= "UPDATE `hoteldetails` set `hotelname`=?,`address`=?,`mobileno`=?,`phoneno`=?,panno=?,`logo`=? where `id`=?";
+    var updatedetails1= "UPDATE `hoteldetails` set `hotelname`=?,`address`=?,`mobileno`=?,`phoneno`=?,panno=? where `id`=?";
+  // Use the mv() method to place the file somewhere on your server
+  if(req.files)
+    {
+con.query(updatedetails,[[hotelname],[hoteladdress],[mobileno],[phoneno],[panno],[imagename],1],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+  }
+  else
+  {
+    console.log("Okay");
+  sampleFile.mv(`./public/${imagename}`, function(err) {
+    if (err)
+      return res.status(500).send(err);
+
+    // res.send('File uploaded!');
+    
+  });
+  }
+ 
+
+  res.redirect('/hoteldetails');
+})
+
+    }
+    
+else
+{
+  con.query(updatedetails1,[[hotelname],[hoteladdress],[mobileno],[phoneno],[panno],1],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+  }
+  else
+  {
+    console.log("Okays");
+    res.redirect('/hoteldetails');
+  }
+  
+
+})
+}
+
+  
+    }
+  })
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+
+
+ 
+});
+
 // app.use(express.json());
 
 app.get('',authenticate,function(req,res)
@@ -96,11 +224,59 @@ app.get('',authenticate,function(req,res)
 return res.redirect('/billing');
 })
 
-app.post('/createitem',function(req,res)
+
+app.get('/usergroup',authenticate,function(req,res)
+{
+  var usergrouplist= "SELECT * from usergrouplist";
+  con.query(usergrouplist,function(err,results)
+  {
+  res.render('pages/usergroup',{usergrouplistresult:results});
+  })
+})
+
+app.get('/user',authenticate,function(req,res)
+{
+  var usergrouplist= "SELECT * from usergrouplist;SELECT * from userlist";
+  con.query(usergrouplist,function(err,results)
+  {
+  res.render('pages/user',{usergrouplistresult:results[0],userlist:results[1]});
+  })
+})
+
+app.get('/changepassword',authenticate,function(req,res)
+{
+  var usergrouplist= "SELECT * from usergrouplist";
+  con.query(usergrouplist,function(err,results)
+  {
+  res.render('pages/changepassword',{usergrouplistresult:results});
+  })
+})
+
+
+
+app.get('/usergroup/:id',authenticate,function(req,res)
+{
+  var id = req.params.id;
+  var usergrouplist= "SELECT * from usergrouplist where usergroup=?";
+  con.query(usergrouplist,[id],function(err,results)
+  {
+    if(err)
+    {
+      res.render('pages/error');
+    }
+    res.render('pages/usergroup',{usergroupsearch:results});
+  })
+})
+
+app.get('/setting',authenticate,function(req,res)
+{
+  res.render('pages/hoteldetails');
+})
+app.post('/additems',function(req,res)
 {
   console.log(req.body);
-  var stockitementry=[req.body.formobj.itemsname];
-  var itemdetails= [req.body.formobj.itemsname,req.body.formobj.itemalias,req.body.formobj.units,req.body.formobj.itemgroupcreate];
+  var stockitementry=[req.body.itemdata[0]];
+  var itemdetails= req.body.itemdata;
 
   var stockitementryfunction= () =>
   {
@@ -124,7 +300,7 @@ app.post('/createitem',function(req,res)
 
   stockitementryfunction().then(function(results)
   {
-  var insertintoitemtable= "INSERT INTO `itemtable`(`itemname`, `alias`, `units`, `itemgroup`) VALUES ?";
+  var insertintoitemtable= "INSERT INTO `itemtable`(`itemname`,`units`,`price`,`itemgroup`) VALUES ?";
   con.query(insertintoitemtable,[[itemdetails]],function(err,result,fields)
   {
     if(err) 
@@ -150,6 +326,259 @@ app.post('/createitem',function(req,res)
 })
 
 
+app.post('/updateitem',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE itemdetails set `itemname`=?,`units`=?,`amount`=?,`itemgroup`=?,`taxtype`=?,`taxamount`=?,`discounttype`=?,`discount`=?,`taxactive`=?,`discountactive`=? where id=?";
+
+con.query(insertuser,[req.body.itemdata[0],req.body.itemdata[1],req.body.itemdata[2],req.body.itemdata[3],req.body.itemdata[4],req.body.itemdata[5],req.body.itemdata[6],req.body.itemdata[7],req.body.itemdata[8],req.body.itemdata[9],req.body.itemid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+app.post('/deleteitem',function(req,res)
+{
+  var deletecustomer= "DELETE from itemdetails where id=?";
+  con.query(deletecustomer,[req.body.itemid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+
+
+
+
+
+app.post('/additemgroup',function(req,res)
+{
+  console.log(req.body);
+  var stockitementry=[req.body.itemgroupdata[0]];
+  var itemdetails= req.body.itemgroupdata;
+  var insertintoitemtable= "INSERT INTO `itemgroupnametable`(`itemgroupname`,`groupcategory`) VALUES ?";
+  con.query(insertintoitemtable,[[itemdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
+app.post('/updateitemgroup',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE itemgroupnametable set itemgroupname=?, groupcategory=? where id=?";
+
+con.query(insertuser,[req.body.itemgroupdata[0],req.body.itemgroupdata[1],req.body.itemgroupid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+app.post('/deleteitemgroup',function(req,res)
+{
+  var deletecustomer= "DELETE from itemgroupnametable where id=?";
+  con.query(deletecustomer,[req.body.itemid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+/* for Unit CRUD operations */
+app.post('/additemgroup',function(req,res)
+{
+ 
+  var unitdetails= req.body.unitdata;
+  var insertintoitemtable= "INSERT INTO `unittable`(`name`) VALUES ?";
+  con.query(insertintoitemtable,[[unitdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
+app.post('/updateitemgroup',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE unittable set name=? where id=?";
+
+con.query(insertuser,[req.body.unitdata[0],req.body.unitid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+app.post('/deleteunit',function(req,res)
+{
+  var deletecustomer= "DELETE from unittable where id=?";
+  con.query(deletecustomer,[req.body.unitid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+
+
+
+
+app.post('/additemcategory',function(req,res)
+{
+  console.log(req.body);
+  var itemdetails= req.body.itemcategorydata;
+
+ 
+  var insertintoitemtable= "INSERT INTO groupcategory(categoryname) VALUES ?";
+  con.query(insertintoitemtable,[[itemdetails]],function(err,result,fields)
+  {
+    if(err) 
+    {
+
+      console.log(err);
+      res.status(500).send({'message':'Enter valid data'});
+    }
+    else
+    {
+      console.log("Submitted Successfully");
+      res.status(200).send({'message':'Submitted Successfully'});
+    }
+
+  })
+})
+
+
+app.post('/updateitemcategory',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE groupcategory set categoryname=? where categoryid=?";
+
+con.query(insertuser,[req.body.itemcategorydata[0],req.body.itemcategoryid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+app.post('/deleteitemcategory',function(req,res)
+{
+  var deletecustomer= "DELETE from groupcategory where categoryid=?";
+  con.query(deletecustomer,[req.body.itemcategoryid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
 app.post('/salescreateitem',function(req,res)
 {
   console.log(req.body);
@@ -907,7 +1336,19 @@ app.get('/voucher',authenticate,function(req, res) {
 });
 
 app.get('/reserve',authenticate,function(req, res) {
-    res.render('pages/reserve');
+  var post  = {username:'bicky', password: 'Hello MySQL',usergroup:'admin'};
+con.query('INSERT INTO userlist SET ?', post, function(err, result) {
+  if(err)
+  {
+    console.log(err);
+  }
+  else
+  {
+  res.render('pages/reserve');
+  }
+  //query.sql returns INSERT INTO posts SET `id` = 1, `title` = 'Hello MySQL'
+});
+    
 });
 app.post('/accountsubmit',(req,res)=>
 {
@@ -1246,7 +1687,6 @@ resolve(result);
       {
     // console.log("Number of records inserted: " + result.affectedRows);
 console.log(result);
- res.status(200).send("Transaction completed Successfully");
 resolve(result);
 
     
@@ -1255,6 +1695,10 @@ resolve(result);
   }
  
 })
+}).the((result)=>
+{
+ res.status(200).send("Transaction completed Successfully");
+
 }).catch((err)=>
 {
   console.log(err);
@@ -1747,32 +2191,57 @@ res.render('pages/register');
 
 app.post('/register',function(req,res)
 {
+  console.log("Body");
+  console.log(req.body);
+var usergroup=req.body.usergroup;
 var username=req.body.username;
 var password=req.body.password;
+console.log(password);
 var checkuser= "SELECT * from userlist where username=?";
-var insertuser= "INSERT INTO userlist(username,password) values (?,?)";
+var insertuser= "INSERT INTO userlist(username,password,usergroup) values (?,?,?)";
 con.query(checkuser,[username],function(err,results)
 {
 console.log(results);
   if(results.length===0)
   {
-con.query(insertuser,[username,password],function(err,results1)
+con.query(insertuser,[username,password,usergroup],function(err,results1)
 {
   if(err)
   {
     console.log(err);
   }
 console.log("Added Successfully");
+
 res.status(200).send({'success':"Inserted Successfully"});
+
 })
   }
   else
   {
+
     res.status(500).send({'err':"Username already exists"});
   }
 })
 })
 
+app.post('/saveusergroup',function(req,res)
+{
+  var usergroupname=req.body.usergroupname;
+  console.log(req.body);
+  var insertusergroup="INSERT INTO usergrouplist(groupname) values(?)";
+  con.query(insertusergroup,[usergroupname],function(err,results)
+  {
+    if(err)
+    {
+      console.log(err);
+      res.status(500).send({'err':'Error'});
+      }
+      else
+      {
+      res.status(200).send({'success':'Successfully'});
+      }
+  })
+})
 app.get('/login',authenticate,function(req,res)
 {
   console.log("Authenticated");
@@ -1788,3 +2257,687 @@ app.get('/login',authenticate,function(req,res)
 })
 var port = process.env.port || 3000;
 app.listen(port,()=> console.log('Listening on port 3000'));
+
+app.post('/checkpassword',function(req,res)
+{
+  console.log(req.body);
+  var username= req.body.username;
+  var password= req.body.password;
+  var newpassword= req.body.newpassword;
+var selectpassword="SELECT * from userlist where username=?";
+var changepassword="UPDATE userlist set password=? where username=?"
+con.query(selectpassword,[username],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+  }
+if(results[0].password===password)
+{
+
+  con.query(changepassword,[newpassword,username],function(err,results)
+  {
+    if(err)
+    {
+      console.log(err);
+    }
+    else
+    {
+      console.log("Changed successfully");
+      
+  res.status(200).send({'success':'Success'});
+    }
+  })
+}
+else{
+  res.status(500).send({'err':'Password didnot match'});
+}
+})
+
+})
+
+app.get('/hoteldetails',function(req,res)
+{
+  var gethoteldetails= "SELECT * from hoteldetails";
+  con.query(gethoteldetails,function(err,results)
+  {
+    res.render('pages/hoteldetails',{hoteldetails:results[0]});
+
+  })
+})
+
+
+
+app.post('/editusergroup',function(req,res)
+{
+  console.log(req.body);
+  var checkusergroupname="SELECT * from usergrouplist where groupname=? and id!=?";
+  var updateusergroup= "UPDATE usergrouplist set groupname=? where id=?";
+  
+
+  con.query(checkusergroupname,[req.body.editusergroup,req.body.id],function(err,results1)
+  {
+    if(err)
+    {
+      console.log(err);
+    }
+    else
+    {
+  if(results1.length===0)
+  {
+  con.query(updateusergroup,[req.body.editusergroup,req.body.id],function(err,results)
+  {
+    if(err)
+    {
+      console.log(err);
+      res.status(500).send({'err':'Internal server error'});
+    }
+    else{
+      console.log(results);
+      res.status(200).send('success');
+
+    }
+
+
+  })
+}
+ 
+
+  else
+  {      res.status(500).send({'err':'Internal server error'});
+
+  }
+}
+})
+})
+app.post('/edituser',function(req,res)
+{
+  console.log(req.body);
+  var checkusername="SELECT * from userlist where username=? and id!=?";
+  var updateuser= "UPDATE userlist set username=?,password=?,usergroup=? where id=?";
+  
+
+  con.query(checkusername,[req.body.username,req.body.id],function(err,results1)
+  {
+    if(err)
+    {
+      console.log(err);
+    }
+    else
+    {
+  if(results1.length===0)
+  {
+  con.query(updateuser,[req.body.username,req.body.password,req.body.usergroup,req.body.id],function(err,results)
+  {
+    if(err)
+    {
+      console.log(err);
+      res.status(500).send({'err':'Internal server error'});
+    }
+    else{
+      console.log(results);
+      res.status(200).send('success');
+
+    }
+
+
+  })
+}
+ 
+
+  else
+  {      res.status(500).send({'err':'Internal server error'});
+
+  }
+}
+})
+})
+
+
+app.post('/deleteuser',function(req,res)
+{
+  var deleteuser= "DELETE from userlist where id=?";
+  con.query(deleteuser,[req.body.id],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+app.post('/deleteusergroup',function(req,res)
+{
+  var deleteusergroup= "DELETE from usergrouplist where id=?";
+  con.query(deleteusergroup,[req.body.id],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+app.post('/addcustomer',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "INSERT INTO customerlist(name,address,mobileno,businessname,pvno) values (?)";
+
+con.query(insertuser,[req.body.customerdata],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/getcustomerlist',function(req,res)
+{
+var selectcustomer= "SELECT * from customerlist";
+con.query(selectcustomer,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({customerlist:result});
+
+    }
+  
+})
+})
+
+
+app.post('/getitemslist',function(req,res)
+{
+var selectcustomer= "SELECT * from itemtable";
+con.query(selectcustomer,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({itemlist:result});
+
+    }
+  
+})
+})
+
+
+app.post('/getitemgrouplist',function(req,res)
+{
+var selectcustomer= "SELECT * from itemgroupnametable";
+con.query(selectcustomer,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({itemgrouplist:result});
+
+    }
+  
+})
+})
+
+
+app.post('/getitemcategorylist',function(req,res)
+{
+var selectcustomer= "SELECT * from groupcategory";
+con.query(selectcustomer,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({itemcategorylist:result});
+
+    }
+  
+})
+})
+
+
+app.post('/getunitlist',function(req,res)
+{
+var selectcustomer= "SELECT * from unittable";
+con.query(selectcustomer,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({unitlist:result});
+
+    }
+  
+})
+})
+
+app.post('/updatecustomer',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE customerlist set name=?, address=?,mobileno=?,businessname=?,pvno=? where id=?";
+
+con.query(insertuser,[req.body.customerdata[0],req.body.customerdata[1],req.body.customerdata[2],req.body.customerdata[3],req.body.customerdata[4],req.body.customerid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/deletecustomer',function(req,res)
+{
+  var deletecustomer= "DELETE from customerlist where id=?";
+  con.query(deletecustomer,[req.body.customerid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+
+app.post('/addvendor',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "INSERT INTO vendorlist(name,address,mobileno,businessname,pvno) values (?)";
+
+con.query(insertuser,[req.body.vendordata],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/getvendorlist',function(req,res)
+{
+var selectvendor= "SELECT * from vendorlist";
+con.query(selectvendor,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({vendorlist:result});
+
+    }
+  
+})
+})
+
+app.post('/updatevendor',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE vendorlist set name=?, address=?,mobileno=?,businessname=?,pvno=? where id=?";
+
+con.query(insertuser,[req.body.vendordata[0],req.body.vendordata[1],req.body.vendordata[2],req.body.vendordata[3],req.body.vendordata[4],req.body.vendorid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/deletevendor',function(req,res)
+{
+  var deletevendor= "DELETE from vendorlist where id=?";
+  con.query(deletevendor,[req.body.vendorid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+
+app.post('/addadmin',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "INSERT INTO adminlist(name,address,mobileno,businessname,pvno) values (?)";
+
+con.query(insertuser,[req.body.admindata],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/getadminlist',function(req,res)
+{
+var selectadmin= "SELECT * from adminlist";
+con.query(selectadmin,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({adminlist:result});
+
+    }
+  
+})
+})
+
+app.post('/updateadmin',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE adminlist set name=?, address=?,mobileno=?,businessname=?,pvno=? where id=?";
+
+con.query(insertuser,[req.body.admindata[0],req.body.admindata[1],req.body.admindata[2],req.body.admindata[3],req.body.admindata[4],req.body.adminid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/deleteadmin',function(req,res)
+{
+  var deleteadmin= "DELETE from adminlist where id=?";
+  con.query(deleteadmin,[req.body.adminid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+
+app.post('/addemployee',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "INSERT INTO employeelist(name,address,mobileno,salary,dateofjoin) values (?)";
+
+con.query(insertuser,[req.body.employeedata],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/getemployeelist',function(req,res)
+{
+var selectemployee= "SELECT id,name,address,mobileno,salary,DATE_FORMAT(dateofjoin,'%Y-%m-%d') as dateofjoin from employeelist";
+con.query(selectemployee,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    }
+    else{
+    res.status(200).send({employeelist:result});
+
+    }
+  
+})
+})
+
+app.post('/updateemployee',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "UPDATE employeelist set name=?, address=?,mobileno=?,salary=?,dateofjoin=? where id=?";
+
+con.query(insertuser,[req.body.employeedata[0],req.body.employeedata[1],req.body.employeedata[2],req.body.employeedata[3],req.body.employeedata[4],req.body.employeeid],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/deleteemployee',function(req,res)
+{
+  var deleteemployee= "DELETE from employeelist where id=?";
+  con.query(deleteemployee,[req.body.employeeid],function(err,results)
+{
+  if(err)
+  {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+  else{
+    console.log(results);
+    res.status(200).send("Deleted");
+    
+  }
+})
+})
+
+app.post('/addcategory',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "INSERT INTO categorydetails set ?";
+
+con.query(insertuser,req.body.categorydata,function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+app.post('/additem',function(req,res)
+{
+  console.log("Body");
+  console.log(req.body);
+var insertuser= "INSERT INTO itemdetails set ?";
+
+con.query(insertuser,[req.body.formObj],function(err,results1)
+{
+  if(err)
+  {
+    console.log(err);
+res.status(500).send({'success':"Inserted Successfully"});
+
+  }
+  else
+  {
+console.log("Added Successfully");
+
+res.status(200).send({'success':"Inserted Successfully"});
+
+  }
+})
+ 
+})
+
+
+app.post('/getcategorylist',function(req,res)
+{
+var selectvendor= "SELECT * from categorydetails";
+con.query(selectvendor,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    console.log(err);
+    }
+    else{
+      console.log(result);
+    res.status(200).send({categorylist:result});
+
+    }
+  
+})
+})
+
+app.post('/getitemlist',function(req,res)
+{
+var selectvendor= "SELECT * from itemdetails";
+con.query(selectvendor,function(err,result)
+{
+  if(err)
+  {
+    res.status(200).send("ERror");
+    console.log(err);
+    }
+    else{
+      console.log(result);
+    res.status(200).send({itemlist:result});
+
+    }
+  
+})
+})
+

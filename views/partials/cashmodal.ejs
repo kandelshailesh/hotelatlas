@@ -1,0 +1,233 @@
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="modal fade" id="cashModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="width:530px !important; height:100% !important;" role="document">
+        <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
+            <div class="modal-header bg-dark">
+            
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">Daily Cash Counter</h5>
+                
+           
+               
+             
+                <button type="button" class="closeitem close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                 </div>
+            <form class="cashinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
+                <div class="modal-body m-0 p-0 ml-3 " style="width:94%;" >
+                <div class="row bg-info p-0 mb-2">
+                <div class="col-md-auto mr-auto ml-3">
+                <input type="checkbox" name="openingbalance">Opening Balance<br>
+                <input type="checkbox" name="closingbalance">Closing Balance<br/>
+</div>
+<div class="col-md-auto ml-auto mr-3 ">
+                <button class="btn btn-sm mt-2">Transfer History</button>
+                <button class="btn btn-sm mt-2">History</button>              
+</div>
+                </div>
+                
+        
+       
+                <div class="row">
+     
+                <div class="col-md-4 mr-auto ml-2">
+                    <div style="box-shadow:2px 2px 2px 2px #ccc !important;" class="input-group  text-center mb-2">
+ <div class="input-group-prepend">
+    <span class="input-group-text " style=" font-size:15px; background-color:white; color:red;" id="basic-addon2" title="Hotel Name">Rs.</span>
+  </div>
+  <input  type="text" class="form-control hotelname" name="hotelname" placeholder="Search...">
+ 
+  </div>
+  </div>
+
+             <div class="col-md-5">
+                 <div style="box-shadow:2px 2px 2px 2px #ccc !important;" class="input-group  text-center mb-2 ml-auto mr-2">
+ <div class="input-group-prepend ">
+    <span class="input-group-text fa fa-calendar " style="font-size:15px; background-color:white; color:red;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  <input  type="text" class="form-control hotelname" name="hotelname" placeholder="Search...">
+ 
+  </div>
+  
+             </div>
+  </div>
+                    <div class="row ">
+                        <div class="col-md-6 iteminformation">
+                         <div class="card  ml-5">
+                         <div class="card-header bg-dark p-0" style=" font-size:12px !important; height:25px !important;">
+                         <p class="text-center text-white">Notes</p>
+                         </div>
+                       <div class="card-body p-1 "  style="box-shadow:3px 3px 5px 6px #ccc !important; color:red !important;" >
+                            <h4 class="text-center error-msg">
+                            </h4>
+                          <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
+                       <div class="form-group w-100">
+<div class="input-group mb-2" style="height:22px !important; ">
+<div class="input-group-prepend">
+    <span class="input-group-text"   style=" font-size:10px; background-color:white; color:red;" id="basic-addon2" title="Hotel Name">1000's x</span>
+  </div>
+  <input type="text" class="form-control hotelname" required name="hotelname" >
+  </div>
+  <div class="input-group mb-2" style="height:22px !important;">
+<div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="Address">500's x</span>
+  </div>
+ 
+        <input required type="text" class="form-control hoteladdress" name="adminaddress">
+       
+  </div>
+  <div class="input-group mb-2"  style="height:22px !important;" >
+
+  <div class="input-group-prepend">
+    <span class="input-group-text  "  style=" font-size:10px; background-color:white; color:red;" id="basic-addon2" title="Mobile no.">100's x</span>
+  </div>
+
+  
+     
+         <input type="number" class="form-control mobileno" name="mobileno">
+     
+  </div>
+  <div class="input-group mb-2 p-0" style="height:22px !important;" >
+<div class="input-group-prepend">
+    <span class="input-group-text "   style=" font-size:10px; background-color:white; color:red;" id="basic-addon2" title="Business Name">50's x</span>
+  </div>
+  <input type="text" class="form-control hotelname" name="businessname" >
+  </div>
+ <div class="input-group mb-2"  style="height:22px !important;">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="PAN No.">20's x</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="panno" >
+     
+     
+  </div>
+  <div class="input-group mb-2"  style="height:22px !important;">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="PAN No.">10's x</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="panno" >
+     
+     
+  </div>
+  <div class="input-group mb-2"  style="height:22px !important;">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="PAN No.">5's x</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="panno" >
+     
+     
+  </div>
+  <div class="input-group mb-2 p-0"  style="height:22px !important;">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="PAN No.">2's x</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="panno" >
+     
+     
+  </div>
+  <div class="input-group mb-2">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="PAN No.">1's x</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="panno" >
+     
+     
+  </div>
+  </div>
+                        </div>
+                    </div>
+                </div>
+                  
+             
+                <div class=" col-md-5">
+             
+                 <div class="card  ml-2">
+                         <div class="card-header bg-dark p-0" style=" font-size:12px !important; height:25px !important;">
+                         <p class="text-center text-white">Coins</p>
+                         </div>
+                       <div class="card-body p-1 "  style="box-shadow:3px 3px 5px 6px #ccc !important; color:red !important;" >
+                            <h4 class="text-center error-msg">
+                            </h4>
+                          <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
+                       <div class="form-group w-100">
+<div class="input-group mb-2" style="height:22px !important; ">
+<div class="input-group-prepend">
+    <span class="input-group-text"   style=" font-size:10px; background-color:white; color:red;" id="basic-addon2" title="Hotel Name">10's x</span>
+  </div>
+  <input type="text" class="form-control hotelname" required name="hotelname" >
+  </div>
+  <div class="input-group mb-2" style="height:22px !important;">
+<div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:10px; color:red;" id="basic-addon2" title="Address">5's x</span>
+  </div>
+ 
+        <input required type="text" class="form-control hoteladdress" name="adminaddress">
+       
+  </div>
+  <div class="input-group mb-2"  style="height:22px !important;" >
+
+  <div class="input-group-prepend">
+    <span class="input-group-text  "  style=" font-size:10px; background-color:white; color:red;" id="basic-addon2" title="Mobile no.">2's x</span>
+  </div>
+
+  
+     
+         <input type="number" class="form-control mobileno" name="mobileno">
+     
+  </div>
+  <div class="input-group mb-2 p-0" style="height:22px !important;" >
+<div class="input-group-prepend">
+    <span class="input-group-text "   style=" font-size:10px; background-color:white; color:red;" id="basic-addon2" title="Business Name">1's x</span>
+  </div>
+  <input type="text" class="form-control hotelname" name="businessname" >
+  </div>
+ 
+  </div>
+  
+               
+                        </div>
+                
+                
+                </div>
+
+<div class="card mt-2">
+               <div class="card-footer bg-white">
+                     <button style=" box-shadow:2px 2px 3px 4px #ccc !important;"  name="addbutton" type="submit" class="btn addadmin mr-2  btn-primary">Save</button>
+                 
+                        <button style=" box-shadow:2px 2px 3px 4px #ccc !important;" type="reset" class="btn btn-danger">Reset</button>
+                     </div>
+                     </div> 
+                </div>
+                <hr/>
+                </div>
+                <div class="modal-footer">
+                <div  style="margin-right:30%;">
+                <h4>Total:</h4>
+                </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+</main>
+

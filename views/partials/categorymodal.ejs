@@ -1,0 +1,549 @@
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
+        <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
+            <div class="modal-header bg-dark">
+            
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">Category Management</h5>
+                
+                <button type="button" class="closeitem close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+       
+            <form class="categoryinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
+                <div class="modal-body ">
+                <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 ml-2">
+                    <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+
+  <input  type="text" class="form-control hotelname" id="categoryname" placeholder="Search...">
+  <div class="input-group-append">
+    <span class="input-group-text fa  fa-search" style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  </div>
+  </div>
+  </div>
+                    <div class="row ">
+                        <div class="col-md-5 iteminformation">
+                         <div class="card">
+                       <div class="card-body"  style="box-shadow:3px 3px 5px 6px #ccc !important;" >
+                            <h4 class="text-center error-msg">
+                            </h4>
+                          <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
+                       <div class="form-group w-100">
+<div class="input-group mb-2"  style="box-shadow:2px 2px 2px 2px #ccc !important;">
+<div class="input-group-prepend">
+    <span class="input-group-text fa  fa-list-alt"   style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  <input type="text" class="form-control hotelname" required name="name" placeholder="Category's name">
+  </div>
+  <div class="input-group mb-2" style="box-shadow:2px 2px 2px 2px #ccc !important;">
+<div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; color:black;" id="basic-addon2" title="Address">TAX Type</span>
+  </div>
+ 
+ <select class="form-control" name="taxtype">
+ <option value="vat">VAT</option>
+ </select>
+        
+       
+  </div>
+  <div class="input-group mb-2" style="box-shadow:2px 2px 2px 2px #ccc !important;">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white;  color:black;" id="basic-addon2" title="Mobile no."> Tax % </span>
+  </div>
+
+  
+     
+         <input type="number" class="form-control mobileno" name="taxamount" placeholder="Mobile no">
+     
+  </div>
+  <div class="input-group mb-2" style="box-shadow:2px 2px 2px 2px #ccc !important;">
+<div class="input-group-prepend">
+    <span class="input-group-text"   style=" background-color:white; color:black;" id="basic-addon2" title="Business Name">Discount Type</span>
+  </div>
+ <select class="form-control" name="discounttype">
+ <option value="Fixed" >Fixed </option>
+ <option  value="Percent">Percent</option>
+
+</select>
+  </div>
+ <div class="input-group mb-2" style="box-shadow:2px 2px 2px 2px #ccc !important;">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"   style="background-color:white;  color:black;" id="basic-addon2" title="PAN No.">Discount Amount</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="discount" placeholder="PAN/VAT No.">
+     
+     
+  </div>
+   <div class="input-group mb-2">   
+         <input type="checkbox" checked style="width:20px;height:20px;" class=" mt-1" name="taxactive" ><label style="font-size:12px;" class="ml-2 mt-1">Tax applicable</label>
+            <input type="checkbox" checked style="width:20px;height:20px;" class="ml-2 mt-1 d-inline " name="discountactive"><label style="font-size:12px;" class="ml-2 mt-1">Discount applicable</label><br/>
+     <br/><br/>
+  <%/*      <input type="checkbox" style="width:20px;height:20px;" class="panno ml-5 text-center mt-1 d-inline " name="panno" value="Tax Applicable"><label style="font-size:14px;" class="ml-2 mt-1">is active</label><br/> */ %>
+  </div>
+  </div>
+                        </div>
+                    </div>
+                </div>
+                  
+             
+                <div class=" col-md-6 table-responsive" style="height:300px;">
+             
+                <table style="box-shadow:2px 2px 3px 4px #ccc !important;" class="table table-hover categorytable table-striped table-bordered table-md">
+                <tr class="text-dark bg-light" style="font-size:12px">
+                <th>CategoryID</th>
+                <th>Name</th>
+                <th>Tax</th>
+                <th>Tax %</th>
+               
+                  <th>Discount Type</th>
+                <th>Discount</th>
+                 <th>Tax Active</th>
+                  <th>Discount Active</th>
+               
+                </tr>
+
+                </table>
+                
+                
+                </div>
+
+                </div>
+                <hr/>
+                </div>
+                <div class=" float-left" style="margin-left:28%;">
+               <div class="card">
+               <div class="card-footer bg-white">
+                     <button name="addbutton" type="submit" class="btn addcategory  btn-primary">Add</button>
+                      <a class="btn updatecategory btn-primary">Update</a>
+                       <a class="btn deletecategory btn-primary">Delete </a>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                     </div>
+                     </div> 
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+</main>
+<script>
+
+
+var categoryid;
+ $("form.categoryinfo").validate();
+$(document).ready(function()
+{
+
+$(document).on('click','.addcategory',function(e)
+{
+  e.preventDefault();
+   $("form.categoryinfo").valid();
+  
+if($("form.categoryinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = {};
+    var inputs = $('form.categoryinfo').serializeArray();
+      inputs = inputs.concat(
+            jQuery('form.categoryinfo input[type=checkbox]:not(:checked)').map(
+                    function() {
+                        return {"name": this.name, "value": "No"}
+                    }).get()
+    );
+    
+
+   $.each(inputs, function (i, input) {
+     if((input.name==='taxactive' && input.value==='off') || (input.name==='discountactive' && input.value==='off'))
+     {
+       input.value='No';
+     }
+     if((input.name==='taxactive' && input.value==='on') || (input.name==='discountactive' && input.value==='on'))
+     {
+       input.value='Yes';
+     }
+
+           formObj[input.name]=input.value;
+    });
+
+
+    $.ajax({
+        url:'/addcategory',
+        type:'post',
+        data:{categorydata:formObj},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("category added successfully");
+            $('form.categoryinfo').trigger('reset');
+            $.ajax({
+  url:'/getcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var categorylist=data.categorylist;
+
+
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< categorylist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in categorylist[i])
+              {    
+            appendtabledata+=`<td>${categorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.categorytable tr:gt(0)').html('');
+  $('.categorytable').append(result); 
+
+  })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+$(document).on('click','.updatecategory',function(e)
+{
+  e.preventDefault();
+   $("form.categoryinfo").valid();
+  
+if($('.categorytable tr').hasClass('bg-info')=== true)
+{
+    
+    if($("form.categoryinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.categoryinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/updatecategory',
+        type:'post',
+        data:{categorydata:formObj,categoryid:categoryid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("category updated successfully");
+            $('form.categoryinfo').trigger('reset');
+            $('button.addcategory').removeClass('disabled');
+$('button.addcategory').css('pointer-events','auto');
+
+            $.ajax({
+  url:'/getcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var categorylist=data.categorylist;
+    console.log(categorylist);
+    console.log(categorylist.length);
+    console.log(categorylist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< categorylist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in categorylist[i])
+              {    
+            appendtabledata+=`<td>${categorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.categorytable tr:gt(0)').html('');
+  $('.categorytable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+}   
+
+}
+else
+{
+            Swal.fire("First select the category");
+
+}
+    e.preventDefault();
+
+})
+
+
+$(document).on('click','.deletecategory',function(e)
+{
+  e.preventDefault();
+   $("form.categoryinfo").valid();
+  
+if($("form.categoryinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+
+
+    $.ajax({
+        url:'/deletecategory',
+        type:'post',
+        data:{categoryid:categoryid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("category deleted successfully");
+            $('form.categoryinfo').trigger('reset');
+            $.ajax({
+  url:'/getcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var categorylist=data.categorylist;
+
+   
+  
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< categorylist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in categorylist[i])
+              {    
+            appendtabledata+=`<td>${categorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.categorytable tr:gt(0)').html('');
+  $('.categorytable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+
+$(document).on('click','table.categorytable tr',function(e)
+{
+    var index=$('table.categorytable tr').index(this);
+    categoryid=e.target.id;
+})
+
+
+var categorylistcache;
+
+
+$('body').on('shown.bs.modal', '#categoryModal', function () {
+    // alert("Entered")
+    $('input:visible:enabled:first', this).focus();
+
+$.ajax({
+  url:'/getcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var categorylist=data.categorylist;
+    categorylistcache=categorylist;
+    console.log(categorylist);
+    
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< categorylist.length;i++)
+            { 
+              appendtabledata+='<tr style="color:black !important; ">';
+              for(var key in categorylist[i])
+              {    
+            appendtabledata+=`<td>${categorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+  $('.categorytable').append(result); 
+    })
+
+            
+  }
+})
+})
+
+
+$(document).on("click",".categorytable tr:gt(0)",function(e)
+{
+e.preventDefault();
+$('.categorytable tr:gt(0)').removeClass('bg-info');
+  $(`input[name="taxactive"]`).attr('checked', true);
+  $(`input[name="discountactive"]`).attr('checked', true);
+
+
+$(this).addClass('bg-info');
+$('button.addcategory').addClass('disabled');
+$('button.addcategory').css('pointer-events','none');
+
+categoryid=$(this).find('td').eq(0).text();
+$.ajax({
+  url:'/getcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var categorylistcache=data.categorylist;
+
+var updatecategorylist=[];
+for(i=0;i<categorylistcache.length;i++)
+{
+  
+    if(categorylistcache[i]['id']===Number(categoryid))
+    {
+      for(var key in categorylistcache[i])
+      {
+      updatecategorylist.push(categorylistcache[i][key])
+      }
+    }
+}
+
+var formdata= $('form.categoryinfo').serializeArray();
+// alert(formdata);
+// alert(updatecategorylist);
+$.each(formdata,function(j,input)
+{
+
+// alert(j);
+if(j>4 && updatecategorylist[j+1]==='Yes' )
+{
+  // alert(j);
+  $(`input[name=${input.name}]`).attr('checked', true);
+}
+if(j>4 && updatecategorylist[j+1]==='No' )
+{
+  alert(j);
+   
+  $(`input[name=${input.name}]`).removeAttr('checked');
+}
+if(j<=4)
+{
+  $(`input[name=${input.name}]`).val(updatecategorylist[j+1]);
+}
+})
+  }
+})
+
+    })
+  
+
+
+
+})
+</script>

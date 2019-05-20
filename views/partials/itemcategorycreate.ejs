@@ -1,24 +1,437 @@
-<div class="modal fade" id="itemcategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" style="margin:auto;width: 400px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Stock Category Creation</h5>
-                <button type="button" class="closecategory close" data-dismiss="modal" aria-label="Close">
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="modal fade" id="itemcategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
+        <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
+            <div class="modal-header bg-dark">
+            
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">Item Category Management</h5>
+                
+                <button type="button" class="closeitemcategory close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="itemcategoryinformations" method="post" action="" onkeypress="return event.keyCode != 13;" autocomplete="off" >
+       
+            <form class="itemcategoryinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
                 <div class="modal-body ">
+                <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 ml-2">
+                    <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+
+  <input  type="text" class="form-control hotelname"  placeholder="Search...">
+  <div class="input-group-append">
+    <span class="input-group-text fa  fa-search" style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  </div>
+  </div>
+  </div>
                     <div class="row ">
-                        <div class="col-md-10 itemcategoryinformation">
-                            <label id="clickcatname" for="categoryname" style="font-size: 12px;">Name</label><input type="text" name="categoryname" id="categoryname" class="ml-2  border-0 w-75  d-inline" required autofocus ><br></br>
+                        <div class="col-md-4 itemcategoryinformation">
+                         <div class="card">
+                       <div class="card-body"  style="box-shadow:3px 3px 5px 6px #ccc !important;" >
+                            <h4 class="text-center error-msg">
+                            </h4>
+                          <!--   <label style="font-size: 12px;">itemcategoryname</label><input type="text" name="itemcategorysname" id="itemcategorysnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set itemcategoryname!!')"> -->
+                       <div class="form-group w-100">
+<div class="input-group mb-2">
+
+  <input type="text" class="form-control" required name="categoryname" placeholder="Category name">
+  </div>
+  
+  
+  </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit"  class="btn btn-primary">Save</button>
+                  
+             
+                <div class=" col-md-8 table-responsive" style="height:300px;">
+             
+                <table style="box-shadow:2px 2px 3px 4px #ccc !important;" class="table table-hover itemcategorytable table-striped table-bordered table-md">
+                <tr class="text-white bg-dark">
+                <th>ItemcategoryID</th>
+                <th>Itemcategoryname</th>
+                
+                </tr>
+
+                </table>
+                
+                
                 </div>
+
+                </div>
+                <hr/>
+                </div>
+                <div class=" float-left" style="margin-left:28%;">
+               <div class="card">
+               <div class="card-footer bg-white">
+                     <button name="addbutton" type="submit" class="btn additemcategory  btn-primary">Add</button>
+                      <a  class="btn updateitemcategory btn-primary">Update</a>
+                       <a  class="btn deleteitemcategory btn-primary">Delete </a>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                     </div>
+                     </div> 
+                </div>
+                
             </form>
         </div>
     </div>
 </div>
+</main>
+<script>
+
+
+var itemcategoryid;
+ $("form.itemcategoryinfo").validate();
+$(document).ready(function()
+{
+
+$(document).on('click','.additemcategory',function(e)
+{
+  e.preventDefault();
+   $("form.itemcategoryinfo").valid();
+   
+  
+if($("form.itemcategoryinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.itemcategoryinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+     
+        formObj.push(input.value);
+      
+    });
+
+
+    $.ajax({
+        url:'/additemcategory',
+        type:'post',
+        data:{itemcategorydata:formObj},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("itemcategory added successfully");
+            $('form.itemcategoryinfo').trigger('reset');
+            $.ajax({
+  url:'/getitemcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemcategorylist=data.itemcategorylist;
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemcategorylist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in itemcategorylist[i])
+              {    
+            appendtabledata+=`<td>${itemcategorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.itemcategorytable tr:gt(0)').html('');
+  $('.itemcategorytable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+$(document).on('click','.updateitemcategory',function(e)
+{
+  e.preventDefault();
+   $("form.itemcategoryinfo").valid();
+  
+if($("form.itemcategoryinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.itemcategoryinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      
+        formObj.push(input.value);
+      
+    });
+
+
+    $.ajax({
+        url:'/updateitemcategory',
+        type:'post',
+        data:{itemcategorydata:formObj,itemcategoryid:itemcategoryid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("itemcategory updated successfully");
+            $('form.itemcategoryinfo').trigger('reset');
+            $('button.additemcategory').removeClass('disabled');
+$('button.additemcategory').css('pointer-events','auto');
+
+            $.ajax({
+  url:'/getitemcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemcategorylist=data.itemcategorylist;
+    console.log(itemcategorylist);
+    console.log(itemcategorylist.length);
+    console.log(itemcategorylist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemcategorylist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in itemcategorylist[i])
+              {    
+            appendtabledata+=`<td>${itemcategorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.itemcategorytable tr:gt(0)').html('');
+  $('.itemcategorytable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+$(document).on('click','.deleteitemcategory',function(e)
+{
+  e.preventDefault();
+   $("form.itemcategoryinfo").valid();
+  
+if($("form.itemcategoryinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+
+
+    $.ajax({
+        url:'/deleteitemcategory',
+        type:'post',
+        data:{itemcategoryid:itemcategoryid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("itemcategory deleted successfully");
+            $('form.itemcategoryinfo').trigger('reset');
+            $.ajax({
+  url:'/getitemcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemcategorylist=data.itemcategorylist;
+    console.log(itemcategorylist);
+    console.log(itemcategorylist.length);
+   
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemcategorylist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in itemcategorylist[i])
+              {    
+            appendtabledata+=`<td>${itemcategorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.itemcategorytable tr:gt(0)').html('');
+  $('.itemcategorytable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+
+$(document).on('click','table.itemcategorytable tr',function(e)
+{
+    var index=$('table.itemcategorytable tr').index(this);
+    itemcategoryid=e.target.id;
+})
+
+
+var itemcategorylistcache;
+
+
+$('body').on('shown.bs.modal', '#itemcategoryModal', function () {
+    // alert("Entered")
+    $('input:visible:enabled:first', this).focus();
+
+$.ajax({
+  url:'/getitemcategorylist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var itemcategorylist=data.itemcategorylist;
+    itemcategorylistcache=itemcategorylist;
+    
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< itemcategorylist.length;i++)
+            { 
+              appendtabledata+='<tr style="color:black !important; ">';
+              for(var key in itemcategorylist[i])
+              {    
+            appendtabledata+=`<td>${itemcategorylist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+  $('.itemcategorytable').append(result); 
+    })
+
+            
+  }
+})
+})
+
+
+$(document).on("click",".itemcategorytable tr:gt(0)",function(e)
+{
+e.preventDefault();
+$('.itemcategorytable tr:gt(0)').removeClass('bg-info');
+$(this).addClass('bg-info');
+$('button.additemcategory').addClass('disabled');
+$('button.additemcategory').css('pointer-events','none');
+
+ itemcategoryid=$(this).find('td').eq(0).text();
+console.log(itemcategorylistcache);
+var updateitemcategorylist=[];
+for(i=0;i<itemcategorylistcache.length;i++)
+{
+  
+    if(itemcategorylistcache[i]['categoryid']===Number(itemcategoryid))
+    {
+      for(var key in itemcategorylistcache[i])
+      {
+      updateitemcategorylist.push(itemcategorylistcache[i][key])
+      }
+    }
+}
+
+var formdata= $('form.itemcategoryinfo').serializeArray();
+$.each(formdata,function(j,input)
+{
+ alert(updateitemcategorylist);
+
+  $(`input[name=${input.name}]`).val(updateitemcategorylist[1]);
+})
+
+    })
+  
+
+
+
+})
+</script>

@@ -1,0 +1,329 @@
+<!-- views/pages/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.0/dist/nepaliDatePicker.min.css" integrity="sha384-Fligaq3qH5qXDi+gnnhQctSqfMKJvH4U8DTA+XGemB/vv9AUHCwmlVR/B3Z4nE+q" crossorigin="anonymous">
+
+    <style>
+    button > * {
+  pointer-events: none;
+}
+a.btn > *
+{
+  pointer-events: none;
+
+}
+.manageuseractive
+{
+    background-color:black;
+}
+
+    ul.usermanagementlist li
+    {
+        margin-bottom:-4px;
+    }
+    nav.dashboard > a:hover
+    {
+        background-color:grey;
+       
+    }
+    nav.dashboard > ul > li:hover
+    {
+        background-color:grey;
+        
+        position:relative;
+        width:90%;
+    }
+    a
+    {
+        margin-left:8px;
+        margin-right:8px;
+        color:black !important;
+        text-decoration:none !important;
+    }
+    </style>
+</head>
+
+
+<body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <main>
+    <% include ../pages/settingsidebar %>
+    <div class="col-md-10">
+    <h3>User</h3>
+    <div class="row mt-3">
+    <div style="position:relative;height:320px;" class="col-md-4 ml-2  border  border-dark p-2">
+    <h3 class="text-center bg-dark p-2 m-0 mb-2" style="background-color:white;  color:white;">User(Add)</h3>
+    <form class="useraddform" action=""  onkeypress="return event.keyCode != 13;">
+    <div class="form-group ml-5 mr-1">
+<div class="input-group mb-2">
+<div class="input-group-prepend">
+    <span class="input-group-text fa  fa-users"  style="background-color:white; color:black;" id="basic-addon2"></span>
+  </div>
+    <select name="usergroup" class="form-control usergroup text-center w-75 ">
+      <% usergrouplistresult.forEach(function(result) { %>
+    <option value='<%= result.groupname %>'><%= result.groupname %></option>
+    <% }) %>
+    </select>
+</div>
+<div class="input-group mb-2">
+<div class="input-group-prepend">
+    <span class="input-group-text fa fa-user"  style="background-color:white; color:black;" id="basic-addon2"></span>
+  </div>
+    <input type="text" class="form-control username" placeholder="Username">
+     
+  </div>
+
+<div class="input-group mb-2">
+
+    <input type="password" class="form-control password"  placeholder="Password">
+    <div class="input-group-append">
+<span class="input-group-text fa fa-eye " id="showpassword" style="background-color:white; color:black;"  ></span>
+</div>
+    </div>
+  <div class="input-group mb-2">
+
+    <input type="password" class="form-control cpassword" placeholder=" Confirm Password">
+    <div class="input-group-append">
+<span class="input-group-text fa fa-eye" id="showcpassword" style="background-color:white; color:black;" ></span>
+</div>
+    </div>
+     </div>
+<div class="text-center mr-3">
+    <button type="submit" class="btn text-center btn-outline-primary" >Add</button>
+    </div>
+    
+       </form>
+    </div>
+
+    <div class="col-md-7 ml-2 mr-3  border border-dark p-2" style=" overflow-x:none; overflow-y:scroll;">
+     <h3 class="text-center bg-dark p-2 m-0 mb-2" style="background-color:white;  color:white;">User (Edit)</h3>
+     
+  <table  style="font-size:12px !important;" class="table text-center table-sm userlist">
+  <tr>
+  <th>Username</th>
+  <th>Password</th>
+  <th>User group</th>
+  <th>Edit</th>
+  <th>Delete</th>
+  </tr>
+  <% userlist.forEach(function(result) { %>
+  <tr>
+  <td><input class="text-center mt-2 realusername-<%= result.id %> mt-1 border border-0 " readonly value="<%= result.username %>"><input style="display:none; height:40px; border-radius:5px; border:1px solid rgb(206, 212, 218);" class="text-center mt-1 dummyusername-<%= result.id %> "  value="<%= result.username %>"></td>
+
+  <td><input class="text-center mt-2 realpassword-<%= result.id %> mt-1 border border-0 " readonly value="<%= result.password %>"><input style="display:none; height:40px; border-radius:5px; border:1px solid rgb(206, 212, 218);" class="text-center mt-1 dummypassword-<%= result.id %> "  value="<%= result.password %>"></td>
+    <td>
+    <input class="text-center  mt-2 realusergroup-<%= result.id %> mt-1 border border-0 " readonly value="<%= result.usergroup %>">
+    <select  class="text-center form-control  mt-1 dummyusergroup-<%= result.id %>" style=" display:none;">
+    <option>
+     <% usergrouplistresult.forEach(function(result) { %>
+    <option value='<%= result.groupname %>'><%= result.groupname %></option>
+    <% }) %>
+    </option>
+    </select>
+    </td>
+  <td><button class="btn btn-success edit-<%= result.id %>" id="<%= result.id %>"  onclick="javascript:edituser(event)"><i class="fa fa-edit text-white"></i></button><button  class="btn btn-success btn-sm mr-1 mt-2 save-<%= result.id %>"  id="<%= result.id %>" onclick="saveuser(event)" style="display:none;"><i class="fa fa-send text-white" ></i></button><button class="btn btn-sm btn-danger mt-2 cancel-<%= result.id %> " id="<%= result.id %>"   style="display:none;" onclick="canceluser(event)"><i class="fa fa-times text-white"></i></button></td>
+  <td><a class="btn btn-danger delete-<%= result.id %>" onclick="deleteuser(event)" id="<%= result.id %>"><i class="fa fa-trash text-white"></i></button></td>
+  </tr>
+  <% }) %>
+  </table>
+  </div>
+    </div>
+    
+    </div>
+    </div>
+    </div>
+    </main>
+<script>
+
+function edituser(e)
+{
+    var targetid= e.target.id;
+    alert(targetid);
+$(`.save-${targetid}`).show();
+$(`.cancel-${targetid}`).show();
+$(`.dummyusername-${targetid}`).show();
+$(`.dummypassword-${targetid}`).show();
+
+$(`.dummyusergroup-${targetid}`).show();
+
+$(`.realusername-${targetid}`).hide();
+
+$(`.realpassword-${targetid}`).hide();
+
+$(`.realusergroup-${targetid}`).hide();
+$(`.edit-${targetid}`).hide();
+
+
+}
+
+
+function canceluser(e)
+{
+    var targetid= e.target.id;
+    alert(targetid);
+$(`.save-${targetid}`).hide();
+$(`.cancel-${targetid}`).hide();
+$(`.dummyusername-${targetid}`).hide();
+$(`.dummypassword-${targetid}`).hide();
+
+$(`.dummyusergroup-${targetid}`).hide();
+
+$(`.realusername-${targetid}`).show();
+
+$(`.realpassword-${targetid}`).show();
+
+$(`.realusergroup-${targetid}`).show();
+$(`.edit-${targetid}`).show();
+}
+
+function deleteuser(e)
+{
+    var targetid= e.target.id;
+    alert(targetid);
+    var usergroup= $(`.realusergroup-${targetid}`).val();
+
+    $.ajax({
+url:'/deleteuser',
+type:'post',
+async:false,
+data:{id:targetid,usergroup:usergroup},
+success:function(data)
+{    
+return new Promise((resolve,reject)=>
+{
+resolve();
+})
+.then(()=>
+{
+Swal.fire("User deleted successfully");
+}).then(()=>
+{
+location.reload();
+})
+},
+error:function(data)
+{
+    Swal.fire("User cannot be deleted");
+}
+})
+
+}
+
+
+function saveuser(e)
+{
+    var targetid= e.target.id;
+    alert(targetid);
+var editusername=$(`.dummyusername-${targetid}`).val();
+var editpassword= $(`.dummypassword-${targetid}`).val();
+var editusergroup=$(`.dummyusergroup-${targetid}`).val();
+alert(editusername);
+
+$.ajax({
+url:'/edituser',
+type:'post',
+async:false,
+data:{id:targetid,username:editusername,password:editpassword,usergroup:editusergroup},
+success:function(data)
+{    
+$(`.save-${targetid}`).hide();
+$(`.cancel-${targetid}`).hide();
+$(`.dummyusername-${targetid}`).hide();
+$(`.dummypassword-${targetid}`).hide();
+
+$(`.dummyusergroup-${targetid}`).hide();
+$(`.realuser-${targetid}`).show();
+$(`.edit-${targetid}`).show();
+$(`.realusername-${targetid}`).val(editusername);
+$(`.realpassword-${targetid}`).val(editpassword);
+$(`.realusergroup-${targetid}`).val(editusergroup);
+
+Swal.fire("Userinfo edited successfully");
+location.reload();
+},
+error:function(data)
+{
+    Swal.fire("user already exists");
+}
+})
+}
+
+
+$('form.useraddform').on('submit',function(e)
+{
+e.preventDefault();
+var targetid= e.target.id;
+var usergroup= $('.usergroup').val();
+var username=$('.username').val();
+var password=$('.password').val();
+var cpassword=$('.cpassword').val();
+
+$('.useradd').val('');
+if(password===cpassword)
+{
+
+$.ajax({
+    url:"/register",
+    type:"post",
+    data:{usergroup:usergroup,username:username,password:password},
+    success:function(data)
+    {
+    Swal.fire("User added successfully");
+
+    },
+    error:function(data)
+    {
+        console.log(data);
+        Swal.fire("Username already exists");
+    }
+})
+} 
+else
+{
+    Swal.fire("Password didn't match");
+}
+})
+
+
+$(document).on('click','#showpassword,#showcpassword',function(e)
+{    
+var targetid=e.target.id;
+if(targetid==='showpassword')
+{
+    
+    if($('.password').attr('type')==='password')
+    {
+        
+         $('.password').attr('type','text') ;
+     }
+     else
+     {
+
+      $('.password').attr('type','password');
+     }
+}
+
+if(targetid==='showcpassword')
+{
+  
+    if($('.cpassword').attr('type')==='password')
+    {
+        
+         $('.cpassword').attr('type','text') ;
+     }
+     else
+     {
+
+      $('.cpassword').attr('type','password');
+     }
+}
+})
+</script>
+    </body>
+    </html>

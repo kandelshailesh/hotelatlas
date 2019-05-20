@@ -1,0 +1,481 @@
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
+        <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
+            <div class="modal-header bg-dark">
+            
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">Customer Management</h5>
+                
+                <button type="button" class="closeitem close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+       
+            <form class="customerinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
+                <div class="modal-body ">
+                <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 ml-2">
+                    <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+
+  <input  type="text" class="form-control hotelname" name="hotelname" placeholder="Search...">
+  <div class="input-group-append">
+    <span class="input-group-text fa  fa-search" style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  </div>
+  </div>
+  </div>
+                    <div class="row ">
+                        <div class="col-md-4 iteminformation">
+                         <div class="card">
+                       <div class="card-body"  style="box-shadow:3px 3px 5px 6px #ccc !important;" >
+                            <h4 class="text-center error-msg">
+                            </h4>
+                          <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
+                       <div class="form-group w-100">
+<div class="input-group mb-2">
+<div class="input-group-prepend">
+    <span class="input-group-text fa  fa-user"   style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  <input type="text" class="form-control hotelname" required name="hotelname" placeholder="Customer name">
+  </div>
+  <div class="input-group mb-2">
+<div class="input-group-prepend">
+    <span class="input-group-text  fa fa-address-card-o"  style="background-color:white; color:black;" id="basic-addon2" title="Address"></span>
+  </div>
+ 
+        <input required type="text" class="form-control hoteladdress" name="customeraddress"     placeholder="Address">
+       
+  </div>
+  <div class="input-group mb-2">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text  fa fa-mobile"  style="background-color:white; font-size:22px; color:black;" id="basic-addon2" title="Mobile no."></span>
+  </div>
+
+  
+     
+         <input type="number" class="form-control mobileno" name="mobileno" placeholder="Mobile no">
+     
+  </div>
+  <div class="input-group mb-2">
+<div class="input-group-prepend">
+    <span class="input-group-text fa  fa-hotel"   style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Business Name"></span>
+  </div>
+  <input type="text" class="form-control hotelname" name="businessname" placeholder="Business name">
+  </div>
+ <div class="input-group mb-2">
+
+  <div class="input-group-prepend">
+    <span class="input-group-text"  style="background-color:white; font-size:15px; color:black;" id="basic-addon2" title="PAN No.">PAN/VAT No.</span>
+  </div>
+
+   
+         <input type="number" class="form-control panno" name="panno" placeholder="PAN No./VAT No.">
+     
+     
+  </div>
+  </div>
+                        </div>
+                    </div>
+                </div>
+                  
+             
+                <div class=" col-md-8 table-responsive" style="height:300px;">
+             
+                <table style="box-shadow:2px 2px 3px 4px #ccc !important;" class="table table-hover customertable table-striped table-bordered table-md">
+                <tr class="text-white bg-dark">
+                <th>CustomerID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Mobile</th>
+                <th>Business name</th>
+                <th>PAN/VAT No.</th>
+                </tr>
+
+                </table>
+                
+                
+                </div>
+
+                </div>
+                <hr/>
+                </div>
+                <div class=" float-left" style="margin-left:28%;">
+               <div class="card">
+               <div class="card-footer bg-white">
+                     <button name="addbutton" type="submit" class="btn addcustomer  btn-primary">Add</button>
+                      <a  class="btn updatecustomer btn-primary">Update</a>
+                       <a  class="btn deletecustomer btn-primary">Delete </a>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                     </div>
+                     </div> 
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+</main>
+<script>
+
+
+var customerid;
+ $("form.customerinfo").validate();
+$(document).ready(function()
+{
+
+$(document).on('click','.addcustomer',function(e)
+{
+  e.preventDefault();
+   $("form.customerinfo").valid();
+  
+if($("form.customerinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.customerinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/addcustomer',
+        type:'post',
+        data:{customerdata:formObj},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("Customer added successfully");
+            $('form.customerinfo').trigger('reset');
+            $.ajax({
+  url:'/getcustomerlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var customerlist=data.customerlist;
+    console.log(customerlist);
+    console.log(customerlist.length);
+    console.log(customerlist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< customerlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in customerlist[i])
+              {    
+            appendtabledata+=`<td>${customerlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.customertable tr:gt(0)').html('');
+  $('.customertable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+$(document).on('click','.updatecustomer',function(e)
+{
+  e.preventDefault();
+   $("form.customerinfo").valid();
+  
+if($("form.customerinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.customerinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/updatecustomer',
+        type:'post',
+        data:{customerdata:formObj,customerid:customerid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("Customer updated successfully");
+            $('form.customerinfo').trigger('reset');
+            $('button.addcustomer').removeClass('disabled');
+$('button.addcustomer').css('pointer-events','auto');
+
+            $.ajax({
+  url:'/getcustomerlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var customerlist=data.customerlist;
+    console.log(customerlist);
+    console.log(customerlist.length);
+    console.log(customerlist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< customerlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in customerlist[i])
+              {    
+            appendtabledata+=`<td>${customerlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.customertable tr:gt(0)').html('');
+  $('.customertable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+$(document).on('click','.deletecustomer',function(e)
+{
+  e.preventDefault();
+   $("form.customerinfo").valid();
+  
+if($("form.customerinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+
+
+    $.ajax({
+        url:'/deletecustomer',
+        type:'post',
+        data:{customerid:customerid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("Customer deleted successfully");
+            $('form.customerinfo').trigger('reset');
+            $.ajax({
+  url:'/getcustomerlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var customerlist=data.customerlist;
+    console.log(customerlist);
+    console.log(customerlist.length);
+   
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< customerlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in customerlist[i])
+              {    
+            appendtabledata+=`<td>${customerlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.customertable tr:gt(0)').html('');
+  $('.customertable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+
+$(document).on('click','table.customertable tr',function(e)
+{
+    var index=$('table.customertable tr').index(this);
+    customerid=e.target.id;
+})
+
+
+var customerlistcache;
+
+
+$('body').on('shown.bs.modal', '#customerModal', function () {
+    // alert("Entered")
+    $('input:visible:enabled:first', this).focus();
+
+$.ajax({
+  url:'/getcustomerlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var customerlist=data.customerlist;
+    customerlistcache=customerlist;
+    console.log(customerlist);
+    console.log(customerlist.length);
+    console.log(customerlist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< customerlist.length;i++)
+            { 
+              appendtabledata+='<tr style="color:black !important; ">';
+              for(var key in customerlist[i])
+              {    
+            appendtabledata+=`<td>${customerlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+  $('.customertable').append(result); 
+    })
+
+            
+  }
+})
+})
+
+
+$(document).on("click",".customertable tr:gt(0)",function(e)
+{
+e.preventDefault();
+$('.customertable tr:gt(0)').removeClass('bg-info');
+$(this).addClass('bg-info');
+$('button.addcustomer').addClass('disabled');
+$('button.addcustomer').css('pointer-events','none');
+
+ customerid=$(this).find('td').eq(0).text();
+console.log(customerlistcache);
+var updatecustomerlist=[];
+for(i=0;i<customerlistcache.length;i++)
+{
+  
+    if(customerlistcache[i]['id']===Number(customerid))
+    {
+      for(var key in customerlistcache[i])
+      {
+      updatecustomerlist.push(customerlistcache[i][key])
+      }
+    }
+}
+
+var formdata= $('form.customerinfo').serializeArray();
+$.each(formdata,function(j,input)
+{
+
+  $(`input[name=${input.name}]`).val(updatecustomerlist[j]);
+})
+
+    })
+  
+
+
+
+})
+</script>

@@ -14,10 +14,12 @@
     "cookie-parser": "^1.4.4",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-fileupload": "^1.1.4",
     "express-http-proxy": "^1.5.1",
     "mysql": "^2.16.0",
     "mysql-events": "0.0.11",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "random-number": "0.0.9"
   },
   "devDependencies": {
     "grunt": "^1.0.3",

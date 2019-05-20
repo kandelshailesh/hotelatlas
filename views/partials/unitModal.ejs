@@ -1,23 +1,438 @@
-<div class="modal fade" id="unitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Unit Creation</h5>
+   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="modal fade" id="unitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
+        <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
+            <div class="modal-header bg-dark">
+            
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">unit Management</h5>
+                
                 <button type="button" class="closeunit close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="unitinformations" method="post" action="" onkeypress="return event.keyCode != 13;" autocomplete="off" >
+       
+            <form class="unitinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
                 <div class="modal-body ">
+                <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 ml-2">
+                    <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+
+  <input  type="text" class="form-control hotelname" name="unitsname" placeholder="Search...">
+  <div class="input-group-append">
+    <span class="input-group-text fa  fa-search" style=" font-size:20px; background-color:white; color:black;" id="basic-addon2" title="Hotel Name"></span>
+  </div>
+  </div>
+  </div>
+  </div>
                     <div class="row ">
-                        <div class="col-md-10 unitinformation">
-                            <label id="clickcatname" for="unitname" style="font-size: 12px;">Name</label><input type="text" name="unitname" id="unitname" class="ml-2  border-0 w-75  d-inline" required autofocus ><br></br>
+                        <div class="col-md-4 unitinformation">
+                         <div class="card">
+                       <div class="card-body"  style="box-shadow:3px 3px 5px 6px #ccc !important;" >
+                            <h4 class="text-center error-msg">
+                            </h4>
+                          <!--   <label style="font-size: 12px;">unitname</label><input type="text" name="unitsname" id="unitsnamemodal" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set unitname!!')"> -->
+                       <div class="form-group w-100">
+<div class="input-group mb-2">
+
+  <input type="text" class="form-control" required name="unitname" placeholder="Unitname">
+  </div>
+  
+  
+  </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit"  class="btn btn-primary">Save</button>
+                  
+             
+                <div class=" col-md-8 table-responsive" style="height:300px;">
+             
+                <table style="box-shadow:2px 2px 3px 4px #ccc !important;" class="table table-hover unittable table-striped table-bordered table-md">
+                <tr class="text-white bg-dark">
+                <th>unitID</th>
+                <th>unitname</th>
+               
+                </tr>
+
+                </table>
+                
+                
                 </div>
+
+                </div>
+                <hr/>
+                </div>
+                <div class=" float-left" style="margin-left:28%;">
+               <div class="card">
+               <div class="card-footer bg-white">
+                     <button name="addbutton" type="submit" class="btn addunit  btn-primary">Add</button>
+                      <a  class="btn updateunit btn-primary">Update</a>
+                       <a  class="btn deleteunit btn-primary">Delete </a>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                     </div>
+                     </div> 
+                </div>
+                
             </form>
         </div>
     </div>
 </div>
+</main>
+<script>
+
+
+var unitid;
+ $("form.unitinfo").validate();
+$(document).ready(function()
+{
+
+$(document).on('click','.addunit',function(e)
+{
+  e.preventDefault();
+   $("form.unitinfo").valid();
+   
+  
+if($("form.unitinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.unitinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/addunit',
+        type:'post',
+        data:{unitdata:formObj},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("unit added successfully");
+            $('form.unitinfo').trigger('reset');
+            $.ajax({
+  url:'/getunitlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var unitlist=data.unitlist;
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< unitlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in unitlist[i])
+              {    
+            appendtabledata+=`<td>${unitlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.unittable tr:gt(0)').html('');
+  $('.unittable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+$(document).on('click','.updateunit',function(e)
+{
+  e.preventDefault();
+   $("form.unitinfo").valid();
+  
+if($("form.unitinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = [];
+    var inputs = $('form.unitinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+      if(i>0)
+      {
+        formObj.push(input.value);
+      }
+    });
+
+
+    $.ajax({
+        url:'/updateunit',
+        type:'post',
+        data:{unitdata:formObj,unitid:unitid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("unit updated successfully");
+            $('form.unitinfo').trigger('reset');
+            $('button.addunit').removeClass('disabled');
+$('button.addunit').css('pointer-events','auto');
+
+            $.ajax({
+  url:'/getunitlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var unitlist=data.unitlist;
+    console.log(unitlist);
+    console.log(unitlist.length);
+    console.log(unitlist[0].length);
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< unitlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in unitlist[i])
+              {    
+            appendtabledata+=`<td>${unitlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.unittable tr:gt(0)').html('');
+  $('.unittable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+$(document).on('click','.deleteunit',function(e)
+{
+  e.preventDefault();
+   $("form.unitinfo").valid();
+  
+if($("form.unitinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+
+
+    $.ajax({
+        url:'/deleteunit',
+        type:'post',
+        data:{unitid:unitid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("unit deleted successfully");
+            $('form.unitinfo').trigger('reset');
+            $.ajax({
+  url:'/getunitlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var unitlist=data.unitlist;
+    console.log(unitlist);
+    console.log(unitlist.length);
+   
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< unitlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in unitlist[i])
+              {    
+            appendtabledata+=`<td>${unitlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.unittable tr:gt(0)').html('');
+  $('.unittable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+
+$(document).on('click','table.unittable tr',function(e)
+{
+    var index=$('table.unittable tr').index(this);
+    unitid=e.target.id;
+})
+
+
+var unitlistcache;
+
+
+$('body').on('shown.bs.modal', '#unitModal', function () {
+    // alert("Entered")
+    $('input:visible:enabled:first', this).focus();
+
+$.ajax({
+  url:'/getunitlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var unitlist=data.unitlist;
+    unitlistcache=unitlist;
+    
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< unitlist.length;i++)
+            { 
+              appendtabledata+='<tr style="color:black !important; ">';
+              for(var key in unitlist[i])
+              {    
+            appendtabledata+=`<td>${unitlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+  $('.unittable').append(result); 
+    })
+
+            
+  }
+})
+})
+
+
+$(document).on("click",".unittable tr:gt(0)",function(e)
+{
+e.preventDefault();
+$('.unittable tr:gt(0)').removeClass('bg-info');
+$(this).addClass('bg-info');
+$('button.addunit').addClass('disabled');
+$('button.addunit').css('pointer-events','none');
+
+ unitid=$(this).find('td').eq(0).text();
+console.log(unitlistcache);
+var updateunitlist=[];
+for(i=0;i<unitlistcache.length;i++)
+{
+  
+    if(unitlistcache[i]['id']===Number(unitid))
+    {
+      for(var key in unitlistcache[i])
+      {
+      updateunitlist.push(unitlistcache[i][key])
+      }
+    }
+}
+
+var formdata= $('form.unitinfo').serializeArray();
+$.each(formdata,function(j,input)
+{
+
+  $(`input[name=${input.name}]`).val(updateunitlist[j]);
+})
+
+    })
+  
+
+
+
+})
+</script>
