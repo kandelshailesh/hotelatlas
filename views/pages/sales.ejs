@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../partials/head %>
+
+  <% include ../partials/stylebilling %>
+  <style>
+    input[type=checkbox] {
+      transform: scale(3);
+      -ms-transform: scale(2);
+      -webkit-transform: scale(2);
+      padding: 10px;
+    }
+
+    .errors
+    {
+      color:red !important;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <% include ../partials/header %>
+  </header>
+
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+  <datalist id="customerlist">
+
+    <% JSON.parse(customerlist).forEach(function(result){ %>
+    <option data-id="<%= result.id %>" value="<%= result.name %>">
+      <% }) %>
+  </datalist>
+
+  <div class="card" id="purchasecard" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel"
+    style="z-index:10000 !important; margin-top:-25px;" aria-hidden="true">
+
+    <form class="purchaseinfo form-online" onkeypress="return event.keyCode != 13;" onsubmit="return false;"
+      autocomplete="off">
+
+
+      <div class="card-body ">
+
+        <div class="row">
+          <div class="col-md-7">
+            <div class="row mb-2">
+
+              <div class="col-md-5 ml-5">
+                <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text " style=" background-color:white; color:black;" id="basic-addon2"
+                      title="Hotel Name">Invoice No.</span>
+                  </div>
+
+
+                  <input required read-only type="text" class="form-control text-center hotelname" name="hotelname"
+                    placeholder="Invoice no" style="background-color: white !important;"d="invoiceno" value="<%= invoiceno + 1 %>">
+
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div style="box-shadow:2px 2px 3px 4px #ccc !important;" class="input-group  text-center mb-2">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text " style=" background-color:white; color:black;" id="basic-addon2"
+                      title="Hotel Name">Date of Invoice</span>
+                  </div>
+
+
+
+                  <input type="text" required autocomplete="off" class="form-control dateofinvoice" id="dateofinvoice"
+                    name="hotelnames">
+
+                </div>
+
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-12 iteminformation">
+                <div class="card">
+                  <div class="card-body" style="box-shadow:3px 3px 5px 6px #ccc !important;">
+                    <h4 class="text-center error-msg">
+                    </h4>
+                    <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamecard" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
+                    <div class="form-group row m-0 w-100">
+                      <div class="input-group mb-2 col-md-5  w-100 p-0 m-0">
+                        <div class="input-group-prepend ml-1 ">
+                          <span class="input-group-text " style="font-size:12px; background-color:white; color:black;"
+                            id="basic-addon2" title="Hotel Name">Customer's Name</span>
+                        </div>
+                        <input type="text" list="customerlist" id="customername" class="form-control hotelname" required
+                          name="hotelnames" placeholder="Customer Name">
+                      </div>
+                      <div class="input-group mb-2 col-md-4  w-100 p-0 m-0 ">
+                        <div class="input-group-prepend ml-1">
+                          <span class="input-group-text" style="font-size:12px; background-color:white; color:black;"
+                            id="basic-addon2" title="Address">Previous Dues</span>
+                        </div>
+
+                        <input required type="text" class="form-control hoteladdress" name="purchaseaddress"
+                          placeholder="Previous Dues">
+
+                      </div>
+                      <div class="input-group mb-2 col-md-3 mr-0 w-100 p-0 m-0 ">
+
+                        <div class="input-group-prepend ml-1">
+                          <span class="input-group-text" style="font-size:12px;background-color:white; color:black;"
+                            id="basic-addon2" title="Mobile no.">PAN/VAT</span>
+                        </div>
+
+
+
+                        <input required type="number" class="form-control mobileno" id="pvno" name="mobileno"
+                          placeholder="PAN/VAT">
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class=" col-md-12 ml-3 mt-2"
+                style="height:300px; box-shadow:1px 1px 2px 2px #ccc !important; max-width:96% !important;">
+
+                <% itemlist.forEach(function(result){ %>
+                <a class="btn btn-primary" data-amount="<%= result.amount %>" data-taxtype="<%= result.taxtype %>"
+                  data-discounttype="<%= result.discounttype %>" data-discount="<%= result.discount %>"
+                  data-taxamount="<%= result.taxamount %>" data-itemname="<%= result.itemname %>"
+                  data-taxactive="<%= result.taxactive %>" data-discountactive="<%= result.discountactive %>"
+                  onclick="javascript:addtotable(event)" id="<%= result.id %>"><%= result.itemname %></a>
+                <% }) %>
+              </div>
+
+            </div>
+            <hr />
+          </div>
+          <div class="col-md-5">
+            <div class="row">
+              <div class="col-md-12 table-responsive"
+                style="height:280px; padding:0px; margin-right:-1px; box-shadow:1px 1px 2px 2px #ccc !important;">
+                <table style="box-shadow:2px 2px 3px 4px #ccc !important;"
+                  class="table purchasetable table-striped table-bordered table-sm">
+                  <tr class="text-white bg-dark row" style="height:50px !important; font-size:15px !important;">
+                    <th style="font-size:10px !important;" class="text-center pt-3 col-md-3">Item</th>
+                    <th style="font-size:10px !important;" class="text-center pt-3 col-md-2">Qty</th>
+                    <th style="font-size:10px !important;" class="text-center pt-3 col-md-2">Price</th>
+
+                    <th style="font-size:10px !important;" class="text-center pt-3 col-md-1">D%</th>
+                    <th style="font-size:10px !important;" class="text-center pt-3 col-md-1">V%</th>
+                    <th style="font-size:10px !important;" class="text-center pt-3 col-md-3">Total amt</th>
+
+                  </tr>
+
+                </table>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-7 card p-0">
+                <div class="card-body">
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+                    <div class="input-group-prepend ml-1 ">
+                      <span class="input-group-text " style="font-size:12px; background-color:white; color:black;"
+                        id="basic-addon2" title="Hotel Name">Total amount</span>
+                    </div>
+                    <input type="text" class="form-control" id="totalpurchaseamount" required name="totalpurchaseamount"
+                      placeholder="Total amount">
+                  </div>
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+                    <div class="input-group-prepend ml-1 ">
+                      <span class="input-group-text " style="font-size:12px; background-color:white; color:black;"
+                        title="Hotel Name">Discount Amount</span>
+                    </div>
+                    <input type="text" id="discounttotal" name="discounttotal" class="form-control hotelname" required
+                      placeholder="Discount">
+                  </div>
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+                    <div class="input-group-prepend ml-1 ">
+                      <span class="input-group-text " style="font-size:12px; background-color:white; color:black;"
+                        id="basic-addon2" title="Hotel Name">VAT Amount</span>
+                    </div>
+                    <input type="text" id="vattotal" name="vattotal" class="form-control hotelname" required
+                      placeholder="VAT amount">
+                  </div>
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+                    <div class="input-group-prepend ml-1 ">
+                      <span class="input-group-text " style="font-size:12px; background-color:white; color:black;"
+                        id="basic-addon2" title="Hotel Name">Grand Total</span>
+                    </div>
+                    <input type="text" id="grandtotal" name="grandtotal" class="form-control hotelname" required
+                      name="hotelname" placeholder="Grand Total">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 card p-0">
+                <div class="card-header bg-dark text-white">
+                  <p class="text-center">Payment Type</p>
+                </div>
+                <div class="card-body ml-5">
+
+
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+
+                    <label for="a"> <input type="checkbox" class=" hotelname cashpayment mr-2" required name="hotelname"
+                        placeholder="Customer Name">
+                      Cash</label>
+                  </div>
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+
+                    <label><input id="chequepayment" type="checkbox" class="chequepayment hotelname mr-2" required name="hotelname"
+                        placeholder="Customer Name">Cheque</label>
+                  </div>
+                  <div class="input-group mb-2 w-100 p-0 m-0">
+                    <label><input id="creditpayment" type="checkbox" class="  hotelname mr-2" required name="hotelname"
+                        placeholder="Customer Name">Credit</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class=" float-left" style="margin-left:40%;">
+        <div class="card">
+          <div class="card-footer bg-white">
+            <button name="addbutton" type="submit" class="btn addpurchase  btn-primary">Add</button>
+            <a class="btn updatepurchase btn-success text-white">Update</a>
+            <a class="btn deletepurchase btn-danger text-white">Delete </a>
+            <button type="reset" class="btn btn-info text-white">Reset</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+
+  </div>
+  </main>
+  <script>
+
+    // $(document).ready(function () {
+      var purchaseid;
+      $("form.purchaseinfo").validate({errorClass: 'errors'});
+      var vpnolist = {};
+
+      var customerlistresult = JSON.parse('<%- customerlist %>');
+      console.log(customerlistresult);
+      $.each(customerlistresult, function (i, result) {
+        vpnolist[`${result.name}`] = result.pvno;
+      })
+      console.log(vpnolist);
+      var customerdataList = [];
+      $("datalist#customerlist").find("option").each(function () {
+        customerdataList.push($(this).val())
+      })
+      console.log(customerdataList);
+
+
+      $('#customername').on('focus blur input change', function (e) {
+
+
+        var customernamevalue = e.target.value;
+        console.log(customernamevalue);
+        var customercheck = customerdataList.map(function (result) {
+          return result === customernamevalue;
+        })
+        console.log(customercheck);
+        var finalcheck = customercheck.includes(true)
+        // alert(`Final check is ${finalcheck}`);
+        console.log(finalcheck);
+        if (finalcheck) {
+
+          console.log("change");
+          var pvcheck = `${vpnolist[customernamevalue]}`;
+
+          $("#pvno").val(pvcheck)
+        }
+      })
+
+
+      function addpurchase()
+      {
+       
+        $("form.purchaseinfo").valid();
+
+if ($("form.purchaseinfo").valid() === true) {
+  $("*").css("cursor", "wait");
+  // console.log(e.target.name);
+
+  var formobjforpurchasedetails = [];
+  var formobjforpurchasetable = {};
+
+  formobjforpurchasedetails.push(Number($("#invoiceno").val()),'Sales',$("#customername").val(),Number($("#totalpurchaseamount").val()),Number($("#discounttotal").val()),Number($("#vattotal").val()),Number($("#grandtotal").val()),$("#dateofinvoice").val())
+  // formobjforpurchasedetails['invoiceno'] = Number($("#invoiceno").val());
+  // formobjforpurchasedetails['vouchertype'] = 'Sales';
+  // formobjforpurchasedetails['dateofinvoice'] = $("#dateofinvoice").val();
+  // formobjforpurchasedetails['accountname'] = $("#customername").val();
+  // formobjforpurchasedetails['totalamount'] = Number($("#totalpurchaseamount").val());
+  // formobjforpurchasedetails['discounttotal'] =Number($("#discounttotal").val());
+  // formobjforpurchasedetails['vatamount'] = Number($("#vattotal").val());
+  // formobjforpurchasedetails['grandtotal'] = Number($("#grandtotal").val());
+
+  var purchasetabledatalist = $("table.purchasetable tr");
+
+  var purchasetabledetails = [];
+
+  for (i = 1; i < purchasetabledatalist.length; i++) {
+
+    purchasetabledetails.push({
+      'itemname': $(purchasetabledatalist).eq(i).find('td input').eq(0).val(),
+      'quantity': Number($(purchasetabledatalist).eq(i).find('td input').eq(1).val()),
+      'rate': Number($(purchasetabledatalist).eq(i).find('td input').eq(2).val()),
+      'discountpercent': Number($(purchasetabledatalist).eq(i).find('td input').eq(3).val()),
+      'vatpercent': Number($(purchasetabledatalist).eq(i).find('td input').eq(4).val()),
+      'amount': Number($(purchasetabledatalist).eq(i).find('td input').eq(5).val()),
+      'invoiceno': Number($("#invoiceno").val()),
+      'invoicedate': $("#dateofinvoice").val()
+    })
+  }
+
+  console.log(formobjforpurchasedetails);
+  console.log(purchasetabledetails);
+
+
+
+
+
+
+
+
+  $.ajax({
+    url: '/addpurchase',
+    type: 'post',
+    data: {
+      purchasedetails: formobjforpurchasedetails,
+      purchasetable: purchasetabledetails
+    },
+    async: false,
+    success: function (data) {
+      $("*").css("cursor", "auto");
+      Swal.fire("purchase added successfully");
+      
+        },
+    error: function (data) {
+      Swal.fire("Some error occur.Please try again");
+
+    }
+  })
+
+
+
+
+}
+      }
+
+      $(document).on('click', '.addpurchase', function (e) {
+        e.preventDefault();
+        $("form.purchaseinfo").valid();
+
+        if ($("form.purchaseinfo").valid() === true) {
+          $("*").css("cursor", "wait");
+          console.log(e.target.name);
+
+          var formobjforpurchasedetails = {};
+          var formobjforpurchasetable = {};
+          formobjforpurchasedetails['invoiceno'] = $("#invoiceno").val();
+          formobjforpurchasedetails['vouchertype'] = 'Sales';
+          formobjforpurchasedetails['dateofinvoice'] = $("#dateofinvoice").val();
+          formobjforpurchasedetails['accountname'] = $("#customername").val();
+          formobjforpurchasedetails['totalamount'] = $("#totalpurchaseamount").val();
+          formobjforpurchasedetails['discounttotal'] = $("#discounttotal").val();
+          formobjforpurchasedetails['vatamount'] = $("#vattotal").val();
+          formobjforpurchasedetails['grandtotal'] = $("#grandtotal").val();
+
+          var purchasetabledatalist = $("table.purchasetable tr");
+
+          var purchasetabledetails = [];
+
+          for (i = 1; i < purchasetabledatalist.length; i++) {
+
+            purchasetabledetails.push({
+              'itemname': $(purchasetabledatalist).eq(i).find('td input').eq(0).val(),
+              'quantity': $(purchasetabledatalist).eq(i).find('td input').eq(1).val(),
+              'rate': $(purchasetabledatalist).eq(i).find('td input').eq(2).val(),
+              'discountpercent': $(purchasetabledatalist).eq(i).find('td input').eq(3).val(),
+              'vatpercent': $(purchasetabledatalist).eq(i).find('td input').eq(4).val(),
+              'amount': $(purchasetabledatalist).eq(i).find('td input').eq(5).val(),
+              'invoiceno': $("#invoiceno").val(),
+              'invoicedate': $("#dateofinvoice").val()
+            })
+          }
+
+          console.log(formobjforpurchasedetails);
+          console.log(purchasetabledetails);
+
+
+
+
+
+
+
+
+          $.ajax({
+            url: '/addpurchase',
+            type: 'post',
+            data: {
+              purchasedetails: formobjforpurchasedetails,
+              purchasetable: purchasetabledetails
+            },
+            async: false,
+            success: function (data) {
+              $("*").css("cursor", "auto");
+              Swal.fire("purchase added successfully");
+              $('form.purchaseinfo').trigger('reset');
+              $.ajax({
+                url: '/getpurchaselist',
+                type: 'post',
+                async: false,
+                success: function (data) {
+                  var purchaselist = data.purchaselist;
+
+
+
+                  return new Promise((resolve, reject) => {
+                    var appendtabledata = '';
+                    for (var i = 0; i < purchaselist.length; i++) {
+                      appendtabledata += '<tr>';
+                      for (var key in purchaselist[i]) {
+                        appendtabledata +=
+                          `<td class="text-center">${purchaselist[i][key]}</td>`;
+                      }
+                      appendtabledata += '</tr>';
+                    }
+
+                    resolve(appendtabledata);
+                  }).then(function (result) {
+                    return result;
+                  }).then(function (result) {
+                    $('.purchasetable tr:gt(0)').html('');
+                    $('.purchasetable').append(result);
+
+                  })
+
+
+                }
+              })
+
+            },
+            error: function (data) {
+              Swal("Some error occur.Please try again");
+            }
+          })
+
+
+
+        }
+        e.preventDefault();
+
+      })
+
+
+
+      $(document).on('click', '.updatepurchase', function (e) {
+        e.preventDefault();
+        $("form.purchaseinfo").valid();
+
+        if ($('.purchasetable tr').hasClass('bg-info') === true) {
+
+          if ($("form.purchaseinfo").valid() === true) {
+            $("*").css("cursor", "wait");
+            console.log(e.target.name);
+
+            var formObj = [];
+            var inputs = $('form.purchaseinfo').serializeArray();
+            $.each(inputs, function (i, input) {
+              if (i > 0) {
+                formObj.push(input.value);
+              }
+            });
+
+
+            $.ajax({
+              url: '/updatepurchase',
+              type: 'post',
+              data: {
+                purchasedata: formObj,
+                purchaseid: purchaseid
+              },
+              async: false,
+              success: function (data) {
+
+
+
+                $("*").css("cursor", "auto");
+
+                Swal.fire("purchase updated successfully");
+                $('form.purchaseinfo').trigger('reset');
+                $('button.addpurchase').removeClass('disabled');
+                $('button.addpurchase').css('pointer-events', 'auto');
+
+                $.ajax({
+                  url: '/getpurchaselist',
+                  type: 'post',
+                  async: false,
+                  success: function (data) {
+                    var purchaselist = data.purchaselist;
+                    console.log(purchaselist);
+                    console.log(purchaselist.length);
+                    console.log(purchaselist[0].length);
+
+                    return new Promise((resolve, reject) => {
+                      var appendtabledata = '';
+                      for (var i = 0; i < purchaselist.length; i++) {
+                        appendtabledata += '<tr>';
+                        for (var key in purchaselist[i]) {
+                          appendtabledata +=
+                            `<td class="text-center">${purchaselist[i][key]}</td>`;
+                        }
+                        appendtabledata += '</tr>';
+                      }
+
+                      resolve(appendtabledata);
+                    }).then(function (result) {
+                      return result;
+                    }).then(function (result) {
+                      $('.purchasetable tr:gt(0)').html('');
+                      $('.purchasetable').append(result);
+                    })
+
+
+                  }
+                })
+
+              },
+              error: function (data) {
+                Swal.fire("Some error occur.Please try again");
+              }
+            })
+
+          }
+
+        } else {
+          Swal.fire("First select the purchase");
+
+        }
+        e.preventDefault();
+
+      })
+
+
+      $(document).on('click', '.deletepurchase', function (e) {
+        e.preventDefault();
+        $("form.purchaseinfo").valid();
+
+        if ($("form.purchaseinfo").valid() === true) {
+          $("*").css("cursor", "wait");
+          console.log(e.target.name);
+
+
+
+          $.ajax({
+            url: '/deletepurchase',
+            type: 'post',
+            data: {
+              purchaseid: purchaseid
+            },
+            async: false,
+            success: function (data) {
+
+
+
+              $("*").css("cursor", "auto");
+
+              Swal.fire("purchase deleted successfully");
+              $('form.purchaseinfo').trigger('reset');
+              $.ajax({
+                url: '/getpurchaselist',
+                type: 'post',
+                async: false,
+                success: function (data) {
+                  var purchaselist = data.purchaselist;
+
+
+
+
+                  return new Promise((resolve, reject) => {
+                    var appendtabledata = '';
+                    for (var i = 0; i < purchaselist.length; i++) {
+                      appendtabledata += '<tr>';
+                      for (var key in purchaselist[i]) {
+                        appendtabledata +=
+                          `<td class="text-center">${purchaselist[i][key]}</td>`;
+                      }
+                      appendtabledata += '</tr>';
+                    }
+
+                    resolve(appendtabledata);
+                  }).then(function (result) {
+                    return result;
+                  }).then(function (result) {
+                    $('.purchasetable tr:gt(0)').html('');
+                    $('.purchasetable').append(result);
+                  })
+
+
+                }
+              })
+
+            },
+            error: function (data) {
+              Swal.fire("Some error occur.Please try again");
+            }
+          })
+
+
+
+        }
+        e.preventDefault();
+
+      })
+
+
+
+
+      $(document).on('click', 'table.purchasetable tr', function (e) {
+        var index = $('table.purchasetable tr').index(this);
+        purchaseid = e.target.id;
+      })
+
+
+      var purchaselistcache;
+
+
+      $('input:visible:enabled:first', this).focus();
+
+      $.ajax({
+        url: '/getpurchaselist',
+        type: 'post',
+        async: false,
+        success: function (data) {
+          var purchaselist = data.purchaselist;
+          purchaselistcache = purchaselist;
+          console.log(purchaselist);
+
+
+          return new Promise((resolve, reject) => {
+            var appendtabledata = '';
+            for (var i = 0; i < purchaselist.length; i++) {
+              appendtabledata += '<tr style="color:black !important; ">';
+              for (var key in purchaselist[i]) {
+                appendtabledata += `<td class="text-center">${purchaselist[i][key]}</td>`;
+              }
+              appendtabledata += '</tr>';
+            }
+
+            resolve(appendtabledata);
+          }).then(function (result) {
+            return result;
+          }).then(function (result) {
+            $('.purchasetable').append(result);
+          })
+
+
+        }
+
+      })
+
+
+      $(document).on("click", ".purchasetable tr:gt(0)", function (e) {
+        e.preventDefault();
+        $('.purchasetable tr:gt(0)').removeClass('bg-info');
+        $(this).addClass('bg-info');
+        $('button.addpurchase').addClass('disabled');
+        $('button.addpurchase').css('pointer-events', 'none');
+
+        purchaseid = $(this).find('td').eq(0).text();
+        $.ajax({
+          url: '/getpurchaselist',
+          type: 'post',
+          async: false,
+          success: function (data) {
+            var purchaselistcache = data.purchaselist;
+
+            var updatepurchaselist = [];
+            for (i = 0; i < purchaselistcache.length; i++) {
+
+              if (purchaselistcache[i]['id'] === Number(purchaseid)) {
+                for (var key in purchaselistcache[i]) {
+                  updatepurchaselist.push(purchaselistcache[i][key])
+                }
+              }
+            }
+
+            var formdata = $('form.purchaseinfo').serializeArray();
+            $.each(formdata, function (j, input) {
+
+              $(`input[name=${input.name}]`).val(updatepurchaselist[j]);
+            })
+          }
+        })
+
+      })
+
+
+
+
+ 
+    var gc = $.calendars.instance('nepali', 'ne');
+
+    var currentdate = gc.newDate();
+    var currenttime = new Date();
+    var currenttime = currenttime.toLocaleTimeString();
+    $('#banpaidawarinitialdate').calendarsPicker({
+      calendar: $.calendars.instance('nepali'),
+      dateFormat: 'yyyy-mm-dd'
+    })
+    $('.dateofinvoice').calendarsPicker({
+      calendar: $.calendars.instance('nepali'),
+      dateFormat: 'yyyy-mm-dd'
+    });
+
+
+    function addtotable(event) {
+      var id = event.target.id;
+      var checkid = "false";
+      // alert(id);
+      var tridlist = [];
+      var checktridtest;
+      var checktrid = $("table.purchasetable tr");
+      if (checktrid.length > 1) {
+        for (i = 1; i < checktrid.length; i++) {
+          var checktridtest = $("table.purchasetable tr")[i];
+          tridlist.push($(checktridtest).eq(0).attr("id").split("-")[1]);
+        }
+
+        checkid = tridlist.map(function (result) {
+          return result === id
+        })
+        console.log("Hello");
+        console.log(checkid);
+        // alert(checkid);
+      }
+      if (checkid === "false") {
+        //  alert("Helllo");
+        var discountpercent=0;
+        var taxpercent=0;
+        var iteminfo = $(`a#${id}`).data();
+        var itemname = iteminfo.itemname;
+        var itemamount = iteminfo.amount;
+        if (iteminfo.discountactive === "Yes") {
+          if (iteminfo.discounttype === "Fixed") {
+            discountpercent = (iteminfo.discount * 100) / iteminfo.amount;
+            discountpercent = discountpercent.toFixed(2);
+
+          } else
+
+          {
+            discountpercent = iteminfo.discount;
+            discountpercent= discountpercent.toFixed(2);
+          }
+        } else {
+          discountpercent = discountpercent.toFixed(2);
+        }
+        if (iteminfo.taxactive === "Yes") {
+          taxpercent = iteminfo.taxamount;
+          taxpercent= taxpercent.toFixed(2);
+
+        } else {
+          taxpercent = taxpercent.toFixed(2);
+        }
+        var quantity = 1;
+        var totalamount = Number(itemamount) - Number((discountpercent * itemamount) / 100) + Number((taxpercent *
+          itemamount) / 100)
+        // alert(totalamount);
+
+        $('table.purchasetable').append(
+          `<tr id="row-${id}" class="row text-center row-${id} "><td class="p-0 text-center col-md-3"><input type="text" value="${itemname}"></td><td class="p-0 text-center col-md-2 "><input id="quantity-${id}" type="number" value="${quantity}"></td><td class="p-0 text-center col-md-2" ><input id="amount-${id}" type="number" value="${itemamount}"></td><td class="p-0 col-md-1"><input id="discountpercent-${id}" type="number" value="${discountpercent}"></td><td class="p-0 col-md-1"><input id="taxpercent-${id}" type="number" value="${taxpercent}"></td><td class="p-0 col-md-3"><input id="totalamount-${id}" type="number" value="${totalamount}"></td></tr>`
+        );
+
+        var quantity = Number($(`#quantity-${id}`).val());
+        var itemamount = Number($(`#amount-${id}`).val());
+        console.log(id);
+        console.log(quantity);
+        console.log(itemamount);
+        var discountpercent = Number($(`#discountpercent-${id}`).val());
+        console.log(discountpercent)
+
+        var taxpercent = Number($(`#taxpercent-${id}`).val());
+        console.log(taxpercent)
+
+        if (quantity > 0) {
+          var totalamount = Number(itemamount * quantity) - Number((discountpercent * itemamount) / 100) + Number((
+            taxpercent * (itemamount * quantity)) / 100);
+        } else {
+          var totalamount = 0;
+        }
+        $(`#totalamount-${id}`).val(totalamount.toFixed(2));
+        var totalpurchaseamount = Number(0);
+        var discounttotal = Number(0);
+        var vattotal = Number(0);
+        var grandtotal = Number(0);
+        var totalamountlist = $(`[id^='totalamount-']`);
+        var totaldiscountlist = $(`[id^='discountpercent-']`);
+        var totalvatlist = $(`[id^='taxpercent-']`)
+        var totalamountchecklist = [];
+        var totalamountchecklist1 = [];
+
+        var vatlistcheck = [];
+        var totalamountcheck = [];
+        var iqid;
+        $.each(totalamountlist, function (i, result) {
+          iqid= $(this).attr("id").split('-')[1];
+
+          totalamountchecklist.push($(totalamountlist).eq(i).val());
+          totalamountchecklist1.push(Number($(`#quantity-${iqid}`).val())*Number($(`#amount-${iqid}`).val()));
+        
+
+          // totalpurchaseamount = Number($(totalamountlist).eq(i).val()) + Number(totalpurchaseamount);
+          totalpurchaseamount = Number(totalpurchaseamount) + Number(totalamountchecklist1[i]);
+
+        })
+        $.each(totalvatlist, function (i, result) {
+          totalamountcheck.push(Number(totalamountchecklist[i]) / (1 + Number(0.01) * Number($(totalvatlist).eq(i)
+            .val())))
+          vattotal = Number(vattotal) + (Number($(totalvatlist).eq(i).val()) / 100) * Number(totalamountcheck[i]);
+          vatlistcheck.push((Number($(totalvatlist).eq(i).val()) / 100) * Number(totalamountcheck[i]));
+        })
+        $.each(totaldiscountlist, function (i, result) {
+
+          discounttotal = Number(discounttotal) + Number(totalamountchecklist[i]) - Number(totalamountchecklist1[i]) -
+            Number(vatlistcheck[i]);
+        })
+
+        // totalpurchaseamount=totalpurchaseamount+discounttotal-vattotal;
+        console.log(totalamountchecklist)
+        console.log(vatlistcheck)
+
+
+
+        $("#totalpurchaseamount").val(Math.abs(totalpurchaseamount).toFixed(2));
+        $("#discounttotal").val(Math.abs(discounttotal).toFixed(2));
+
+        $("#vattotal").val(Math.abs(vattotal).toFixed(2));
+        grandtotal = Number(Math.abs(totalpurchaseamount).toFixed(2)) - Number(Math.abs(discounttotal).toFixed(2)) +
+          Number(Math.abs(vattotal).toFixed(2));
+        $("#grandtotal").val(grandtotal);
+
+
+      } else {
+        Swal.fire("Item already in the list");
+      }
+    }
+
+
+    $(document).on('input change copy paste',
+      `[id^='amount-'],[id^='discountpercent-'],[id^='quantity-'],[id^='taxpercent-']`,
+      function (e) {
+        var id = e.target.id.split('-')[1];
+        var quantity = Number($(`#quantity-${id}`).val());
+        var itemamount = Number($(`#amount-${id}`).val());
+        console.log(id);
+        console.log(quantity);
+        console.log(itemamount);
+        var discountpercent = Number($(`#discountpercent-${id}`).val());
+        console.log(discountpercent)
+
+        var taxpercent = Number($(`#taxpercent-${id}`).val());
+        console.log(taxpercent)
+
+        if (quantity > 0) {
+          var totalamount = Number(itemamount * quantity) - Number((discountpercent * itemamount) / 100) + Number((
+            taxpercent * (itemamount * quantity)) / 100);
+        } else {
+          var totalamount = 0;
+        }
+        $(`#totalamount-${id}`).val(totalamount.toFixed(2));
+        var totalpurchaseamount = Number(0);
+        var discounttotal = Number(0);
+        var vattotal = Number(0);
+        var grandtotal = Number(0);
+        var totalamountlist = $(`[id^='totalamount-']`);
+        var totaldiscountlist = $(`[id^='discountpercent-']`);
+        var totalvatlist = $(`[id^='taxpercent-']`)
+        var totalamountchecklist = [];
+        var vatlistcheck = [];
+        var totalamountcheck = [];
+        var totalamountchecklist1=[];
+        $.each(totalamountlist, function (i, result) {
+         var iqid= $(this).attr("id").split("-")[1];
+          totalamountchecklist.push(Number($(totalamountlist).eq(i).val()));
+          totalamountchecklist1.push(Number($(`#quantity-${iqid}`).val())*Number($(`#amount-${iqid}`).val()));
+
+          totalpurchaseamount = Number(totalpurchaseamount) + Number(totalamountchecklist1[i]);
+
+        })
+        $.each(totalvatlist, function (i, result) {
+          totalamountcheck.push(Number(totalamountchecklist[i]) / (1 + Number(0.01) * Number($(totalvatlist).eq(i)
+            .val())))
+          vattotal = Number(vattotal) + (Number($(totalvatlist).eq(i).val()) / 100) * Number(totalamountcheck[i]);
+          vatlistcheck.push((Number($(totalvatlist).eq(i).val()) / 100) * Number(totalamountcheck[i]));
+        })
+        $.each(totaldiscountlist, function (i, result) {
+
+          discounttotal = Number(discounttotal) + Number(totalamountchecklist[i]) - Number(totalamountchecklist1[i]) -
+            Number(vatlistcheck[i]);
+            console.log(`Discount total is ${discounttotal}`)
+        })
+        console.log(totalamountchecklist)
+        console.log(totalamountchecklist1)
+
+        console.log(vatlistcheck)
+        // totalpurchaseamount=totalpurchaseamount+discounttotal-vattotal;
+
+
+
+        $("#totalpurchaseamount").val(Math.abs(totalpurchaseamount).toFixed(2));
+        $("#discounttotal").val(Math.abs(discounttotal).toFixed(2));
+
+        $("#vattotal").val(Math.abs(vattotal).toFixed(2));
+        grandtotal = Number(Math.abs(totalpurchaseamount).toFixed(2)) - Number(Math.abs(discounttotal).toFixed(2)) +
+          Number(Math.abs(vattotal).toFixed(2));
+        $("#grandtotal").val(grandtotal.toFixed(2));
+
+      })
+
+    $(document).on('input change', '#discounttotal,#vattotal', function (e) {
+      var totalpurchaseamount = $("#totalpurchaseamount").val();
+      var discounttotal = $("#discounttotal").val();
+      var vattotal = $("#vattotal").val();
+      var grandtotal = Number(totalpurchaseamount) - Number(discounttotal) + Number(vattotal);
+      $("#grandtotal").val(grandtotal.toFixed(2));
+    })
+
+    $('.cashpayment').on('click', async function (e) {
+    var formValues ;
+    $("form.purchaseinfo").valid();
+
+if ($("form.purchaseinfo").valid() === true) {
+  var grandtotal=Number($("#grandtotal").val());
+
+     if (Number($("#grandtotal").val() > 0)) {
+// formValues = await 
+Swal.fire({
+          title: 'Cash Payment',
+          html: `<hr/><label>Grandtotal</label><input value=${grandtotal} id="grandtotal"  class="swal2-input text-center">
+            <label>Payment received</label><input id="paidamount" autofocus class="swal2-input text-center d-inline">
+              <label>Balance due</label><input id="balancedue" class="swal2-input text-center d-inline">`
+
+            ,
+          showCancelButton: true,
+          focusConfirm: false,
+          showCloseButton:true,
+         preConfirm: () => {
+          
+        return [
+          'Cash',
+          $("#invoiceno").val(),
+          'Sales',
+          $("#dateofinvoice").val(),
+       
+          $("#customername").val(),
+          document.getElementById('grandtotal').value,
+         document.getElementById('paidamount').value,
+       
+    ]}
+
+        }).then((result)=>
+        {
+          console.log(result.dismiss)
+          if(result.value)
+          {
+
+            new Promise((resolve,reject)=>
+            {
+              addpurchase();
+              $.ajax(
+                {
+                  url:'/payment1',
+                  type:'post',
+                  async:false,
+                  data:{
+                    payment:result['value']
+                  },
+                  success:function(data)
+                  {
+                    resolve("sdSd");// Swal.fire("Payment completed successfully");
+                  },
+                  error:function(data)
+                  {
+                    // Swal.fire("Payment didnot completed successfully");
+                    reject(new Error("sfsf"));
+                  }
+
+                  
+                }
+              )
+              
+                    
+            }).then(function(result)
+          { 
+            
+            $("form.purchaseinfo").trigger('reset');
+            $("table.purchasetable tr:gt(0)").remove();
+            $("#invoiceno").val(Number($("#invoiceno").val())+1);
+            // Swal.fire(JSON.stringify(result['value']))
+          }).then(function(result)
+          {
+             Swal.fire("Payment completed successfully");
+          }).catch(function(err){
+            Swal.fire("Payment didnot completed");
+
+          })
+          }
+          else if(result.dismiss === Swal.DismissReason.cancel)
+          {
+            Swal.fire("fgfg");
+          }
+        })
+        $("#swal-input1").val($("#grandtotal").val());
+      } else {
+        Swal.fire("First add item in the cart");
+      }
+    }
+//       if (formValues) {
+//   Swal.fire(JSON.stringify(formValues.value))
+// }
+
+    })
+
+    $('.chequepayment').on('click', function (e) {
+      $("form.purchaseinfo").valid();
+
+if ($("form.purchaseinfo").valid() === true) {
+  var grandtotal=$(Number($("#grandtotal").val()));
+      if (Number($("#grandtotal").val() > 0)) {
+        Swal.fire({
+          html: `
+          <form><label>Total amount</label><input value=${grandtotal} id="swal-input1" class="swal2-input text-center">
+
+          <label>Bank Name</label><input required id="bankname" class="swal2-input text-center">
+            <label>Cheque no</label><input required id="chequeno" autofocus class="swal2-input text-center d-inline">
+            <label>Amount</label><input required id="paidamount" autofocus class="swal2-input text-center d-inline">
+            <label>Remaining amount</label><input required id="remainingamount" autofocus class="swal2-input text-center d-inline"></form>`
+            ,
+          showCancelButton: true,
+          focusConfirm: false,
+          showCloseButton:true,
+         preConfirm: () => {
+          
+        return [
+          'Cheque',
+          $("#invoiceno").val(),
+          'Sales',
+          $("#dateofinvoice").val(),
+          $("#customername").val(),
+          document.getElementById('grandtotal').value,
+         document.getElementById('paidamount').value,
+         $("#bankname").val(),
+         $("#chequeno").val()
+       
+    ]}
+
+        }).then((result)=>
+        {
+          console.log(result.dismiss)
+          if(result.value)
+          {
+
+            new Promise((resolve,reject)=>
+            {
+              addpurchase();
+              $.ajax(
+                {
+                  url:'/payment2',
+                  type:'post',
+                  async:false,
+                  data:{
+                    payment:result['value']
+                  },
+                  success:function(data)
+                  {
+                    resolve();
+                  },
+                  error:function(data)
+                  {
+                    reject(new Error("Error"));
+                                    // Swal.fire("Payment didnot completed successfully");
+
+                  }
+
+                  
+                }
+              )      
+            }).then(function(result)
+          { 
+           
+            Swal.fire("Payment completed successfully");
+            return(1);
+          
+            // Swal.fire(JSON.stringify(result['value']))
+          }).then(function(result)
+          {
+            $("form.purchaseinfo").reset();
+            $("table.purchasetable tr:gt(0)").html('');
+            $("#invoiceno").val(Number($("#invoiceno").val())+1);
+          }).catch(function(result){
+            Swal.fire("Payment didnot completed");
+
+          })
+          }
+          else if(result.dismiss === Swal.DismissReason.cancel)
+          {
+            Swal.fire("fgfg");
+          }
+        })
+        $("#swal-input1").val($("#grandtotal").val());
+      } else {
+        Swal.fire("First add item in the cart");
+      }
+    }
+    })
+
+
+    $(document).on('input', '#paidamount,#remaingamount,#balancedue', function (e) {
+      var grandtotal = $("#grandtotal").val();
+      var paidamount = $("#paidamount").val();
+      var checkremainingamount = Number(grandtotal) - Number(paidamount)
+      if (checkremainingamount < 0) {
+        $("#balancedue").val(Math.abs(checkremainingamount.toFixed(2)));
+        $("#remainingamount").val(checkremainingamount.toFixed(2));
+
+      } else {
+        $("#balancedue").val(checkremainingamount.toFixed(2));
+        $("#remainingamount").val(Math.abs(checkremainingamount.toFixed(2)));
+
+
+      }
+
+    })
+  // })
+  </script>
+
+ 
+
+</body>
+
+</html>

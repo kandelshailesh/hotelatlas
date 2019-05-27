@@ -76,48 +76,48 @@ function reportKeyEvent (zEvent) {
     }
     // zEvent.stopPropagation ();
     // zEvent.preventDefault ()
-}
+// }
 
 
-$('form.itemgroupinformations').on('submit',function(e)
-{
-    e.preventDefault();
+// $('form.itemgroupinformations').on('submit',function(e)
+// {
+//     e.preventDefault();
 
-    var itemcreateform = $(".itemgroupinformations").serializeArray();
-    var formObj = {};
-    $.each(itemcreateform, function (i, input) {
-        formObj[input.name] = input.value;
-    });
-   console.log(formObj);
-     $.ajax({
-            type: 'post',
-            url: '/creategroup',
-            data: { formobj:formObj },
-            async:false,
-            error: function(data) {
-                // var data=JSON.parse(data);
-                console.log(data.result);
-                alert("Group name already in the list");
+//     var itemcreateform = $(".itemgroupinformations").serializeArray();
+//     var formObj = {};
+//     $.each(itemcreateform, function (i, input) {
+//         formObj[input.name] = input.value;
+//     });
+//    console.log(formObj);
+//      $.ajax({
+//             type: 'post',
+//             url: '/creategroup',
+//             data: { formobj:formObj },
+//             async:false,
+//             error: function(data) {
+//                 // var data=JSON.parse(data);
+//                 console.log(data.result);
+//                 alert("Group name already in the list");
 
-            },
-            success: function(data) {
-                if(data.message==='Enter valid data')
-                {
-                alert("Group added successfully");
-                $('.error-msg').text('Enter valid data');
-            }
-            else
-            {
-                alert("Submitted successfully");
-                // $(".iteminformations").reset();
-                $('button.closegroup').click();
-                $('form.itemgroupinformations').trigger("reset");
-                // $('button.close').click();
+//             },
+//             success: function(data) {
+//                 if(data.message==='Enter valid data')
+//                 {
+//                 alert("Group added successfully");
+//                 $('.error-msg').text('Enter valid data');
+//             }
+//             else
+//             {
+//                 alert("Submitted successfully");
+//                 // $(".iteminformations").reset();
+//                 $('button.closegroup').click();
+//                 $('form.itemgroupinformations').trigger("reset");
+//                 // $('button.close').click();
 
-                 $('#itemgroupModal').modal('toggle');
-                  $("#itemgrouplist").append(`<option>${formObj.groupname}</option>`);
+//                  $('#itemgroupModal').modal('toggle');
+//                   $("#itemgrouplist").append(`<option>${formObj.groupname}</option>`);
 
-            }
-}
-})
-})
+//             }
+// }
+// })
+// })

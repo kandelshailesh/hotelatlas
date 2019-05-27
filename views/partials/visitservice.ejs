@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+
+<% include ../partials/head %>
+
+    <% include ../partials/stylebilling %>
+
+</head>
+<body>
+	<header>
+        <% include ../partials/header %>
+    </header>
+    
+          <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<div class="card " id="servicereportcard" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel" style="z-index:10000 !important;"  aria-hidden="true">
+
+           
+       
+            <form class="servicereportinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+     
+            
+                <div class="card-body ">
+                <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 ml-2">
+                   
+  </div>
+  </div>
+                    <div class="row ">
+                        <div class="col-md-8 mr-auto ml-auto iteminformation">
+                         <div class="card">
+
+                       <div class="card-body"  style="box-shadow:3px 3px 5px 6px #ccc !important;" >
+                       <div class="row">
+                       <div class="col-md-4"></div>
+                       <div class="col-md-5">
+                             <h3 class="text-center  error-msg">
+                             Visit Service Report
+                            </h3>
+                            </div>
+                            <div class="col-md-3">
+                            <img src="komatsulogo.png" class="float-right" style="width:100px; margin-top:10px; height:auto;">
+                            </div></div>
+                            <div class="row">
+                            <div class="col-md-4">
+                            <label class="mr-3">Date:</label><input name="date" type="date" class="rounded mt-2">
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-5">
+                            <label class="mr-3">Service Report no:</label><input type="text" class="rounded mt-2 text-center" style="width:100px;" value='<%= servicereportno[0].no + 1  %>' name="reportno">
+                            </div>
+                            </div>
+                            <p class="border border-1 p-2">
+                            मेसिनलाइ उच्च कार्य क्षमता, लामो आयु  र समस्या रहित बनाउन Komatsu Product Support ग्राहक वर्गमा (Hour Wise) Komatsu Genuine Parts प्रयोग गरी मेसिनको सर्भिसिङ्ग गराउनुहुन हार्दिक अनुरोध गर्दछौ </p>
+                          <!--   <label style="font-size: 12px;">Itemname</label><input type="text" name="itemsname" id="itemsnamecard" class="ml-2 border border-1 w-75 form-control d-inline" autofocus required oninvalid="this.setCustomValidity('Set Itemname!!')"> -->
+              <div class="row">
+              <div class="col-md-6"> 
+                       <div class="form-group w-100">
+<div class="input-group mb-2">
+
+  <input type="text" class="form-control hotelname" required name="companyname" placeholder="Company name">
+  </div>
+   <div class="input-group mb-2">
+
+ 
+        <input required type="text" class="form-control hoteladdress" name="customerno"     placeholder="Customer no">
+       
+  </div>
+   <div class="input-group mb-2">
+
+ 
+        <input required type="text" class="form-control hoteladdress" name="customername"     placeholder="Customer name">
+       
+  </div>
+  <div class="input-group mb-2">
+
+ 
+        <input required type="text" class="form-control hoteladdress" name="mcmodel"     placeholder="M/c Model">
+       
+  </div>
+  <div class="input-group mb-2">
+
+  
+
+  
+     
+         <input type="number" class="form-control mobileno" name="mcserialno" placeholder="M/c Serial No.">
+     
+  </div>
+  <div class="input-group mb-2">
+
+  <input type="text" class="form-control hotelname" name="enginemodel" placeholder="Engine Model">
+  </div>
+ 
+  </div>
+  </div>
+  <div class="col-md-6">
+  <div class="input-group mb-2">   
+         <input type="number" class="form-control panno" name="hourmeter" placeholder="Hour Meter">
+     
+     
+  </div>
+  <div class="input-group mb-2">   
+         <input type="text" class="form-control panno" name="mclocation" placeholder="M/c Location">
+     
+     
+  </div>
+   <div class="input-group mb-2">   
+         <input type="text" class="form-control panno" name="technicianname" placeholder="Technician name">
+     
+     
+  </div>
+ 
+  <div class="input-group mb-2">   
+
+    <input class="form-control w-75" type="datetime-local" name="departuredatetime" >
+  </div>
+         
+ 
+  <div class="input-group mb-2">   
+         <input type="text" class="form-control panno" name="operatorname" placeholder="Operator name">
+  </div>
+  <div class="input-group mb-2">   
+         <input type="text" class="form-control panno" name="operatornumber" placeholder="Operator number">
+     
+     
+  </div>
+</div>
+<div class="col-12 mr-3 ">
+<p>Problem reported by the customer</p>
+<textarea class="w-100 rounded" name="problemreported" rows="3"></textarea>
+</div>
+<div class="col-12 mr-3 ">
+<p>Observation</p>
+<textarea class="w-100 rounded" name="observation" rows="3"></textarea>
+</div>
+<div class="col-12 mr-3 ">
+<p>Failure Analysis</p>
+<textarea class="w-100 rounded" rows="3" name="failureanalysis"></textarea>
+</div>
+<div class="col-12 mr-3 ">
+<p>Action taken/required</p>
+<textarea class="w-100 rounded" name="actiontr" rows="3"></textarea>
+</div>
+<div class="col-12 mr-3 ">
+<p>Customer's Comments</p>
+<textarea class="w-100  rounded" name="customercomment" rows="3"></textarea>
+</div>
+<hr/>
+</div>
+<hr/>
+<div class="row">
+<div class="col-md-4">
+<p>TIME IN SITE</p>
+<div>
+<label class="mr-2">DATE:</label><input type="date" name="dateinsite" placeholder="Date" class="form-control d-inline w-75">
+</div>
+<div class="mt-2">
+<input type="number" name="sitecontactno" class="form-control d-inline w-75" placeholder="Site Contact No.">
+</div>
+</div>
+<div class="col-md-4">
+<p>TIME OUT SITE</p>
+<div>
+<label class="mr-2">DATE:</label><input  name="dateoutsite" type="date" class="form-control d-inline w-75">
+</div>
+</div>
+<div class="col-md-4">
+<p>Customer's Signature.................</p>
+<div>
+<input type="text" name="customername1" placeholder="Customer's Name" class="form-control d-inline ">
+</div>
+<div class="mt-2">
+<input type="text" name="customerdesignation" placeholder="Customer's Designation" class="form-control d-inline">
+</div>
+</div>
+
+<div class="col-12">
+<hr/>
+<hr/>
+<p class="text-center" style="font-size:16px;">Supreme Heavy Equipment Solution Repairs & Maintenance Workshop,Komatsu Service Center <br/>
+Tilottama-3,Janakinagar,Rupandehi</p>
+</div>
+<div class="col-12 mr-3 text-center mt-2">
+<button class="btn btn-primary addservicereport">Submit</button>
+</div>
+</div>
+  </div>
+                        </div>
+                    </div>
+                </div>
+                  
+             
+                
+
+                </div>
+                <hr/>
+                </div>
+               
+                
+            </form>
+        
+    
+</div>
+</main>
+
+
+
+
+
+
+
+<script>
+
+
+var servicereportid;
+ $("form.servicereportinfo").validate();
+
+$(document).on('click','.addservicereport',function(e)
+{
+  e.preventDefault();
+   $("form.servicereportinfo").valid();
+  
+if($("form.servicereportinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+        var formObj = {};
+    var inputs = $('form.servicereportinfo').serializeArray();
+    $.each(inputs, function (i, input) {
+   
+        formObj[input.name]=input.value;
+    });
+
+
+    $.ajax({
+        url:'/addservicereport',
+        type:'post',
+        data:{servicereportdata:formObj},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("servicereport added successfully");
+            $('form.servicereportinfo').trigger('reset');
+           location.reload();
+    e.preventDefault();
+        }
+})
+}
+})
+
+
+
+$(document).on('click','.deleteservicereport',function(e)
+{
+  e.preventDefault();
+   $("form.servicereportinfo").valid();
+  
+if($("form.servicereportinfo").valid()===true)
+{
+      $("*").css("cursor", "wait");
+console.log(e.target.name);
+  
+
+
+    $.ajax({
+        url:'/deleteservicereport',
+        type:'post',
+        data:{servicereportid:servicereportid},
+        async:false,
+        success:function(data)
+        {
+
+    
+
+      $("*").css("cursor", "auto");
+
+            Swal.fire("servicereport deleted successfully");
+            $('form.servicereportinfo').trigger('reset');
+            $.ajax({
+  url:'/getservicereportlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var servicereportlist=data.servicereportlist;
+
+   
+  
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< servicereportlist.length;i++)
+            { 
+              appendtabledata+='<tr>';
+              for(var key in servicereportlist[i])
+              {    
+            appendtabledata+=`<td class="text-center">${servicereportlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+    $('.servicereporttable tr:gt(0)').html('');
+  $('.servicereporttable').append(result); 
+    })
+
+            
+  }
+})
+
+        },
+        error:function(data)
+        {
+            Swal.fire("Some error occur.Please try again");
+        }
+    })
+  
+   
+
+}
+    e.preventDefault();
+
+})
+
+
+
+
+$(document).on('click','table.servicereporttable tr',function(e)
+{
+    var index=$('table.servicereporttable tr').index(this);
+    servicereportid=e.target.id;
+})
+
+
+var servicereportlistcache;
+
+
+    $('input:visible:enabled:first', this).focus();
+
+$.ajax({
+  url:'/getservicereportlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var servicereportlist=data.servicereportlist;
+    servicereportlistcache=servicereportlist;
+    console.log(servicereportlist);
+    
+
+    return new Promise((resolve,reject)=>
+    {
+    var appendtabledata='';
+            for(var i=0; i< servicereportlist.length;i++)
+            { 
+              appendtabledata+='<tr style="color:black !important; ">';
+              for(var key in servicereportlist[i])
+              {    
+            appendtabledata+=`<td class="text-center">${servicereportlist[i][key]}</td>`;
+              }
+                   appendtabledata+='</tr>';    
+            }
+ 
+ resolve(appendtabledata);
+    }).then(function(result)
+    {
+      return result;
+    }).then(function(result)
+  {
+  $('.servicereporttable').append(result); 
+    })
+
+            
+  }
+
+})
+
+
+$(document).on("click",".servicereporttable tr:gt(0)",function(e)
+{
+e.preventDefault();
+$('.servicereporttable tr:gt(0)').removeClass('bg-info');
+$(this).addClass('bg-info');
+$('button.addservicereport').addClass('disabled');
+$('button.addservicereport').css('pointer-events','none');
+
+servicereportid=$(this).find('td').eq(0).text();
+$.ajax({
+  url:'/getservicereportlist',
+  type:'post',
+  async:false,
+  success:function(data)
+  {
+    var servicereportlistcache=data.servicereportlist;
+
+var updateservicereportlist=[];
+for(i=0;i<servicereportlistcache.length;i++)
+{
+  
+    if(servicereportlistcache[i]['id']===Number(servicereportid))
+    {
+      for(var key in servicereportlistcache[i])
+      {
+      updateservicereportlist.push(servicereportlistcache[i][key])
+      }
+    }
+}
+
+var formdata= $('form.servicereportinfo').serializeArray();
+$.each(formdata,function(j,input)
+{
+
+  $(`input[name=${input.name}]`).val(updateservicereportlist[j]);
+})
+  }
+})
+
+    })
+  
+
+var gc = $.calendars.instance('nepali', 'ne');
+var currentdate = gc.newDate();
+var currenttime = new Date();
+var currenttime = currenttime.toLocaleTimeString();
+$('#banpaidawarinitialdate').calendarsPicker({calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'})
+$('#banpaidawarfinaldate').calendarsPicker({calendar: $.calendars.instance('nepali'),dateFormat: 'yyyy-mm-dd'});
+
+ $(function () {
+alert("hell");
+ $('#datepicker1').datetimepicker();
+  
+
+});
+
+
+
+
+</script>
+</body>
+
+</html>

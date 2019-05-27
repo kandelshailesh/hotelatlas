@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <% include ../partials/head %>
+     
+
+</head>
+<body>
+
+<header>
+      <% include ../partials/header %>
+
+    
+</header>
+
+<main>
+    
+   <div class="row">
+      <div class="col-md-6">
+            <table class="table table-striped">
+                  <tbody>
+                     <tr>
+                        <td colspan="1">
+                           <form id="employee_info" onkeypress="return event.keyCode !=13;" onsubmit="return false;" class="well form-horizontal">
+                              <fieldset>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Full Name</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="fullName" name="name" placeholder="Full Name" class="form-control" required="true" value="<%= employeeid_info[0].name %>" type="text"></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Address</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><input id="addressLine1" name="address" placeholder="Address"  class="form-control" required="true" value="<%= employeeid_info[0].address %>" type="text"></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                  <label class="col-md-4 control-label">Phone Number</label>
+                                  <div class="col-md-8 inputGroupContainer">
+                                     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span><input id="phoneNumber" name="phone_no" placeholder="Phone Number" class="form-control" required="true" value="<%= employeeid_info[0].phone_no %>" type="text"></div>
+                                  </div>
+                               </div>
+                               <div class="form-group">
+                                  <label class="col-md-4 control-label">Position</label>
+                                  <div class="col-md-8 inputGroupContainer">
+                                     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><input id="position" name="position" placeholder="Position" class="form-control" required="true" value="<%= employeeid_info[0].position %>" type="text"></div>
+                                  </div>
+                               </div>
+                               <div class="form-group">
+                                  <label class="col-md-4 control-label">Salary</label>
+                                  <div class="col-md-8 inputGroupContainer">
+                                     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span><input id="salary" name="salary" placeholder="Salary" class="form-control" required="true" value="<%= employeeid_info[0].salary %>" type="text"></div>
+                                  </div>
+                               </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Date of Enrollment</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span><input id="date" name="date_of_joining" placeholder="Starts at" class="form-control" required="true" value="<%= employeeid_info[0].date_of_joining %>" type="date"></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                  
+                                  <input class="btn btn-primary" id="addemployee">
+                               </div>
+                              </fieldset>
+                           </form>
+                        </td>
+                      </tr>
+                  </tbody>
+               </table>
+      </div>    
+      <div class="col-md-6">
+         
+<table class="table emp_table">
+      <thead>
+        <tr>
+            <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Position</th>
+          <th>Salary</th>
+          <th>Enrolled Date</th>
+        </tr>
+      </thead>
+ 
+       
+  
+  <%  employee_info.forEach(function(result){  %>
+      <tr id="<%= result.id %>">
+            <td><%= result.id  %></td>
+
+     <td><%= result.name  %></td>
+     <td><%= result.address  %></td>
+     <td><%= result.phone_no  %></td>
+     <td><%= result.position  %></td>
+     <td><%= result.salary  %></td>
+     <td><%= result.date  %></td>
+     </tr>
+  <%  })  %>
+    
+      </table>
+  
+      </div>
+     </div>
+
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+<script>
+$(document).on("click","#addemployee",function(e){
+   $("form#employee_info").valid()
+   if(   $("form#employee_info").valid()=== true
+){
+   var employee_form_data={};
+   var employee_data=   $("form#employee_info").serializeArray();
+   $.each(employee_data,function(i,result){
+      employee_form_data[result.name]=result.value;
+   });
+   $.ajax({
+      url:'/employee',
+      type:'post',
+      data:{employee_form_data},
+      success:function(data){
+         alert('submitted successfully');
+         location.reload();
+      },
+      error:function(data){
+         alert('some error occur');
+      }
+      
+   })
+}else{
+   alert('Please enter all the fields');
+}
+})
+
+$(document).on('click','table.emp_table tr:gt(0)',function(e){
+  
+   console.log(e.target);
+   console.log($(this).attr("id"));
+
+   var id= $(this).attr("id");
+  // alert(id);
+  // window.location.replace(`http://${window.location.host}/update_employee?id=${id}`);
+   // window.location.replace(`http://localhost:3000/update_employee?id=${id}`);
+   
+       $.redirect("/update_employee", {id: id }, "POST", "_self"); 
+       
+})
+
+
+
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<% /* results.forEach(function(result){ */ %>
+   <h1><% /* result.employee_name */ %></h1>
+<% /* }) */ %>
+</body>
+</html>
+
+   

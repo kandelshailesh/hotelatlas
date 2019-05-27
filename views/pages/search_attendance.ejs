@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <% include ../partials/employeehead %>
+
+</head>
+<body>
+
+<header>
+    <% include ../partials/header %>
+    
+</header>
+
+<form class="" action="/searchattendance" method="POST">
+    <input type="date" name="date">
+    <input type="submit" name="submit" value="submit">
+</form>
+<% if(datalist==="yes"){ %>
+
+
+
+<form id="employee_attendance" onkeypress="return event.keyCode !=13;" onsubmit="return false;" class="well form-horizontal">
+        <table class="table bg-white" id="attendance">
+
+            <tr>
+            <th>ID</th>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Attendance</th>
+              <th>Overtime</th>
+              <th>On Site Visit</th>
+            </tr>        
+<%  employee_attendance_data.forEach(function(result){  %>
+<tr>
+<td><input type="hidden" name="e_id" value="<%= result.id %>"><%= result.id %></td>
+<td><input type="text" name="name" value="<%= result.name  %>" style="border:0;" readonly></td>
+<td><input type="date" name="date" value="<%= result.date  %>" class="cookie_date"></td>
+<!-- <td><input type="checkbox" name="attendance" id="attend-<%=result.id %>" onclick="attend_toggle(event)" checked=checked></td> -->
+<% if(result.attendance===1){ %>
+<td><label for="attendance">Present</label><input type="checkbox" name="attendance" id="attend-<%=result.id %>" onclick="javascript:attend_toggle(event);" checked=checked></td>
+<% } else { %>
+    <td><input type="checkbox" name="attendance" id="attend-<%=result.id %>" onclick="javascript:attend_toggle(event);"></td>
+<% } %>
+
+
+
+
+<td><input type="text" name="OT" value="<%= result.OT %>" placeholder="in hours">
+</td>
+<td><input type="text" name="OSV" value="<%= result.OSV %>" placeholder="in price"></td>
+
+</tr>
+<%  })  %>
+
+</table>
+<input class="btn btn-primary" type="submit" id="add_attendance" value="submit">
+
+    </form>
+    <%  }  %>
+<script>
+    $(document).on("click","#add_attendance",function(e){
+   $("form#employee_attendance").valid()
+   if(   $("form#employee_attendance").valid()=== true
+){
+   var employee_attendance_data=[];
+   
+   var employee_data=   $("form#employee_attendance").serializeArray();
+   console.log(employee_data.name);
+//    if(employee_data.attendance='on'){
+//        employee_data.attendance=1
+//    }
+var trdata=$('table#attendance tr');
+
+var trcount=$('table#attendance tr').length;
+var attenddancestatus;
+for(i=1;i<trcount;i++)
+{
+if($(trdata).eq(i).find('td').eq(3).find('input').attr('checked')=== undefined)
+{
+attendancestatus="0";
+}
+else
+{
+    attendancestatus="1";
+}
+
+    employee_attendance_data.push([
+    $(trdata).eq(i).find('td').eq(0).find('input').val(),
+    $(trdata).eq(i).find('td').eq(1).find('input').val(),
+    $(trdata).eq(i).find('td').eq(2).find('input').val(),
+    attendancestatus,
+    $(trdata).eq(i).find('td').eq(4).find('input').val(),
+    $(trdata).eq(i).find('td').eq(5).find('input').val(),
+    ])
+}
+   console.log(employee_data);
+  
+   $.ajax({
+      url:'/attendanceedit',
+      type:'post',
+      data:{employee_attendance_data},
+      success:function(data){
+         alert('submitted successfully');
+      },
+      error:function(data){
+         alert('some error occur');
+      }
+      
+   })
+}else{
+   alert('Please enter all the fields');
+}
+})
+
+function attend_toggle(event){
+   var id= event.target.id;
+    // if(document.getElementById('present').checked)
+	// 				alert("You have selected Male.");
+	// 			else
+	// 				alert("You have selected Female.");
+
+    if ($(`#${id}`).attr('checked')==="checked"){
+        $(`#${id}`).removeAttr('checked')
+    }
+    else{
+        $(`#${id}`).attr('checked',"checked");
+    }
+}
+
+
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</body>
+</html>
+
+   

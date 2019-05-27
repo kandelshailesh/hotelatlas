@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/employeehead %>
+</head>
+<body>
+
+<header>
+  <% include ../partials/header %>
+
+</header>
+
+<table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Total Days</th>
+            <th>Total Overtime</th>
+            <th>Total Onsite visit</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+         
+    
+    <%  employee_info.forEach(function(result){  %>
+        <tr>
+       <td><%= result.e_id  %></td>
+       <td><%= result.name  %></td>
+       <td><%= result.present_days  %></td>
+       <td><%= result.Total_OT  %></td>
+       <td><%= result.Total_osv  %></td>
+       
+       </tr>
+    <%  })  %>
+        </tbody>
+        </table>
+    
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</body>
+</html>
+
+   

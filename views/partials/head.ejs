@@ -22,30 +22,21 @@
 <script type="text/javascript" src="languagepack/js/jquery.plugin.js"></script> 
 <script type="text/javascript" src="languagepack/js/jquery.calendars.picker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src ="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+
 
  
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
+
 
   <!-- <link rel="stylesheet" href="multiple-select-master/multiple-select.css" /> -->
  <link type="text/css" rel="stylesheet" href="../css/stylebilling.css" media="print" />
   
 
 <style type="text/css">
-.dropdown-submenu{
-    position: relative;
-}
-.dropdown-submenu a::after{
-    transform: rotate(-90deg);
-    position: absolute;
-    right: 3px;
-    top: 40%;
-}
-.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
-    display: flex;
-    flex-direction: column;
-    position: absolute !important;
-    margin-top: -30px;
-    left: 100%;
-}
+
 
 button > * {
   pointer-events: none;
@@ -53,10 +44,20 @@ button > * {
 a.btn > *
 {
   pointer-events: none;
+}
 
+a > *
+{
+  pointer-events: none;
+}
+
+div.calendars-popup
+{
+  z-index: 200000;
 }
 
 .swal2-container {
   z-index: 200000;
 }
 </style>
+

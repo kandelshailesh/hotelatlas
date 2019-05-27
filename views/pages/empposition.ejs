@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body >
+
+<header>
+   <% include ../partials/header %>
+   
+</header>
+
+<main>
+    <div class="row">
+    
+                <div class="col-md-6">
+                        <table class="table table-striped">
+                                <tbody>
+                                   <tr>
+                                      <td colspan="1">
+                                         <form id="position_info" onkeypress="return event.keyCode !=13;" onsubmit="return false;" class="well form-horizontal">
+                                            <fieldset>
+                                               <div class="form-group">
+                                                  <label class="col-md-4 control-label">Position</label>
+                                                  <div class="col-md-8 inputGroupContainer">
+                                                     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><input id="Position" name="Position" placeholder="Post" class="form-control" required="true" value="" type="text"></div>
+                                                  </div>
+                                               </div>
+                                               <div class="form-group">
+                                                  <label class="col-md-4 control-label">Salary</label>
+                                                  <div class="col-md-8 inputGroupContainer">
+                                                     <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><input id="Salary" name="salary" placeholder="Salary(per month)" class="form-control" required="true" value="" type="Number"></div>
+                                                  </div>
+                                               </div>
+                                               <div class="form-group">
+                                                <label class="col-md-4 control-label">Over Time Rate</label>
+                                                <div class="col-md-8 inputGroupContainer">
+                                                   <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span><input id="OTR" name="OverTimeRate" placeholder="Over Time Rate(in hour)" class="form-control" required="true" value="" type="number"></div>
+                                                </div>
+                                             </div>
+                     
+                                             <div class="form-group">
+                                                <label class="col-md-4 control-label">Onsite Visit Rate</label>
+                                                <div class="col-md-8 inputGroupContainer">
+                                                   <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span><input id="OSVR" name="OSVR" class="form-control" placeholder="Onsite Visit Rate(in hours)" required="true" value="" type="number"></div>
+                                                </div>
+                                             </div>
+                                             
+                                               <div class="form-group">
+                                                
+                                                <input class="btn btn-primary" type="submit" value="submit" id="addpost">
+                                             </div>
+                                            </fieldset>
+                                         </form>
+                                      </td>
+                                    </tr>
+                                </tbody>
+                             </table>
+                    </div>
+        
+    
+       
+                <div class="col-md-6">
+                    
+<table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Overtime Rate</th>
+            <th>Onsite visit Rate</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+         
+    
+    <%  employee_name.forEach(function(result){  %>
+        <tr>
+       <td><%= result.id  %></td>
+       <td><%= result.Position  %></td>
+       <td><%= result.salary  %></td>
+       <td><%= result.OverTimeRate  %></td>
+       <td><%= result.OSVR  %></td>
+       
+       </tr>
+    <%  })  %>
+        </tbody>
+        </table>
+                    </div>
+                    
+        
+    </div>
+   
+
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+<script>
+$(document).on("click","#addpost",function(e){
+   $("form#position_info").valid()
+   if(   $("form#position_info").valid()=== true
+){
+   var position_form_data=[];
+   var position_data=   $("form#position_info").serializeArray();
+   $.each(position_data,function(i,result){
+      position_form_data.push(result.value);
+   });
+   $.ajax({
+      url:'/empposition',
+      type:'post',
+      data:{position_form_data},
+      success:function(data){
+         alert('submitted successfully');
+         location.reload();
+      },
+      error:function(data){
+         alert('some error occur');
+      }
+      
+   })
+}else{
+   alert('Please enter all the fields');
+}
+})
+
+
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<% /* results.forEach(function(result){ */ %>
+   <h1><% /* result.employee_name */ %></h1>
+<% /* }) */ %>
+</body>
+</html>
+
+   

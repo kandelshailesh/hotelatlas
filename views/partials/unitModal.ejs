@@ -1,19 +1,19 @@
    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
-<div class="modal fade" id="unitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+<div class="modal fade" id="unitsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
     <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
         <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
             <div class="modal-header bg-dark">
             
-                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">unit Management</h5>
+                <h5 style="margin-left:40%;" class="modal-title text-center text-white" id="exampleModalLabel">Unit Management</h5>
                 
                 <button type="button" class="closeunit close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
        
-            <form class="unitinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+            <form class="unitsinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
      
             
                 <div class="modal-body ">
@@ -53,7 +53,7 @@
              
                 <table style="box-shadow:2px 2px 3px 4px #ccc !important;" class="table table-hover unittable table-striped table-bordered table-md">
                 <tr class="text-white bg-dark">
-                <th>unitID</th>
+                <th>UnitID</th>
                 <th>unitname</th>
                
                 </tr>
@@ -69,7 +69,7 @@
                 <div class=" float-left" style="margin-left:28%;">
                <div class="card">
                <div class="card-footer bg-white">
-                     <button name="addbutton" type="submit" class="btn addunit  btn-primary">Add</button>
+                     <button  type="submit" class="btn addunit  btn-primary">Add</button>
                       <a  class="btn updateunit btn-primary">Update</a>
                        <a  class="btn deleteunit btn-primary">Delete </a>
                         <button type="reset" class="btn btn-primary">Reset</button>
@@ -86,29 +86,30 @@
 
 
 var unitid;
- $("form.unitinfo").validate();
+ $("form.unitsinfo").validate();
 $(document).ready(function()
 {
 
 $(document).on('click','.addunit',function(e)
 {
   e.preventDefault();
-   $("form.unitinfo").valid();
+   $("form.unitsinfo").valid();
    
   
-if($("form.unitinfo").valid()===true)
+if($("form.unitsinfo").valid()===true)
 {
       $("*").css("cursor", "wait");
 console.log(e.target.name);
   
         var formObj = [];
-    var inputs = $('form.unitinfo').serializeArray();
+    var inputs = $('form.unitsinfo').serializeArray();
     $.each(inputs, function (i, input) {
       if(i>0)
       {
         formObj.push(input.value);
       }
     });
+    alert(formObj);
 
 
     $.ajax({
@@ -124,7 +125,7 @@ console.log(e.target.name);
       $("*").css("cursor", "auto");
 
             Swal.fire("unit added successfully");
-            $('form.unitinfo').trigger('reset');
+            $('form.unitsinfo').trigger('reset');
             $.ajax({
   url:'/getunitlist',
   type:'post',
@@ -163,7 +164,7 @@ console.log(e.target.name);
         },
         error:function(data)
         {
-            Swal("Some error occur.Please try again");
+            Swal.fire("Some error occur.Please try again");
         }
     })
   
@@ -179,15 +180,15 @@ console.log(e.target.name);
 $(document).on('click','.updateunit',function(e)
 {
   e.preventDefault();
-   $("form.unitinfo").valid();
+   $("form.unitsinfo").valid();
   
-if($("form.unitinfo").valid()===true)
+if($("form.unitsinfo").valid()===true)
 {
       $("*").css("cursor", "wait");
 console.log(e.target.name);
   
         var formObj = [];
-    var inputs = $('form.unitinfo').serializeArray();
+    var inputs = $('form.unitsinfo').serializeArray();
     $.each(inputs, function (i, input) {
       if(i>0)
       {
@@ -209,7 +210,7 @@ console.log(e.target.name);
       $("*").css("cursor", "auto");
 
             Swal.fire("unit updated successfully");
-            $('form.unitinfo').trigger('reset');
+            $('form.unitsinfo').trigger('reset');
             $('button.addunit').removeClass('disabled');
 $('button.addunit').css('pointer-events','auto');
 
@@ -269,9 +270,9 @@ $('button.addunit').css('pointer-events','auto');
 $(document).on('click','.deleteunit',function(e)
 {
   e.preventDefault();
-   $("form.unitinfo").valid();
+   $("form.unitsinfo").valid();
   
-if($("form.unitinfo").valid()===true)
+if($("form.unitsinfo").valid()===true)
 {
       $("*").css("cursor", "wait");
 console.log(e.target.name);
@@ -291,7 +292,7 @@ console.log(e.target.name);
       $("*").css("cursor", "auto");
 
             Swal.fire("unit deleted successfully");
-            $('form.unitinfo').trigger('reset');
+            $('form.unitsinfo').trigger('reset');
             $.ajax({
   url:'/getunitlist',
   type:'post',
@@ -357,7 +358,7 @@ $(document).on('click','table.unittable tr',function(e)
 var unitlistcache;
 
 
-$('body').on('shown.bs.modal', '#unitModal', function () {
+$('body').on('shown.bs.modal', '#unitsModal', function () {
     // alert("Entered")
     $('input:visible:enabled:first', this).focus();
 
@@ -422,7 +423,7 @@ for(i=0;i<unitlistcache.length;i++)
     }
 }
 
-var formdata= $('form.unitinfo').serializeArray();
+var formdata= $('form.unitsinfo').serializeArray();
 $.each(formdata,function(j,input)
 {
 

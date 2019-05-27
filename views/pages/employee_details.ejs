@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/employeehead %>
+</head>
+<body>
+
+<header>
+    <% include ../partials/header %>
+</header>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Position</th>
+        <th>Salary</th>
+        <th>Enrolled Date</th>
+      </tr>
+    </thead>
+    <tbody>
+     
+
+<%  employee_info.forEach(function(result){  %>
+    <tr>
+   <td><%= result.name  %></td>
+   <td><%= result.address  %></td>
+   <td><%= result.phone_no  %></td>
+   <td><%= result.position  %></td>
+   <td><%= result.salary  %></td>
+   <td><%= result.date_of_joining  %></td>
+   </tr>
+<%  })  %>
+    </tbody>
+    </table>
+
+</body>
+</html>
+
+   

@@ -1,7 +1,7 @@
    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
-<div class="modal fade" id="itemgroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
+<div class="modal fade" id="itemgroupsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="z-index:10000 !important;"  aria-hidden="true">
     <div class="modal-dialog modal-lg"  style="width:1250px !important; height:100% !important;" role="document">
         <div class="modal-content" style="height:100% !important; box-shadow:2px 2px 3px 4px #ccc !important;" >
             <div class="modal-header bg-dark">
@@ -13,7 +13,7 @@
                 </button>
             </div>
        
-            <form class="itemgroupinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
+            <form class="itemgroupsinfo" onkeypress="return event.keyCode != 13;" onsubmit="return false;"  autocomplete="off">
      
             
                 <div class="modal-body ">
@@ -91,23 +91,23 @@
 
 
 var itemgroupid;
- $("form.itemgroupinfo").validate();
+ $("form.itemgroupsinfo").validate();
 $(document).ready(function()
 {
 
 $(document).on('click','.additemgroup',function(e)
 {
   e.preventDefault();
-   $("form.itemgroupinfo").valid();
+   $("form.itemgroupsinfo").valid();
    
   
-if($("form.itemgroupinfo").valid()===true)
+if($("form.itemgroupsinfo").valid()===true)
 {
       $("*").css("cursor", "wait");
 console.log(e.target.name);
   
         var formObj = [];
-    var inputs = $('form.itemgroupinfo').serializeArray();
+    var inputs = $('form.itemgroupsinfo').serializeArray();
     $.each(inputs, function (i, input) {
       if(i>0)
       {
@@ -129,7 +129,7 @@ console.log(e.target.name);
       $("*").css("cursor", "auto");
 
             Swal.fire("Itemgroup added successfully");
-            $('form.itemgroupinfo').trigger('reset');
+            $('form.itemgroupsinfo').trigger('reset');
             $.ajax({
   url:'/getitemgrouplist',
   type:'post',
@@ -184,15 +184,15 @@ console.log(e.target.name);
 $(document).on('click','.updateitemgroup',function(e)
 {
   e.preventDefault();
-   $("form.itemgroupinfo").valid();
+   $("form.itemgroupsinfo").valid();
   
-if($("form.itemgroupinfo").valid()===true)
+if($("form.itemgroupsinfo").valid()===true)
 {
       $("*").css("cursor", "wait");
 console.log(e.target.name);
   
         var formObj = [];
-    var inputs = $('form.itemgroupinfo').serializeArray();
+    var inputs = $('form.itemgroupsinfo').serializeArray();
     $.each(inputs, function (i, input) {
       if(i>0)
       {
@@ -214,7 +214,7 @@ console.log(e.target.name);
       $("*").css("cursor", "auto");
 
             Swal.fire("itemgroup updated successfully");
-            $('form.itemgroupinfo').trigger('reset');
+            $('form.itemgroupsinfo').trigger('reset');
             $('button.additemgroup').removeClass('disabled');
 $('button.additemgroup').css('pointer-events','auto');
 
@@ -274,9 +274,9 @@ $('button.additemgroup').css('pointer-events','auto');
 $(document).on('click','.deleteitemgroup',function(e)
 {
   e.preventDefault();
-   $("form.itemgroupinfo").valid();
+   $("form.itemgroupsinfo").valid();
   
-if($("form.itemgroupinfo").valid()===true)
+if($("form.itemgroupsinfo").valid()===true)
 {
       $("*").css("cursor", "wait");
 console.log(e.target.name);
@@ -296,7 +296,7 @@ console.log(e.target.name);
       $("*").css("cursor", "auto");
 
             Swal.fire("itemgroup deleted successfully");
-            $('form.itemgroupinfo').trigger('reset');
+            $('form.itemgroupsinfo').trigger('reset');
             $.ajax({
   url:'/getitemgrouplist',
   type:'post',
@@ -362,7 +362,7 @@ $(document).on('click','table.itemgrouptable tr',function(e)
 var itemgrouplistcache;
 
 
-$('body').on('shown.bs.modal', '#itemgroupModal', function () {
+$('body').on('shown.bs.modal', '#itemgroupsModal', function () {
     // alert("Entered")
     $('input:visible:enabled:first', this).focus();
 
@@ -427,7 +427,7 @@ for(i=0;i<itemgrouplistcache.length;i++)
     }
 }
 
-var formdata= $('form.itemgroupinfo').serializeArray();
+var formdata= $('form.itemgroupsinfo').serializeArray();
 $.each(formdata,function(j,input)
 {
 

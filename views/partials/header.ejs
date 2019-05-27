@@ -4,20 +4,23 @@
 <style>
 nav.mainheader{
   box-shadow:5px 5px black;
+  
 }
+
+
 
 .homedropdown > li > a
 {
 color:white !important;
 }
- nav ul
+ nav.mainheader,mainheader ul
       {
         display: flex;
       
   
-             }
+             } 
 
-      nav > ul > li
+       nav.mainheader > ul > li
       {
         list-style: none;
 
@@ -26,13 +29,12 @@ color:white !important;
 
         letter-spacing: 1px;
       
-      }
-
+      } 
       
-      nav > div> ul > li > a:last-child{
+      nav.mainheader  > div> ul > li > a:last-child{
         margin-right: 0;
-      }
-      nav > div > ul > li > a
+      } 
+       nav.mainheader  > div > ul > li > a
       {
         text-decoration: none !important;
         color: black !important;
@@ -43,7 +45,7 @@ color:white !important;
         font-size:14px !important;
        
       }
-             nav > div > ul > li > a::before,nav > div > ul > li > a::after
+             nav.mainheader > div > ul > li > a::before,nav.mainheader  > div > ul > li > a::after
           {
             content:'';
             position: absolute;
@@ -55,21 +57,21 @@ color:white !important;
             transition: all 1s;
           }
          
-          nav > div > ul > li > a:hover::before, nav > div > ul li a:hover::after
+          nav.mainheader  > div > ul > li > a:hover::before, nav.mainheader > div > ul li a:hover::after
           {
             transform:scaleX(1);
           }
-         nav > div > ul > li > a::before
+         nav.mainheader  > div > ul > li > a::before
           {
             top:-4px;
             transform-origin: left;
           }
            
-          nav > div > ul > li > a::after
+         nav.mainheader > div > ul > li > a::after
             {
               bottom:-4px;
               transform-origin:right;
-            }
+            } 
 
 .report{
   z-index:2000 !important;
@@ -85,7 +87,7 @@ color:white !important;
 }
 </style>
 
-  <nav class="navbar mb-2 mainheader navbar-expand text-black navbar-light ">
+  <nav class="navbar mb-2 mainheader  navbar-expand text-black navbar-light ">
   <% if(hoteldetails.logo) { %>
  <a class="navbar-brand mt-1" href="#"><img style="width:40px; height:40px; border-radius:50%; opacity:1;" src="<%= hoteldetails.logo %>" /></a>
  <% } else { %>
@@ -120,14 +122,20 @@ color:white !important;
           <li class="dropdown-submenu"><a class=" dropdown-item" data-toggle="modal" data-target="#categoryModal"  href="#">Manage Category</a>
            
           </li>
-             <li class="dropdown-submenu"><a class="dropdown-item" data-toggle="dropdown" href="#">Manage Sub-Category</a>
+             <li class="dropdown-submenu"><a class="dropdown-item" data-toggle="modal" data-target="#itemgroupsModal"  href="#">Manage Sub-Category</a>
           </li>
 
           <li><a  class=" dropdown-item" data-toggle="modal" data-target="#itemsModal" href="#">Manage Item</a></li>
-          <li><a class="dropdown-item" href="#">Manage Unit</a></li>
+          <li><a class="dropdown-item" data-toggle="modal" data-target="#unitsModal" href="#">Manage Unit</a></li>
 
          
         </ul>
+      </li>
+        <li class="nav-item active ml-1">
+        <a class="nav-link" href="/sales">Sales</a>
+      </li>
+      <li class="nav-item active ml-1">
+        <a class="nav-link" href="/purchase">Purchase</a>
       </li>
       <li class="nav-item active ml-1">
         <a class="nav-link" href="/voucher">Voucher</a>
@@ -152,6 +160,45 @@ color:white !important;
        <li class="nav-item active ml-1">
         <a class="nav-link" href="/billing">Order</a>
       </li>
+
+ 
+      <li class="nav-item dropdown active ml-1">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  href="#">Employee</a>
+          <ul style="z-index:6000 !important;"  class="dropdown-menu homedropdown bg-dark" aria-labelledby="navbarDropdownMenuLink">
+            
+              <li class="dropdown-submenu"><a class="dropdown-item"  href="/employee">Employee</a>
+              </li>
+
+              <li class="dropdown-submenu"><a class=" dropdown-item"  href="/empposition">Add Post</a>
+               
+              </li>
+              <li class="dropdown-submenu"><a class=" dropdown-item"  href="/attendance">Attendance</a>
+               
+              </li>
+              <li><a class="dropdown-item" href="/searchattendance">View Attendance</a></li>
+
+              <li><a  class=" dropdown-item"  href="/count_attendance">Monthly Attendance report</a></li>
+    
+             
+            </ul>
+        </li>
+      <li style="z-index:6000 !important;" class="nav-item active reportdropdown dropdown ml-1">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdownMenuLink">Payment</a>
+          <ul style="z-index:6000 !important;"  class="dropdown-menu homedropdown bg-dark" aria-labelledby="navbarDropdownMenuLink">
+
+          <li class="dropdown-submenu"><a class=" dropdown-item"  href="#">Supplier Payment</a>
+           
+          </li>
+             <li class="dropdown-submenu"><a class="dropdown-item" data-toggle="dropdown" href="#">Supplier Payment Details</a>
+          </li>
+                    <li><a class="dropdown-item" href="#">Customer Payment</a></li>
+
+          <li><a class="dropdown-item" href="#">Customer Payment Details</a></li>
+          
+
+         
+        </ul>
+        </li>
       <li style="z-index:6000 !important;" class="nav-item active reportdropdown dropdown ml-1">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          Report
@@ -181,15 +228,21 @@ color:white !important;
         <button class="nav-link bg-info logout  border rounded-top rounded-bottom" href="/logout">Logout</button>
       </li>
     </ul>
-<iframe scrolling="no" border="0" frameborder="0" marginwidth="0" marginheight="0" allowtransparency="true" src="https://www.ashesh.com.np/linknepali-time.php?time_only=no&font_color=00FF7F&aj_time=yes&font_size=13&line_brake=0&bikram_sambat=0&api=960147j096" width="308" class="mt-2"  height="24"></iframe>
+
   </div>
 
 </nav>
+          <% include ./itemgroupcreate %>
+
         <% include ./customermodal %>
         <% include ./vendormodal %>
         <% include ./adminmodal %>
         <% include ./categorymodal %>
         <% include ./itemmodal %>
+        <% include ./unitModal %>
+
+      
+
 
         <% include ./employeemodal %>
         <% include ./cashmodal %>
